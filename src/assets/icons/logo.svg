@@ -1,0 +1,12 @@
+<svg width="26" height="40" viewBox="0 0 26 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<ellipse cx="12" cy="36.5" rx="12" ry="3.5" fill="#F3F4F6"/>
+<path d="M15.7762 34.7506C15.0304 36.1914 12.9697 36.1914 12.2239 34.7506L3.51124 17.9194C2.82212 16.5882 3.78834 15 5.28738 15L22.7126 15C24.2117 15 25.1779 16.5882 24.4888 17.9194L15.7762 34.7506Z" fill="#029CFD"/>
+<rect x="3" y="1" width="22" height="22" rx="11" fill="white"/>
+<rect x="3" y="1" width="22" height="22" rx="11" stroke="#029CFD" stroke-width="2"/>
+<rect x="5.59089" y="9.59446" width="15" height="10" rx="2.5" transform="rotate(-15 5.59089 9.59446)" stroke="#9CA3AF"/>
+<rect x="5.75488" y="12.1387" width="16" height="1" transform="rotate(-15 5.75488 12.1387)" fill="#9CA3AF"/>
+<circle cx="10.3005" cy="15.5795" r="1.5" transform="rotate(-15 10.3005 15.5795)" fill="#9CA3AF"/>
+<circle cx="18.9936" cy="13.2501" r="1.5" transform="rotate(-15 18.9936 13.2501)" fill="#A7E28C"/>
+<circle cx="16.0959" cy="14.0265" r="1.75" transform="rotate(-15 16.0959 14.0265)" fill="#029CFD" stroke="white" stroke-width="0.5"/>
+<circle cx="14" cy="26" r="1" fill="white"/>
+</svg>
