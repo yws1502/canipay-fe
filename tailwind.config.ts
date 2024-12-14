@@ -1,5 +1,8 @@
 import type { Config } from 'tailwindcss';
 
+import colors from './tailwind/colors';
+import typography from './tailwind/typography';
+
 export default {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -8,10 +11,8 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
-      },
+      colors,
+      fontSize: typography,
     },
   },
   plugins: [],
