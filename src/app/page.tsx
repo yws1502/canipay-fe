@@ -1,5 +1,7 @@
+import CopyIcon from '@/assets/icons/copy.svg';
 import NaverIcon from '@/assets/icons/naver.svg';
 import Button from '@/components/buttons/Button';
+import TextButton from '@/components/buttons/TextButton';
 
 export default function Home() {
   return (
@@ -29,12 +31,16 @@ export default function Home() {
           작성 완료
         </Button>
         <Button type='button' className='flex w-full items-center justify-center gap-[8px] px-[16px]' color='white'>
-          <NaverIcon />
+          <NaverIcon width={16} height={16} />
           작성 완료
         </Button>
         <Button type='button' className='w-[100px]' color='red'>
           작성 완료
         </Button>
+        <TextButton type='button'>test</TextButton>
+        <TextButton type='button'>
+          <CopyIcon className='fill-red' width={24} height={24} /> test
+        </TextButton>
         <div className='flex flex-col items-center gap-4 sm:flex-row'>
           <a
             className='flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent px-4 text-sm transition-colors hover:bg-[#383838] sm:h-12 sm:px-5 sm:text-base dark:hover:bg-[#ccc]'
