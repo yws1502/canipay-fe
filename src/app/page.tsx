@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import CopyIcon from '@/assets/icons/copy.svg';
 import NaverIcon from '@/assets/icons/naver.svg';
-import Button from '@/components/buttons/Button';
-import TextButton from '@/components/buttons/TextButton';
-import TagToggleList from '@/components/toggles/TagToggleList';
+import Button from '@/components/common/buttons/Button';
+import TextButton from '@/components/common/buttons/TextButton';
+import TagToggleList from '@/components/common/toggles/TagToggleList';
 
 export default function Home() {
   const tagList = [
