@@ -1,9 +1,28 @@
+'use client';
+
+import { useState } from 'react';
 import CopyIcon from '@/assets/icons/copy.svg';
 import NaverIcon from '@/assets/icons/naver.svg';
 import Button from '@/components/buttons/Button';
 import TextButton from '@/components/buttons/TextButton';
+import TagToggleList from '@/components/toggles/TagToggleList';
 
 export default function Home() {
+  const tagList = [
+    { id: 'taste', text: '맛' },
+    { id: 'portion', text: '양' },
+    { id: 'value', text: '가성비' },
+    { id: 'comfort', text: '쾌적' },
+  ];
+
+  const [_, setCheckedTagList] = useState<string[]>([]);
+
+  const onChangeCheckedTagList = (tagId: string) => {
+    setCheckedTagList((previous) => {
+      return previous.includes(tagId) ? previous.filter((tag) => tag !== tagId) : [...previous, tagId];
+    });
+  };
+
   return (
     <div className='grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20'>
       <main className='row-start-2 flex flex-col items-center gap-8 sm:items-start'>
@@ -18,6 +37,7 @@ export default function Home() {
           <li>Save and see your changes instantly.</li>
         </ol>
 
+        <TagToggleList tagList={tagList} onChangeCheckedTagList={onChangeCheckedTagList} />
         <Button type='button' className='w-full'>
           작성 완료
         </Button>
