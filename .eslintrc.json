@@ -21,6 +21,17 @@
     "react/jsx-props-no-spreading": "off",
     "@typescript-eslint/no-empty-object-type": "off",
     "react/require-default-props": "off",
-    "import/no-extraneous-dependencies": "off"
+    "import/no-extraneous-dependencies": "off",
+    "arrow-body-style": "off",
+    "@typescript-eslint/naming-convention": [
+      "warn",
+      {
+        "selector": "variable",
+        "custom": {
+          "regex": "^_$",
+          "match": true
+        }
+      }
+    ]
   }
 }
