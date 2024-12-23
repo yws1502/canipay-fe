@@ -23,14 +23,14 @@
     "react/require-default-props": "off",
     "import/no-extraneous-dependencies": "off",
     "arrow-body-style": "off",
-    "@typescript-eslint/naming-convention": [
+    "@typescript-eslint/naming-convention": "off",
+    "@typescript-eslint/no-unused-vars": [
       "warn",
       {
-        "selector": "variable",
-        "custom": {
-          "regex": "^_$",
-          "match": true
-        }
+        "vars": "all",
+        "varsIgnorePattern": "^_$",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
       }
     ]
   }
