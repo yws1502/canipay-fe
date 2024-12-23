@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import CopyIcon from '@/assets/icons/copy.svg';
+import LocationIcon from '@/assets/icons/location.svg';
 import NaverIcon from '@/assets/icons/naver.svg';
 import Button from '@/components/common/buttons/Button';
 import TextButton from '@/components/common/buttons/TextButton';
+import IconToggle from '@/components/common/toggles/IconToggle';
 import TagToggleList from '@/components/common/toggles/TagToggleList';
 
 export default function Home() {
@@ -37,6 +39,7 @@ export default function Home() {
           <li>Save and see your changes instantly.</li>
         </ol>
 
+        <IconToggle id='my-location' Icon={LocationIcon} />
         <TagToggleList tagList={tagList} onChangeCheckedTagList={onChangeCheckedTagList} />
         <Button type='button' className='w-full'>
           작성 완료
