@@ -17,7 +17,6 @@
     ]
   },
   "dependencies": {
-    "@svgr/webpack": "^8.1.0",
     "next": "15.0.4",
     "ol": "^10.3.1",
     "react": "^19.0.0",
@@ -25,6 +24,7 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^15.0.4",
+    "@svgr/webpack": "^8.1.0",
     "@tanstack/eslint-plugin-query": "^5.62.1",
     "@trivago/prettier-plugin-sort-imports": "^5.2.0",
     "@types/node": "^20",

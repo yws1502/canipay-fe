@@ -1,0 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable import/newline-after-import */
+
+declare module '*.svg' {
+  import { FC, SVGProps } from 'react';
+  const content: FC<SVGProps<SVGElement>>;
+  export default content;
+}
+
+declare module '*.svg?url' {
+  const content: any;
+  export default content;
+}
