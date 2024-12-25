@@ -13,3 +13,7 @@
 .icon-toggle {
   @apply rounded-full bg-white p-1 shadow-500 hover:opacity-80 active:opacity-60 disabled:opacity-40 has-[:checked]:bg-primary has-[:checked]:fill-white;
 }
+
+.icon-text-toggle {
+  @apply flex items-center justify-center gap-1 rounded-full bg-white px-[10px] py-1 text-caption-1 shadow-500;
+}

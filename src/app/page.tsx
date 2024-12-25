@@ -6,6 +6,7 @@ import LocationIcon from '@/assets/icons/location.svg';
 import NaverIcon from '@/assets/icons/naver.svg';
 import Button from '@/components/common/buttons/Button';
 import TextButton from '@/components/common/buttons/TextButton';
+import IconTextToggle from '@/components/common/toggles/IconTextToggle';
 import IconToggle from '@/components/common/toggles/IconToggle';
 import TagToggleList from '@/components/common/toggles/TagToggleList';
 
@@ -38,6 +39,16 @@ export default function Home() {
           </li>
           <li>Save and see your changes instantly.</li>
         </ol>
+
+        <IconTextToggle id='visible-marker' theme='check' defaultToggle={false}>
+          마커
+        </IconTextToggle>
+        <IconTextToggle id='pay-available' theme='blue' defaultToggle={false}>
+          결제 가능
+        </IconTextToggle>
+        <IconTextToggle id='pay-unavailable' theme='red' defaultToggle={false}>
+          결제 불가
+        </IconTextToggle>
 
         <IconToggle id='my-location' Icon={LocationIcon} />
         <TagToggleList tagList={tagList} onChangeCheckedTagList={onChangeCheckedTagList} />
