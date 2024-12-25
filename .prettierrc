@@ -18,7 +18,5 @@
   "useTabs": false,
   "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
   "importOrder": ["^[^./(@/)]", "^(@/)", "^[./]"],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true,
-  "importOrderTypeScriptVersion": "5.0.0"
+  "importOrderSortSpecifiers": true
 }

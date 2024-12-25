@@ -1,6 +1,7 @@
 import type { RecursiveKeyValuePair, ResolvableTo } from 'tailwindcss/types/config';
+import { Color } from '@/types/style';
 
-const colors: ResolvableTo<RecursiveKeyValuePair<string, string>> = {
+const colors: ResolvableTo<RecursiveKeyValuePair<Color, string>> = {
   primary: '#029CFD',
   secondary: '#A7E28C',
   tertiary: '#FE4685',

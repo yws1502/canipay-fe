@@ -17,6 +17,22 @@
     "react/react-in-jsx-scope": "off",
     "tailwindcss/classnames-order": "off",
     "@typescript-eslint/lines-between-class-members": "off",
-    "@typescript-eslint/no-throw-literal": "off"
+    "@typescript-eslint/no-throw-literal": "off",
+    "react/jsx-props-no-spreading": "off",
+    "@typescript-eslint/no-empty-object-type": "off",
+    "react/require-default-props": "off",
+    "import/no-extraneous-dependencies": "off",
+    "arrow-body-style": "off",
+    "@typescript-eslint/naming-convention": "off",
+    "jsx-a11y/control-has-associated-label": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_$",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ]
   }
 }

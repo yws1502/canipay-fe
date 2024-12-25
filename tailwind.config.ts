@@ -1,5 +1,4 @@
 import type { Config } from 'tailwindcss';
-
 import colors from './tailwind/colors';
 import typography from './tailwind/typography';
 
@@ -13,6 +12,10 @@ export default {
     extend: {
       colors,
       fontSize: typography,
+      boxShadow: {
+        '300': '0px 0px 5px -2px #D1D5DB',
+        '500': '0px 0px 5px -2px #6B7280',
+      },
     },
   },
   plugins: [],

@@ -1,4 +1,32 @@
+'use client';
+
+import { useState } from 'react';
+import CopyIcon from '@/assets/icons/copy.svg';
+import LocationIcon from '@/assets/icons/location.svg';
+import NaverIcon from '@/assets/icons/naver.svg';
+import Button from '@/components/common/buttons/Button';
+import TextButton from '@/components/common/buttons/TextButton';
+import IconTextToggle from '@/components/common/toggles/IconTextToggle';
+import IconToggle from '@/components/common/toggles/IconToggle';
+import SlideToggle from '@/components/common/toggles/SlideToggle';
+import TagToggleList from '@/components/common/toggles/TagToggleList';
+
 export default function Home() {
+  const tagList = [
+    { id: 'taste', text: '맛' },
+    { id: 'portion', text: '양' },
+    { id: 'value', text: '가성비' },
+    { id: 'comfort', text: '쾌적' },
+  ];
+
+  const [_, setCheckedTagList] = useState<string[]>([]);
+
+  const onChangeCheckedTagList = (tagId: string) => {
+    setCheckedTagList((previous) => {
+      return previous.includes(tagId) ? previous.filter((tag) => tag !== tagId) : [...previous, tagId];
+    });
+  };
+
   return (
     <div className='grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20'>
       <main className='row-start-2 flex flex-col items-center gap-8 sm:items-start'>
@@ -13,9 +41,45 @@ export default function Home() {
           <li>Save and see your changes instantly.</li>
         </ol>
 
+        <SlideToggle />
+        <IconTextToggle id='visible-marker' theme='check' defaultToggle={false}>
+          마커
+        </IconTextToggle>
+        <IconTextToggle id='pay-available' theme='blue' defaultToggle={false}>
+          결제 가능
+        </IconTextToggle>
+        <IconTextToggle id='pay-unavailable' theme='red' defaultToggle={false}>
+          결제 불가
+        </IconTextToggle>
+
+        <IconToggle id='my-location' Icon={LocationIcon} />
+        <TagToggleList tagList={tagList} onChangeCheckedTagList={onChangeCheckedTagList} />
+        <Button type='button' className='w-full'>
+          작성 완료
+        </Button>
+        <Button type='button' className='w-full' color='secondary'>
+          작성 완료
+        </Button>
+        <Button type='button' className='w-full' color='tertiary'>
+          작성 완료
+        </Button>
+        <Button type='button' className='w-full' color='quaternary'>
+          작성 완료
+        </Button>
+        <Button type='button' className='flex w-full items-center justify-center gap-[8px] px-[16px]' color='white'>
+          <NaverIcon width={16} height={16} />
+          작성 완료
+        </Button>
+        <Button type='button' className='w-[100px]' color='red'>
+          작성 완료
+        </Button>
+        <TextButton type='button'>test</TextButton>
+        <TextButton type='button'>
+          <CopyIcon className='fill-red' width={24} height={24} /> test
+        </TextButton>
         <div className='flex flex-col items-center gap-4 sm:flex-row'>
           <a
-            className='bg-foreground text-background flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent px-4 text-sm transition-colors hover:bg-[#383838] sm:h-12 sm:px-5 sm:text-base dark:hover:bg-[#ccc]'
+            className='flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent px-4 text-sm transition-colors hover:bg-[#383838] sm:h-12 sm:px-5 sm:text-base dark:hover:bg-[#ccc]'
             href='https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
             target='_blank'
             rel='noopener noreferrer'>
