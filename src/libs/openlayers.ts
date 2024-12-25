@@ -4,7 +4,7 @@ import { altKeyOnly } from 'ol/events/condition';
 import { DragPan, DragRotate, defaults as defaultInteraction } from 'ol/interaction';
 import TileLayer from 'ol/layer/Tile';
 import { fromLonLat } from 'ol/proj';
-import { OSM } from 'ol/source';
+import { OSM, XYZ } from 'ol/source';
 
 export const generateView = ({ lon, lat, zoom }: { lon: number; lat: number; zoom: number }) => {
   return new View({ center: fromLonLat([lon, lat]), zoom });
@@ -13,6 +13,12 @@ export const generateView = ({ lon, lat, zoom }: { lon: number; lat: number; zoo
 export const generateOSMLayer = () => {
   return new TileLayer({
     source: new OSM(),
+  });
+};
+
+export const generateXYZLayer = (url: string) => {
+  return new TileLayer({
+    source: new XYZ({ url }),
   });
 };
 

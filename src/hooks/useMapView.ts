@@ -1,11 +1,13 @@
 import { Map } from 'ol';
 import { useEffect, useState } from 'react';
 import { LOCATION } from '@/constants/location';
+import { URL } from '@/constants/url';
 import {
   generateControls,
   generateInteraction,
   generateOSMLayer,
   generateView,
+  generateXYZLayer,
 } from '@/libs/openlayers';
 
 export const useMapView = (domName: string) => {
@@ -17,7 +19,7 @@ export const useMapView = (domName: string) => {
       view: generateView(LOCATION),
       controls: generateControls(),
       interactions: generateInteraction(),
-      layers: [generateOSMLayer()],
+      layers: [generateOSMLayer(), generateXYZLayer(URL.vworld)],
     });
 
     setMapView(mapView);
