@@ -23,7 +23,7 @@ export const generateXYZLayer = (url: string) => {
 };
 
 export const generateControls = () => {
-  return defaultControls({ zoom: false });
+  return defaultControls({ zoom: false, attribution: false });
 };
 
 export const generateInteraction = () => {

@@ -39,7 +39,7 @@ function NavigationBar() {
   ];
 
   return (
-    <nav className='fixed inset-x-0 bottom-0 z-30 bg-white shadow-300'>
+    <nav className='bg-white shadow-300'>
       <ul className='flex justify-center gap-[10px]'>
         {navigationList.map((item) => {
           const isTarget = currentPath === item.path;
