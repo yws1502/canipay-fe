@@ -8,6 +8,7 @@ import Button from '@/components/common/buttons/Button';
 import TextButton from '@/components/common/buttons/TextButton';
 import IconTextToggle from '@/components/common/toggles/IconTextToggle';
 import IconToggle from '@/components/common/toggles/IconToggle';
+import SlideToggle from '@/components/common/toggles/SlideToggle';
 import TagToggleList from '@/components/common/toggles/TagToggleList';
 
 export default function Home() {
@@ -40,6 +41,7 @@ export default function Home() {
           <li>Save and see your changes instantly.</li>
         </ol>
 
+        <SlideToggle />
         <IconTextToggle id='visible-marker' theme='check' defaultToggle={false}>
           마커
         </IconTextToggle>
