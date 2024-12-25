@@ -23,7 +23,9 @@ export default function Home() {
 
   const onChangeCheckedTagList = (tagId: string) => {
     setCheckedTagList((previous) => {
-      return previous.includes(tagId) ? previous.filter((tag) => tag !== tagId) : [...previous, tagId];
+      return previous.includes(tagId)
+        ? previous.filter((tag) => tag !== tagId)
+        : [...previous, tagId];
     });
   };
 
@@ -66,7 +68,10 @@ export default function Home() {
         <Button type='button' className='w-full' color='quaternary'>
           작성 완료
         </Button>
-        <Button type='button' className='flex w-full items-center justify-center gap-[8px] px-[16px]' color='white'>
+        <Button
+          type='button'
+          className='flex w-full items-center justify-center gap-[8px] px-[16px]'
+          color='white'>
           <NaverIcon width={16} height={16} />
           작성 완료
         </Button>

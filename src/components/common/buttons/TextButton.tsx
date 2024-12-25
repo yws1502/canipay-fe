@@ -11,7 +11,13 @@ interface TextButtonProps extends ComponentProps<'button'> {
   size?: 'sm' | 'md';
 }
 
-function TextButton({ className, type = 'button', size = 'md', children, ...props }: TextButtonProps) {
+function TextButton({
+  className,
+  type = 'button',
+  size = 'md',
+  children,
+  ...props
+}: TextButtonProps) {
   return (
     <button
       // eslint-disable-next-line react/button-has-type

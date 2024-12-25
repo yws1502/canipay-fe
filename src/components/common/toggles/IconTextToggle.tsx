@@ -31,7 +31,13 @@ interface IconTextToggleProps {
   className?: string;
 }
 
-function IconTextToggle({ id, children, theme, defaultToggle = false, className }: IconTextToggleProps) {
+function IconTextToggle({
+  id,
+  children,
+  theme,
+  defaultToggle = false,
+  className,
+}: IconTextToggleProps) {
   const [toggle, setToggle] = useState(defaultToggle);
 
   const handleChangeToggle = () => {

@@ -15,7 +15,13 @@ interface ButtonProps extends ComponentProps<'button'> {
   color?: Color;
 }
 
-function Button({ className, type = 'button', color = 'primary', children, ...props }: ButtonProps) {
+function Button({
+  className,
+  type = 'button',
+  color = 'primary',
+  children,
+  ...props
+}: ButtonProps) {
   return (
     <button
       // eslint-disable-next-line react/button-has-type
