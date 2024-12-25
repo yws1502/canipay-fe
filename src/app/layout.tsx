@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
+import MapView from '@/components/MapView';
 import NavigationBar from '@/components/NavigationBar';
 import './globals.css';
 import './tailwind.css';
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang='en'>
       <body className={`${notoSansKr.className} antialiased`}>
         {children}
+        <MapView />
         <NavigationBar />
       </body>
     </html>
