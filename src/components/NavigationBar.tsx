@@ -7,6 +7,7 @@ import ExplorerIcon from '@/assets/icons/explorer.svg';
 import ListIcon from '@/assets/icons/list.svg';
 import MapIcon from '@/assets/icons/map.svg';
 import SettingIcon from '@/assets/icons/setting.svg';
+import { PAGE_PATH } from '@/constants/page';
 
 function NavigationBar() {
   const currentPath = usePathname();
@@ -16,25 +17,25 @@ function NavigationBar() {
       id: 'list',
       icon: ListIcon,
       text: '목록',
-      path: '/list',
+      path: PAGE_PATH.map.list,
     },
     {
       id: 'map',
       icon: MapIcon,
       text: '지도',
-      path: '/',
+      path: PAGE_PATH.map.root,
     },
     {
       id: 'explorer',
       icon: ExplorerIcon,
       text: '주변',
-      path: '/explorer',
+      path: PAGE_PATH.map.explorer,
     },
     {
       id: 'setting',
       icon: SettingIcon,
       text: '설정',
-      path: '/setting',
+      path: PAGE_PATH.setting,
     },
   ];
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 function List() {
-  return <div>List</div>;
+  return <div />;
 }
 
 export default List;
