@@ -3,6 +3,7 @@ export const PAGE_PATH = {
   map: {
     root: '/map',
     list: '/map/list',
+    search: '/map/search',
     explorer: '/map/explorer',
   },
   setting: '/setting',
