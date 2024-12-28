@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import CloseIcon from '@/assets/icons/close.svg';
 import SearchIcon from '@/assets/icons/search.svg';
 import { PAGE_PATH, QUERY_STRING } from '@/constants/page';
@@ -11,6 +11,13 @@ function SearchInputField() {
   const searchParams = useSearchParams();
 
   const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    const searchKeyword = searchParams.get(QUERY_STRING.search);
+    if (searchKeyword) {
+      setSearch(searchKeyword);
+    }
+  }, []);
 
   const onGoToMap = () => {
     setSearch('');
