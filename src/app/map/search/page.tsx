@@ -1,7 +1,12 @@
 import React from 'react';
+import PoiList from '@/components/PoiList';
 
-function page() {
-  return <div />;
+async function Search() {
+  return (
+    <div>
+      <PoiList />
+    </div>
+  );
 }
 
-export default page;
+export default Search;

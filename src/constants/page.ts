@@ -8,3 +8,7 @@ export const PAGE_PATH = {
   },
   setting: '/setting',
 };
+
+export const QUERY_STRING = {
+  search: 'search',
+};
