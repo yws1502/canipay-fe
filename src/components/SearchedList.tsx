@@ -46,7 +46,7 @@ function SearchedList() {
           limit={{ min: 60, max: 600 }}
         />
       </header>
-      <ul className='flex-1 overflow-auto'>
+      <ul className='flex-1 overflow-auto pr-1'>
         {searchedStoreList.map((store) => {
           return (
             <li key={store.id} className='rounded-md p-3 shadow-300 hover:bg-gray-50'>
