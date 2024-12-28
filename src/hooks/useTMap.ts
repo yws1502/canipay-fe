@@ -10,6 +10,7 @@ export const usePoiInfiniteQuery = (search: string) => {
         version: '1',
         searchKeyword: search,
         page: pageParam,
+        count: 10,
       }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {

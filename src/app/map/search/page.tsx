@@ -1,9 +1,9 @@
 import React from 'react';
 import PoiList from '@/components/PoiList';
 
-async function Search() {
+function Search() {
   return (
-    <div>
+    <div className='fixed inset-x-0 bottom-0 z-30'>
       <PoiList />
     </div>
   );

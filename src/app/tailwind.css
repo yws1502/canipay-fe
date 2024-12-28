@@ -3,7 +3,7 @@
 }
 
 .button-text {
-  @apply flex select-none items-center text-gray-950;
+  @apply flex select-none items-center text-gray-950 hover:opacity-80 active:opacity-60;
 }
 
 .tag-toggle {
