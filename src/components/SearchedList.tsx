@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CopyIcon from '@/assets/icons/copy.svg';
 import NaverIcon from '@/assets/icons/naver.svg';
 import { QUERY_STRING } from '@/constants/page';
-import { usePoiInfiniteQuery } from '@/hooks/useTMap';
+import { useIntersectionObserver } from '@/hooks/useObserver';
+import { useStoreInfiniteQuery } from '@/hooks/useTMap';
 import ResizeHandle from './common/ResizeHandle';
 import TextButton from './common/buttons/TextButton';
 
@@ -15,7 +16,16 @@ function SearchedList() {
   const searchKeyword = searchParams.get(QUERY_STRING.search) ?? '';
 
   const [height, setHeight] = useState(300);
-  // const { data } = usePoiInfiniteQuery(searchKeyword);
+
+  const { data: searchedStoreList, fetchNextPage } = useStoreInfiniteQuery(searchKeyword);
+
+  const { intersecting, registerObserver } = useIntersectionObserver();
+
+  useEffect(() => {
+    if (intersecting) {
+      fetchNextPage();
+    }
+  }, [intersecting]);
 
   const onChangeHeight = (value: number) => {
     setHeight(value);
@@ -37,33 +47,34 @@ function SearchedList() {
         />
       </header>
       <ul className='flex-1 overflow-auto'>
-        <li className='rounded-md p-3 shadow-300 hover:bg-gray-50'>
-          <div className='mb-2 flex items-start justify-between'>
-            <Link href='test' className='text-heading-3 text-gray-950 hover:text-primary'>
-              식당 이름
-            </Link>
-            <span className='text-caption-1 text-primary hover:opacity-80 active:opacity-60'>
-              리뷰 00
-            </span>
-          </div>
-          <div className='flex items-center justify-between'>
-            <span className='text-caption-1 text-gray-950'>카테고리</span>
-            <div className='flex items-center gap-2'>
-              <TextButton>
-                <NaverIcon className='mr-1' width={16} height={16} />
-                <i className='hidden'>네이버로</i> 열기
-              </TextButton>
-              <TextButton>
-                <CopyIcon className='fill-gray-500' width={16} height={16} />
-                주소
-              </TextButton>
-              <TextButton>
-                <CopyIcon className='fill-gray-500' width={16} height={16} />
-                전화번호
-              </TextButton>
-            </div>
-          </div>
-        </li>
+        {searchedStoreList.map((store) => {
+          return (
+            <li key={store.id} className='rounded-md p-3 shadow-300 hover:bg-gray-50'>
+              <div className='mb-2 flex items-start justify-between'>
+                <Link href={store.name} className='text-heading-3 text-gray-950 hover:text-primary'>
+                  {store.name}
+                </Link>
+                <span className='text-caption-1 text-primary hover:opacity-80 active:opacity-60'>
+                  리뷰 00
+                </span>
+              </div>
+              <div className='flex items-center justify-between'>
+                <span className='text-caption-1 text-gray-950'>{store.category}</span>
+                <div className='flex items-center gap-2'>
+                  <TextButton>
+                    <NaverIcon className='mr-1' width={16} height={16} />
+                    <i className='hidden'>네이버로</i> 열기
+                  </TextButton>
+                  <TextButton>
+                    <CopyIcon className='fill-gray-500' width={16} height={16} />
+                    주소
+                  </TextButton>
+                </div>
+              </div>
+            </li>
+          );
+        })}
+        <li ref={registerObserver}>test</li>
       </ul>
     </article>
   );

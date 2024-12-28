@@ -78,15 +78,24 @@ interface Poi {
   zipCode: string;
   adminDongCode: string;
   legalDongCode: string;
+  newAddressList: {
+    newAddress: NewAddress[];
+  };
   evChargers: {
     evCharger: EvCharger[];
   };
   groupSubLists: {
     groupSub: GroupSub[];
   };
-  newAddressList: {
-    newAddress: NewAddress[];
-  };
+}
+
+export interface StoreInfo {
+  id: string;
+  name: string;
+  lat: string;
+  lon: string;
+  address: string;
+  category: string;
 }
 
 // =================================== API ===================================
