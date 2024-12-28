@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
+import ReactQueryProvider from '@/components/ReactQueryProvider';
 import './globals.css';
 import './tailwind.css';
 
@@ -20,7 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${notoSansKr.className} antialiased`}>{children}</body>
+      <body className={`${notoSansKr.className} antialiased`}>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
+      </body>
     </html>
   );
 }
