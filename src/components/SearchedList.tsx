@@ -6,15 +6,15 @@ import React, { useState } from 'react';
 import CopyIcon from '@/assets/icons/copy.svg';
 import NaverIcon from '@/assets/icons/naver.svg';
 import { QUERY_STRING } from '@/constants/page';
+import { usePoiInfiniteQuery } from '@/hooks/useTMap';
 import ResizeHandle from './common/ResizeHandle';
 import TextButton from './common/buttons/TextButton';
 
-function PoiList() {
+function SearchedList() {
   const searchParams = useSearchParams();
   const searchKeyword = searchParams.get(QUERY_STRING.search) ?? '';
 
   const [height, setHeight] = useState(300);
-
   // const { data } = usePoiInfiniteQuery(searchKeyword);
 
   const onChangeHeight = (value: number) => {
@@ -23,7 +23,7 @@ function PoiList() {
 
   return (
     <article
-      className='flex w-full flex-col gap-5 rounded-t-xl bg-white p-4 shadow-500'
+      className={`${!!searchKeyword ? 'translate-y-0' : 'translate-y-full'} shadow-800 fixed inset-x-0 bottom-0 z-30 flex w-full flex-col gap-5 rounded-t-xl bg-white p-4 transition-transform duration-500 ease-in-out`}
       style={{ height }}
     >
       <header className='relative'>
@@ -69,4 +69,4 @@ function PoiList() {
   );
 }
 
-export default PoiList;
+export default SearchedList;
