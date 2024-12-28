@@ -24,7 +24,8 @@ function PoiList() {
   return (
     <article
       className='flex w-full flex-col gap-5 rounded-t-xl bg-white p-4 shadow-500'
-      style={{ height }}>
+      style={{ height }}
+    >
       <header className='relative'>
         <h3 className='text-body-2'>결과목록</h3>
         <ResizeHandle

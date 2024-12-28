@@ -48,7 +48,8 @@ function NavigationBar() {
             <li key={item.id}>
               <Link
                 href={item.path}
-                className={`${isTarget ? 'text-primary' : 'text-gray-500'} flex h-[60px] w-[80px] cursor-pointer flex-col items-center justify-center gap-[2px] text-caption-1 hover:opacity-80 active:opacity-60`}>
+                className={`${isTarget ? 'text-primary' : 'text-gray-500'} flex h-[60px] w-[80px] cursor-pointer flex-col items-center justify-center gap-[2px] text-caption-1 hover:opacity-80 active:opacity-60`}
+              >
                 <item.icon
                   className={`${isTarget ? 'fill-primary' : 'fill-gray-500'} `}
                   width={24}

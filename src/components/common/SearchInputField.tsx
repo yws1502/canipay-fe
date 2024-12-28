@@ -28,7 +28,8 @@ function SearchInputField() {
   return (
     <form
       className='fixed inset-x-[15px] top-[15px] z-30 flex items-center justify-between rounded-md bg-white px-4 py-1.5 shadow-500 outline-1 has-[:focus]:outline has-[:focus]:outline-primary'
-      onSubmit={onSubmit}>
+      onSubmit={onSubmit}
+    >
       <input
         type='search'
         className='flex-1 text-body-1 outline-none'

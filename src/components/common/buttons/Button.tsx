@@ -27,7 +27,8 @@ function Button({
       // eslint-disable-next-line react/button-has-type
       type={type}
       className={twMerge(`button ${colors[color]} ${className}`)}
-      {...props}>
+      {...props}
+    >
       {children}
     </button>
   );

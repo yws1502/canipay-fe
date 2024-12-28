@@ -28,7 +28,8 @@ function ResizeHandle({ direction, size, onChangeSize, className, limit }: Resiz
       type='button'
       className={twMerge('cursor-row-resize py-1.5', className)}
       onMouseDown={onMouseDown}
-      onTouchStart={onTouchStart}>
+      onTouchStart={onTouchStart}
+    >
       <i className='block h-[6px] w-[80px] rounded-xl bg-gray-300' />
     </button>
   );
