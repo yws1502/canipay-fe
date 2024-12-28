@@ -1,15 +1,12 @@
 'use client';
 
-import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import CopyIcon from '@/assets/icons/copy.svg';
-import NaverIcon from '@/assets/icons/naver.svg';
 import { QUERY_STRING } from '@/constants/page';
 import { useIntersectionObserver } from '@/hooks/useObserver';
 import { useStoreInfiniteQuery } from '@/hooks/useTMap';
+import SearchedItem from './SearchedItem';
 import ResizeHandle from './common/ResizeHandle';
-import TextButton from './common/buttons/TextButton';
 
 function SearchedList() {
   const searchParams = useSearchParams();
@@ -48,31 +45,7 @@ function SearchedList() {
       </header>
       <ul className='flex-1 overflow-auto pr-1'>
         {searchedStoreList.map((store) => {
-          return (
-            <li key={store.id} className='rounded-md p-3 shadow-300 hover:bg-gray-50'>
-              <div className='mb-2 flex items-start justify-between'>
-                <Link href={store.name} className='text-heading-3 text-gray-950 hover:text-primary'>
-                  {store.name}
-                </Link>
-                <span className='text-caption-1 text-primary hover:opacity-80 active:opacity-60'>
-                  리뷰 00
-                </span>
-              </div>
-              <div className='flex items-center justify-between'>
-                <span className='text-caption-1 text-gray-950'>{store.category}</span>
-                <div className='flex items-center gap-2'>
-                  <TextButton>
-                    <NaverIcon className='mr-1' width={16} height={16} />
-                    <i className='hidden'>네이버로</i> 열기
-                  </TextButton>
-                  <TextButton>
-                    <CopyIcon className='fill-gray-500' width={16} height={16} />
-                    주소
-                  </TextButton>
-                </div>
-              </div>
-            </li>
-          );
+          return <SearchedItem key={store.id} store={store} />;
         })}
         <li ref={registerObserver}>test</li>
       </ul>
