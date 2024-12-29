@@ -7,6 +7,7 @@ import { useIntersectionObserver } from '@/hooks/useObserver';
 import { useStoreInfiniteQuery } from '@/hooks/useTMap';
 import SearchedItem from './SearchedItem';
 import ResizeHandle from './common/ResizeHandle';
+import Spinner from './common/Spinner';
 
 function SearchedList() {
   const searchParams = useSearchParams();
@@ -47,7 +48,9 @@ function SearchedList() {
         {searchedStoreList.map((store) => {
           return <SearchedItem key={store.id} store={store} />;
         })}
-        <li ref={registerObserver}>test</li>
+        <li ref={registerObserver} className='p-3 text-center'>
+          <Spinner />
+        </li>
       </ul>
     </article>
   );
