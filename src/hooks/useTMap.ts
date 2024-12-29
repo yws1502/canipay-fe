@@ -6,7 +6,7 @@ import { StoreInfo } from '@/types/tMap';
 
 export const useStoreInfiniteQuery = (search: string) => {
   const result = useInfiniteQuery({
-    queryKey: [QUERY_KEY.poiInfiniteQuery, search],
+    queryKey: [QUERY_KEY.storeInfiniteQuery, search],
     queryFn: ({ pageParam = 1 }) =>
       getPoi({
         version: '1',

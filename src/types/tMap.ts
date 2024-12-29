@@ -98,6 +98,8 @@ export interface StoreInfo {
   category: string;
 }
 
+export type StoreProperties = Omit<StoreInfo, 'id' | 'lat' | 'lon'>;
+
 // =================================== API ===================================
 
 export interface RequestTMapPoi {
