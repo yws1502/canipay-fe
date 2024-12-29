@@ -23,7 +23,8 @@ function TextButton({
       // eslint-disable-next-line react/button-has-type
       type={type}
       className={twMerge(`button-text ${sizes[size]} ${className}`)}
-      {...props}>
+      {...props}
+    >
       {children}
     </button>
   );

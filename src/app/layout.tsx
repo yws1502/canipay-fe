@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
-import NavigationBar from '@/components/NavigationBar';
-import MapView from '@/components/maps/MapView';
+import ReactQueryProvider from '@/components/ReactQueryProvider';
 import './globals.css';
 import './tailwind.css';
 
@@ -23,11 +22,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${notoSansKr.className} antialiased`}>
-        {children}
-        <div className='flex h-svh flex-col'>
-          <MapView />
-          <NavigationBar />
-        </div>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>
   );

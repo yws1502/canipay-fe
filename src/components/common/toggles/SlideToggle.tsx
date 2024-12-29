@@ -19,7 +19,8 @@ function SlideToggle({ defaultToggle = false, className }: SlideToggleProps) {
       className={twMerge(
         `slide-toggle ${className} ${toggle ? 'border-white' : 'border-gray-500'}`
       )}
-      onClick={handleChangeToggle}>
+      onClick={handleChangeToggle}
+    >
       <div
         className={`${toggle ? 'translate-x-full bg-white' : 'bg-gray-500'} size-[14px] rounded-full duration-300 ease-in-out`}
       />
