@@ -1,11 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 import CopyIcon from '@/assets/icons/copy.svg';
 import NaverIcon from '@/assets/icons/naver.svg';
 import { NAVER_MAP_URL } from '@/constants/env';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
+import { PAGE_PATH } from '@/constants/page';
 import { StoreInfo } from '@/types/tMap';
 import TextButton from './common/buttons/TextButton';
 
@@ -14,6 +16,7 @@ interface SearchedItemProps {
 }
 
 function SearchedItem({ store }: SearchedItemProps) {
+  const searchParams = useSearchParams();
   const [isCopied, setIsCopied] = useState(false);
 
   const handleOpenNaver = (item: string) => {
@@ -38,7 +41,11 @@ function SearchedItem({ store }: SearchedItemProps) {
     <li className='rounded-md p-3 shadow-300 hover:bg-gray-50'>
       <div className='mb-2 flex items-start justify-between'>
         <Link
-          href={store.name}
+          href={{
+            pathname: PAGE_PATH.storeDetail(store.id),
+            query: searchParams.toString(),
+          }}
+          scroll={false}
           className='text-heading-3 text-gray-950 duration-300 ease-in-out hover:text-primary'
         >
           {store.name}
@@ -59,7 +66,7 @@ function SearchedItem({ store }: SearchedItemProps) {
             주소
           </TextButton>
           <p
-            className={`${isCopied ? 'opacity-100' : 'opacity-0'} absolute -bottom-[28px] right-0 rounded-md bg-white px-1.5 py-1 text-caption-1 shadow-500 duration-700 ease-in-out`}
+            className={`${isCopied ? 'opacity-100' : 'opacity-0'} absolute bottom-[-28px] right-0 rounded-md bg-white px-1.5 py-1 text-caption-1 shadow-500 duration-700 ease-in-out`}
           >
             복사 완료!
           </p>

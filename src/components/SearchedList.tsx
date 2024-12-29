@@ -1,8 +1,8 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { QUERY_STRING } from '@/constants/page';
+import { PAGE_PATH, QUERY_STRING } from '@/constants/page';
 import { useIntersectionObserver } from '@/hooks/useObserver';
 import { useStoreInfiniteQuery } from '@/hooks/useTMap';
 import SearchedItem from './SearchedItem';
@@ -10,6 +10,7 @@ import ResizeHandle from './common/ResizeHandle';
 import Spinner from './common/Spinner';
 
 function SearchedList() {
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const searchKeyword = searchParams.get(QUERY_STRING.search) ?? '';
 
@@ -31,7 +32,7 @@ function SearchedList() {
 
   return (
     <article
-      className={`${!!searchKeyword ? 'translate-y-0' : 'translate-y-full'} shadow-800 fixed inset-x-0 bottom-0 z-30 flex w-full flex-col gap-5 rounded-t-xl bg-white p-4 transition-transform duration-500 ease-in-out`}
+      className={`${pathname === PAGE_PATH.storeList && searchKeyword ? 'translate-y-0' : 'translate-y-full'} fixed inset-x-0 bottom-0 z-30 flex w-full flex-col gap-5 rounded-t-xl bg-white p-4 shadow-500 transition-transform duration-500 ease-in-out`}
       style={{ height }}
     >
       <header className='relative'>
