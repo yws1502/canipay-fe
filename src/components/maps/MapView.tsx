@@ -16,7 +16,13 @@ function MapView() {
 
   const { data: searchedStoreList } = useStoreInfiniteQuery(searchKeyword);
 
-  const { controller } = useMapView('map');
+  const { mapView, controller } = useMapView('map');
+
+  useEffect(() => {
+    if (mapView && searchKeyword === '') {
+      controller.removeLayer('unregistered');
+    }
+  }, [searchKeyword]);
 
   useEffect(() => {
     if (searchedStoreList.length === 0) return;

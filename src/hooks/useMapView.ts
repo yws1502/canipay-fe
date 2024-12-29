@@ -38,6 +38,7 @@ export const useMapView = (domName: string) => {
       onClickMarker?: (event: MapBrowserEvent<any>, features: FeatureLike[]) => void
     ) => {
       if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
+      controller.removeLayer(markerData.name);
 
       const markerLayer = generateMarker(markerData);
       mapView.addLayer(markerLayer);
@@ -56,6 +57,16 @@ export const useMapView = (domName: string) => {
         removeInteraction();
         mapView.un('click', handleMarkerClick);
       };
+    },
+    removeLayer: (name: string) => {
+      if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
+
+      mapView
+        .getAllLayers()
+        .filter((layer) => layer.get('name') === name)
+        .forEach((removeLayer) => {
+          mapView.removeLayer(removeLayer);
+        });
     },
   };
 

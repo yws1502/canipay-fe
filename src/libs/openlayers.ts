@@ -59,7 +59,7 @@ export const generateMarker = <T extends OlProperties>({
   pointFeatureList,
 }: MarkerData<T>) => {
   const arg = {
-    type: name,
+    name,
     source: new VectorSource({
       features: pointFeatureList.map(generatePointFeature),
     }),
