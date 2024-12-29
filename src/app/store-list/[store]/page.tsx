@@ -1,7 +1,7 @@
 import React from 'react';
 
-function Map() {
+function Store() {
   return <div />;
 }
 
-export default Map;
+export default Store;

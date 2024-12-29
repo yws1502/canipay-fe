@@ -1,10 +1,8 @@
 export const PAGE_PATH = {
   root: '/',
-  map: {
-    root: '/map',
-    list: '/map/list',
-    explorer: '/map/explorer',
-  },
+  storeList: '/store-list',
+  storeDetail: (segment: string) => `/store-list/${segment}`,
+  explorer: '/explorer',
   setting: '/setting',
 };
 

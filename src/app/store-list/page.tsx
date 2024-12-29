@@ -1,7 +1,7 @@
 import React from 'react';
 
-function List() {
+function StoreList() {
   return <div />;
 }
 
-export default List;
+export default StoreList;

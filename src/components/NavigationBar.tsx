@@ -17,19 +17,19 @@ function NavigationBar() {
       id: 'list',
       icon: ListIcon,
       text: '목록',
-      path: PAGE_PATH.map.list,
+      path: PAGE_PATH.storeList,
     },
     {
       id: 'map',
       icon: MapIcon,
       text: '지도',
-      path: PAGE_PATH.map.root,
+      path: PAGE_PATH.root,
     },
     {
       id: 'explorer',
       icon: ExplorerIcon,
       text: '주변',
-      path: PAGE_PATH.map.explorer,
+      path: PAGE_PATH.explorer,
     },
     {
       id: 'setting',
@@ -49,6 +49,7 @@ function NavigationBar() {
               <Link
                 href={item.path}
                 className={`${isTarget ? 'text-primary' : 'text-gray-500'} flex h-[60px] w-[80px] cursor-pointer flex-col items-center justify-center gap-[2px] text-caption-1 hover:opacity-80 active:opacity-60`}
+                scroll={false}
               >
                 <item.icon
                   className={`${isTarget ? 'fill-primary' : 'fill-gray-500'} `}
