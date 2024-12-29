@@ -1,7 +1,8 @@
 import React from 'react';
+import StoreDetail from '@/components/StoreDetail';
 
 function Store() {
-  return <div />;
+  return <StoreDetail />;
 }
 
 export default Store;
