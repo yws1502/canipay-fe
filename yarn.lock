@@ -1362,11 +1362,6 @@
   dependencies:
     undici-types "~6.19.2"
 
-"@types/openlayers@^4.6.23":
-  version "4.6.23"
-  resolved "https://registry.yarnpkg.com/@types/openlayers/-/openlayers-4.6.23.tgz#583fba48d304ecdcc06fad311b8b511fdb83bdee"
-  integrity sha512-7jCPIa4D4LV03Rttae1AEqvkIN0+nc6Snz4IgA/IjsJD5O3ONxpscqIOdp1qAGuAsikR/ZC9vrPF9np8JRc6ig==
-
 "@types/rbush@4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/rbush/-/rbush-4.0.0.tgz#b327bf54952e9c924ea6702c36904c2ce1d47f35"
