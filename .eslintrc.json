@@ -36,6 +36,10 @@
         "args": "after-used",
         "argsIgnorePattern": "^_"
       }
+    ],
+    "no-console": [
+      "warn",
+      { "allow": ["warn", "error", "info"] } // log만 제한
     ]
   }
 }
