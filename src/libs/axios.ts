@@ -1,6 +1,13 @@
 import axios from 'axios';
-import { T_MAP_API_URL, T_MAP_APP_KEY } from '@/constants/env';
+import { STORE_API_URL, T_MAP_API_URL, T_MAP_APP_KEY } from '@/constants/env';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
+
+export const storeAxios = axios.create({
+  baseURL: STORE_API_URL,
+  headers: {
+    Accept: 'application/json',
+  },
+});
 
 export const tMapAxios = axios.create({
   baseURL: T_MAP_API_URL,
