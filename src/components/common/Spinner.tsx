@@ -1,5 +1,6 @@
 interface SpinnerProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  color?: 'white' | 'blue' | 'red';
 }
 
 const sizes = {
@@ -9,12 +10,18 @@ const sizes = {
   xl: 'h-10 w-10',
 };
 
-function Spinner({ size = 'md' }: SpinnerProps) {
+const colors = {
+  white: 'fill-white/50',
+  blue: 'fill-primary/50',
+  red: 'fill-red/50',
+};
+
+function Spinner({ size = 'md', color = 'blue' }: SpinnerProps) {
   return (
     <div role='status' className='inline-block'>
       <svg
         aria-hidden='true'
-        className={`${sizes[size]} animate-spin fill-primary`}
+        className={`${sizes[size]} ${colors[color]} animate-spin`}
         viewBox='0 0 100 101'
         xmlns='http://www.w3.org/2000/svg'
       >
