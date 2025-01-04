@@ -3,8 +3,8 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { PAGE_PATH, QUERY_STRING } from '@/constants/page';
+import useInfiniteStoresProxy from '@/hooks/react-query/useInfiniteStoresProxy';
 import { useIntersectionObserver } from '@/hooks/useObserver';
-import { useStoreInfiniteQuery } from '@/hooks/useTMap';
 import SearchedItem from './SearchedItem';
 import ResizeHandle from './common/ResizeHandle';
 import Spinner from './common/Spinner';
@@ -16,7 +16,7 @@ function SearchedList() {
 
   const [height, setHeight] = useState(300);
 
-  const { data: searchedStoreList, fetchNextPage } = useStoreInfiniteQuery(searchKeyword);
+  const { data: storeInfoList, fetchNextPage } = useInfiniteStoresProxy(searchKeyword);
 
   const { intersecting, registerObserver } = useIntersectionObserver();
 
@@ -46,7 +46,7 @@ function SearchedList() {
         />
       </header>
       <ul className='flex-1 overflow-auto pr-1'>
-        {searchedStoreList.map((store) => {
+        {storeInfoList.map((store) => {
           return <SearchedItem key={store.id} store={store} />;
         })}
         <li ref={registerObserver} className='p-3 text-center'>

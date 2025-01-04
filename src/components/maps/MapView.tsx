@@ -4,17 +4,17 @@ import { useSearchParams } from 'next/navigation';
 import 'ol/ol.css';
 import { useEffect } from 'react';
 import { QUERY_STRING } from '@/constants/page';
+import useInfiniteStoresProxy from '@/hooks/react-query/useInfiniteStoresProxy';
 import { useMapView } from '@/hooks/useMapView';
-import { useStoreInfiniteQuery } from '@/hooks/useTMap';
 import { PointFeature } from '@/types/openlayers';
-import { StoreProperties } from '@/types/tMap';
+import { StoreProperties } from '@/types/store';
 import MapContributors from './MapContributors';
 
 function MapView() {
   const searchParams = useSearchParams();
   const searchKeyword = searchParams.get(QUERY_STRING.search) ?? '';
 
-  const { data: searchedStoreList } = useStoreInfiniteQuery(searchKeyword);
+  const { data: storeList } = useInfiniteStoresProxy(searchKeyword);
 
   const { mapView, controller } = useMapView('map');
 
@@ -27,8 +27,8 @@ function MapView() {
   useEffect(() => {
     let clearEvent: () => void;
 
-    if (searchedStoreList.length !== 0) {
-      const pointFeatureList: PointFeature<StoreProperties>[] = searchedStoreList.map((store) => {
+    if (storeList.length !== 0) {
+      const pointFeatureList: PointFeature<StoreProperties>[] = storeList.map((store) => {
         const { id, lon, lat, name, category, address } = store;
         return {
           id,
@@ -54,7 +54,7 @@ function MapView() {
     return () => {
       if (clearEvent) clearEvent();
     };
-  }, [searchedStoreList]);
+  }, [storeList]);
 
   return (
     <div id='map' className='relative h-full'>

@@ -1,9 +1,19 @@
 import { storeAxios } from '@/libs/axios';
-import { RequestRegisterStore, ResponseRegisterStore } from '@/types/store';
+import {
+  RequestGetStoresProxy,
+  RequestRegisterStore,
+  ResponseGetStoresProxy,
+  ResponseRegisterStore,
+} from '@/types/store';
 
 export const registerStore = async (payload: RequestRegisterStore) => {
   const response = await storeAxios.post<ResponseRegisterStore>('stores', payload);
-  const { data } = response;
+  return response.data;
+};
 
-  return data;
+export const getStoresProxy = async (payload: RequestGetStoresProxy) => {
+  const response = await storeAxios.get<ResponseGetStoresProxy>('proxy/stores', {
+    params: payload,
+  });
+  return response.data;
 };

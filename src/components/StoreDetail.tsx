@@ -8,9 +8,9 @@ import NaverIcon from '@/assets/icons/naver.svg';
 import { NAVER_MAP_URL } from '@/constants/env';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
 import { QUERY_STRING } from '@/constants/page';
+import useInfiniteStoresProxy from '@/hooks/react-query/useInfiniteStoresProxy';
+import useRegisterStore from '@/hooks/react-query/useRegisterStore';
 import { useDelayLoading } from '@/hooks/useDelayLoading';
-import { useRegisterStore } from '@/hooks/useStore';
-import { useStoreInfiniteQuery } from '@/hooks/useTMap';
 import { PaymentStatus, RequestRegisterStore } from '@/types/store';
 import Spinner from './common/Spinner';
 import Button from './common/buttons/Button';
@@ -24,7 +24,7 @@ function StoreDetail() {
 
   const [isCopied, setIsCopied] = useState(false);
 
-  const { data: storeList } = useStoreInfiniteQuery(searchKeyword);
+  const { data: storeList } = useInfiniteStoresProxy(searchKeyword);
 
   const { mutate: registerMutate, isPending: isPendingRegister } = useRegisterStore();
 

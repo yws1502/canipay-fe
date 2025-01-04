@@ -14,7 +14,7 @@ import {
   generateXYZLayer,
 } from '@/libs/openlayers';
 import { MarkerData } from '@/types/openlayers';
-import { StoreProperties } from '@/types/tMap';
+import { StoreProperties } from '@/types/store';
 
 export const useMapView = (domName: string) => {
   const [mapView, setMapView] = useState<Map | null>(null);
