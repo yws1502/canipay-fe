@@ -16,7 +16,7 @@ function SearchedList() {
 
   const [height, setHeight] = useState(300);
 
-  const { data: storeInfoList, fetchNextPage } = useInfiniteStoresProxy(searchKeyword);
+  const { data: storeInfoList, fetchNextPage, hasNextPage } = useInfiniteStoresProxy(searchKeyword);
 
   const { intersecting, registerObserver } = useIntersectionObserver();
 
@@ -49,9 +49,11 @@ function SearchedList() {
         {storeInfoList.map((store) => {
           return <SearchedItem key={store.id} store={store} />;
         })}
-        <li ref={registerObserver} className='p-3 text-center'>
-          <Spinner />
-        </li>
+        {hasNextPage && (
+          <li ref={registerObserver} className='p-3 text-center'>
+            <Spinner />
+          </li>
+        )}
       </ul>
     </article>
   );
