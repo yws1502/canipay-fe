@@ -60,7 +60,7 @@ function StoreDetail({ storeInfo }: StoreDetailProps) {
 
   return (
     <section
-      className={`${'paymentStatus' in storeInfo ? 'bottom-[15%] top-[10%]' : 'top-[30%]'} fixed left-1/2 z-30 flex w-[90%] -translate-x-1/2 flex-col gap-5 overflow-auto rounded-sm bg-white p-4 shadow-500`}
+      className={`${'paymentStatus' in storeInfo ? 'inset-y-[15%]' : 'top-[30%]'} fixed left-1/2 z-30 flex w-[90%] -translate-x-1/2 flex-col gap-5 overflow-auto rounded-sm bg-white p-4 shadow-500`}
     >
       <div className='relative'>
         <div className='mb-3 flex items-start justify-between'>
@@ -95,7 +95,7 @@ function StoreDetail({ storeInfo }: StoreDetailProps) {
         </p>
       </div>
       {'paymentStatus' in storeInfo ? (
-        <article className='flex flex-col gap-3 overflow-auto'>
+        <article className='flex flex-1 flex-col gap-3 overflow-auto'>
           <div className='flex justify-between'>
             <span className='text-caption-1 text-primary'>리뷰 00</span>
             <ul className='flex items-center gap-2 text-caption-2'>
@@ -107,7 +107,7 @@ function StoreDetail({ storeInfo }: StoreDetailProps) {
           </div>
           <TextButton>리뷰 작성하기</TextButton>
           <ul className='flex h-full flex-col gap-5 overflow-auto pr-1'>
-            {Array.from({ length: 10 }).map((_, index) => {
+            {Array.from({ length: 2 }).map((_, index) => {
               const key = `test-${index}`;
               return (
                 <li key={key}>
