@@ -10,7 +10,6 @@ async function Store({ params }: StoreProps) {
   const { store } = await params;
 
   const storeInfo = await getStore(store).catch(async () => {
-    // TODO: error 컴포넌트 작업 필요
     const unregisteredStoreInfo = await getStoreProxy(store);
     return unregisteredStoreInfo;
   });

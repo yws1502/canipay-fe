@@ -20,6 +20,8 @@ interface StoreDetailProps {
 }
 
 function StoreDetail({ storeInfo }: StoreDetailProps) {
+  console.log(storeInfo);
+
   const router = useRouter();
 
   const [isCopied, setIsCopied] = useState(false);
