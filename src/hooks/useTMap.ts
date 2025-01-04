@@ -2,7 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { getPoi } from '@/apis/tMap';
 import { QUERY_KEY } from '@/constants/tanstackQuery';
-import { StoreInfo } from '@/types/tMap';
+import { StoreInfo } from '@/types/store';
 
 export const useStoreInfiniteQuery = (search: string) => {
   const result = useInfiniteQuery({

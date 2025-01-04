@@ -89,17 +89,6 @@ interface Poi {
   };
 }
 
-export interface StoreInfo {
-  id: string;
-  name: string;
-  lat: string;
-  lon: string;
-  address: string;
-  category: string;
-}
-
-export type StoreProperties = Omit<StoreInfo, 'id' | 'lat' | 'lon'>;
-
 // =================================== API ===================================
 
 export interface RequestTMapPoi {
