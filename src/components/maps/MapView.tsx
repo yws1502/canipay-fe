@@ -4,17 +4,17 @@ import { useSearchParams } from 'next/navigation';
 import 'ol/ol.css';
 import { useEffect } from 'react';
 import { QUERY_STRING } from '@/constants/page';
+import useInfiniteStoresProxy from '@/hooks/react-query/useInfiniteStoresProxy';
 import { useMapView } from '@/hooks/useMapView';
-import { useStoreInfiniteQuery } from '@/hooks/useTMap';
 import { PointFeature } from '@/types/openlayers';
-import { StoreProperties } from '@/types/tMap';
+import { StoreProperties } from '@/types/store';
 import MapContributors from './MapContributors';
 
 function MapView() {
   const searchParams = useSearchParams();
   const searchKeyword = searchParams.get(QUERY_STRING.search) ?? '';
 
-  const { data: searchedStoreList } = useStoreInfiniteQuery(searchKeyword);
+  const { data: storeList } = useInfiniteStoresProxy(searchKeyword);
 
   const { mapView, controller } = useMapView('map');
 
@@ -25,34 +25,36 @@ function MapView() {
   }, [searchKeyword]);
 
   useEffect(() => {
-    if (searchedStoreList.length === 0) return;
+    let clearEvent: () => void;
 
-    const pointFeatureList: PointFeature<StoreProperties>[] = searchedStoreList.map((store) => {
-      const { id, lon, lat, name, category, address } = store;
-      return {
-        id,
-        coordinate: [Number(lon), Number(lat)],
-        properties: { name, category, address },
-      };
-    });
+    if (storeList.length !== 0) {
+      const pointFeatureList: PointFeature<StoreProperties>[] = storeList.map((store) => {
+        const { id, lon, lat, name, category, address } = store;
+        return {
+          id,
+          coordinate: [Number(lon), Number(lat)],
+          properties: { name, category, address },
+        };
+      });
 
-    const clearEvent = controller.addMarkerLayer(
-      {
-        name: 'unregistered', // TODO: 추후 결제 가능, 불가, 미등록으로 나뉠 예정
-        theme: 'gray', // TODO: 추후 결제 가능, 불가, 미등록으로 나뉠 예정
-        pointFeatureList,
-      },
-      (event, features) => {
-        // TODO: 추후 click event 등록 (정보 overlay 표출)
-        console.info(event.coordinate);
-        console.info(features.map((feature) => feature.getProperties()));
-      }
-    );
+      clearEvent = controller.addMarkerLayer(
+        {
+          name: 'unregistered', // TODO: 추후 결제 가능, 불가, 미등록으로 나뉠 예정
+          theme: 'gray', // TODO: 추후 결제 가능, 불가, 미등록으로 나뉠 예정
+          pointFeatureList,
+        },
+        (event, features) => {
+          // TODO: 추후 click event 등록 (정보 overlay 표출)
+          console.info(event.coordinate);
+          console.info(features.map((feature) => feature.getProperties()));
+        }
+      );
+    }
 
     return () => {
-      clearEvent();
+      if (clearEvent) clearEvent();
     };
-  }, [searchedStoreList]);
+  }, [storeList]);
 
   return (
     <div id='map' className='relative h-full'>

@@ -21,14 +21,14 @@ function SearchInputField() {
 
   const onGoToMap = () => {
     setSearch('');
-    router.push(PAGE_PATH.map.root);
+    router.push(PAGE_PATH.root);
   };
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (search.length === 0) return;
 
-    router.push(`${PAGE_PATH.map.root}?${QUERY_STRING.search}=${search}`);
+    router.push(`${PAGE_PATH.storeList}?${QUERY_STRING.search}=${search}`);
   };
 
   return (

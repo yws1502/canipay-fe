@@ -1,6 +1,5 @@
 import { Map, MapBrowserEvent } from 'ol';
 import { FeatureLike } from 'ol/Feature';
-import { Point } from 'ol/geom';
 import { useEffect, useState } from 'react';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
 import { LOCATION } from '@/constants/location';
@@ -15,7 +14,7 @@ import {
   generateXYZLayer,
 } from '@/libs/openlayers';
 import { MarkerData } from '@/types/openlayers';
-import { StoreProperties } from '@/types/tMap';
+import { StoreProperties } from '@/types/store';
 
 export const useMapView = (domName: string) => {
   const [mapView, setMapView] = useState<Map | null>(null);
@@ -47,9 +46,10 @@ export const useMapView = (domName: string) => {
       mapView.addInteraction(interaction);
 
       const handleMarkerClick = (event: MapBrowserEvent<any>) => {
-        if (onClickMarker === undefined) return;
+        const features = mapView.getFeaturesAtPixel(event.pixel);
+        if (onClickMarker === undefined || features.length === 0) return;
 
-        onClickMarker(event, mapView.getFeaturesAtPixel(event.pixel));
+        onClickMarker(event, features);
       };
       mapView.on('click', handleMarkerClick);
 

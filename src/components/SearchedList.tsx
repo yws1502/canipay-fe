@@ -1,21 +1,22 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { QUERY_STRING } from '@/constants/page';
+import { PAGE_PATH, QUERY_STRING } from '@/constants/page';
+import useInfiniteStoresProxy from '@/hooks/react-query/useInfiniteStoresProxy';
 import { useIntersectionObserver } from '@/hooks/useObserver';
-import { useStoreInfiniteQuery } from '@/hooks/useTMap';
 import SearchedItem from './SearchedItem';
 import ResizeHandle from './common/ResizeHandle';
 import Spinner from './common/Spinner';
 
 function SearchedList() {
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const searchKeyword = searchParams.get(QUERY_STRING.search) ?? '';
 
   const [height, setHeight] = useState(300);
 
-  const { data: searchedStoreList, fetchNextPage } = useStoreInfiniteQuery(searchKeyword);
+  const { data: storeInfoList, fetchNextPage, hasNextPage } = useInfiniteStoresProxy(searchKeyword);
 
   const { intersecting, registerObserver } = useIntersectionObserver();
 
@@ -31,7 +32,7 @@ function SearchedList() {
 
   return (
     <article
-      className={`${!!searchKeyword ? 'translate-y-0' : 'translate-y-full'} shadow-800 fixed inset-x-0 bottom-0 z-30 flex w-full flex-col gap-5 rounded-t-xl bg-white p-4 transition-transform duration-500 ease-in-out`}
+      className={`${pathname === PAGE_PATH.storeList && searchKeyword ? 'translate-y-0' : 'translate-y-full'} fixed inset-x-0 bottom-0 z-30 flex w-full flex-col gap-5 rounded-t-xl bg-white p-4 shadow-500 transition-transform duration-500 ease-in-out`}
       style={{ height }}
     >
       <header className='relative'>
@@ -45,12 +46,14 @@ function SearchedList() {
         />
       </header>
       <ul className='flex-1 overflow-auto pr-1'>
-        {searchedStoreList.map((store) => {
+        {storeInfoList.map((store) => {
           return <SearchedItem key={store.id} store={store} />;
         })}
-        <li ref={registerObserver} className='p-3 text-center'>
-          <Spinner />
-        </li>
+        {hasNextPage && (
+          <li ref={registerObserver} className='p-3 text-center'>
+            <Spinner />
+          </li>
+        )}
       </ul>
     </article>
   );

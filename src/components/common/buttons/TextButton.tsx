@@ -5,10 +5,11 @@ import { Size } from '@/types/style';
 const sizes: Record<Size, string> = {
   sm: 'text-caption-2',
   md: 'text-caption-1',
+  lg: 'text-body-2',
 };
 
 interface TextButtonProps extends ComponentProps<'button'> {
-  size?: 'sm' | 'md';
+  size?: 'sm' | 'md' | 'lg';
 }
 
 function TextButton({
