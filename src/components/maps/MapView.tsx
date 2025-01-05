@@ -2,19 +2,22 @@
 
 import { useSearchParams } from 'next/navigation';
 import 'ol/ol.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { QUERY_STRING } from '@/constants/page';
 import useInfiniteStoresProxy from '@/hooks/react-query/useInfiniteStoresProxy';
 import { useMapView } from '@/hooks/useMapView';
 import { MarkerTheme, PointFeature } from '@/types/openlayers';
 import { PaymentStatus, StoreInfo } from '@/types/store';
 import MapContributors from './MapContributors';
+import StoreTooltip from './StoreTooltip';
 
 function MapView() {
   const searchParams = useSearchParams();
   const searchKeyword = searchParams.get(QUERY_STRING.search) ?? '';
 
   const { data: storeList } = useInfiniteStoresProxy(searchKeyword);
+
+  const [selectedStores, setSelectedStores] = useState<{ id: string; name: string }[]>([]);
 
   const { mapView, controller } = useMapView('map');
 
@@ -55,9 +58,15 @@ function MapView() {
       paintStoreMarker(unregisteredStores, 'unregistered', 'gray');
 
       clearEvent = controller.addMarkerClickEvent((event, features) => {
-        // TODO: 추후 click event 등록 (정보 overlay 표출)
-        console.info(event.coordinate);
-        console.info(features.map((feature) => feature.getProperties()));
+        const selectedStores = features.map((feature) => {
+          return {
+            id: feature.get('id') as string,
+            name: feature.get('name') as string,
+          };
+        });
+
+        setSelectedStores(selectedStores);
+        controller.setOverlayLocation(event.coordinate);
       });
     }
 
@@ -66,9 +75,22 @@ function MapView() {
     };
   }, [storeList]);
 
+  const onSelectStoreAtTooltip = (storeId: string) => {
+    const targetStore = storeList.find((store) => store.id === storeId);
+
+    if (targetStore) {
+      setSelectedStores([targetStore]);
+    }
+  };
+
   return (
     <div id='map' className='relative h-full'>
       <MapContributors />
+      <div id='map-tooltip' className='absolute'>
+        {selectedStores.length > 0 && (
+          <StoreTooltip stores={selectedStores} onSelectStore={onSelectStoreAtTooltip} />
+        )}
+      </div>
     </div>
   );
 }

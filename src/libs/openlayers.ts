@@ -1,4 +1,4 @@
-import { Feature, View } from 'ol';
+import { Feature, Overlay, View } from 'ol';
 import { defaults as defaultControls } from 'ol/control';
 import { altKeyOnly, pointerMove } from 'ol/events/condition';
 import { Point } from 'ol/geom';
@@ -8,6 +8,7 @@ import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
 import { fromLonLat } from 'ol/proj';
 import { OSM, Vector as VectorSource, XYZ } from 'ol/source';
 import { Icon, Style } from 'ol/style';
+import { EXCEPTION_MESSAGE } from '@/constants/error';
 import { MarkerData, PointFeature } from '@/types/openlayers';
 
 export const generateView = ({ lon, lat, zoom }: { lon: number; lat: number; zoom: number }) => {
@@ -84,4 +85,14 @@ export const generateInteraction = () => {
     altShiftDragRotate: false,
     doubleClickZoom: false,
   }).extend([new DragPan({}), new DragRotate({ condition: altKeyOnly }), interaction]);
+};
+
+export const generateOverlay = (domID: string) => {
+  const element = document.getElementById(domID);
+  if (!element) throw new Error(EXCEPTION_MESSAGE.documentIdNotSet(domID));
+
+  return new Overlay({
+    element,
+    autoPan: true,
+  });
 };

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 import CopyIcon from '@/assets/icons/copy.svg';
 import NaverIcon from '@/assets/icons/naver.svg';
 import { NAVER_MAP_URL } from '@/constants/env';
@@ -13,9 +14,10 @@ import TextButton from './common/buttons/TextButton';
 
 interface StoreItemProps {
   storeInfo: StoreInfo;
+  className?: string;
 }
 
-function StoreItem({ storeInfo }: StoreItemProps) {
+function StoreItem({ storeInfo, className }: StoreItemProps) {
   const searchParams = useSearchParams();
 
   const [isCopied, setIsCopied] = useState(false);
@@ -39,26 +41,27 @@ function StoreItem({ storeInfo }: StoreItemProps) {
   };
 
   return (
-    <li className='rounded-md p-3 shadow-300 hover:bg-gray-50'>
-      <div className='mb-4 flex items-start justify-between'>
+    <li className={twMerge('rounded-md p-3 shadow-300 hover:bg-gray-50', className)}>
+      <div className='mb-4 flex items-start justify-between gap-1'>
         <Link
           href={{
             pathname: PAGE_PATH.storeDetail(storeInfo.id),
             query: searchParams.toString(),
           }}
           scroll={false}
-          className='text-heading-3 text-gray-950 duration-300 ease-in-out hover:text-primary'
+          className='truncate text-heading-3 text-gray-950 duration-300 ease-in-out hover:text-primary'
+          title={storeInfo.name}
         >
           {storeInfo.name}
         </Link>
         {(() => {
           switch (storeInfo.paymentStatus) {
             case 'available':
-              return <span className='text-caption-1 text-primary'>리뷰 00</span>;
+              return <span className='shrink-0 text-caption-1 text-primary'>리뷰 00</span>;
             case 'unavailable':
-              return <span className='text-caption-1 text-red'>결제 불가</span>;
+              return <span className='shrink-0 text-caption-1 text-red'>결제 불가</span>;
             default: // unregistered
-              return <TextButton>등록</TextButton>;
+              return <TextButton className='shrink-0'>등록</TextButton>;
           }
         })()}
       </div>
