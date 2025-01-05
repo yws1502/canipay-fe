@@ -73,8 +73,16 @@ export const useMapView = (domName: string) => {
     },
     setOverlayLocation: (coordinate: Coordinate) => {
       if (overlay === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('overlay'));
+      if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
 
       overlay.setPosition(coordinate);
+
+      const closeOverlay = () => {
+        overlay.setPosition(undefined);
+        mapView.un('pointerdrag', closeOverlay);
+      };
+
+      mapView.on('pointerdrag', closeOverlay);
     },
     setCenter: (coordinate: Coordinate, duration = 500) => {
       if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
