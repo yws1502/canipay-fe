@@ -16,11 +16,11 @@ import Button from './common/buttons/Button';
 import TextButton from './common/buttons/TextButton';
 
 interface StoreDetailProps {
-  storeInfo: RegisteredStoreInfo | StoreInfo;
+  initStoreInfo: RegisteredStoreInfo | StoreInfo;
 }
 
-function StoreDetail({ storeInfo }: StoreDetailProps) {
-  console.log(storeInfo);
+function StoreDetail({ initStoreInfo }: StoreDetailProps) {
+  const [storeInfo, setStoreInfo] = useState(initStoreInfo);
 
   const router = useRouter();
 
@@ -55,7 +55,9 @@ function StoreDetail({ storeInfo }: StoreDetailProps) {
     };
 
     registerMutate(storeForm, {
-      onSuccess: console.info,
+      onSuccess: (updateStoreInfo) => {
+        setStoreInfo(updateStoreInfo);
+      },
       onError: console.error,
     });
   };

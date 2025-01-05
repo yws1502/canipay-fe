@@ -14,7 +14,7 @@ async function Store({ params }: StoreProps) {
     return unregisteredStoreInfo;
   });
 
-  return <StoreDetail storeInfo={storeInfo} />;
+  return <StoreDetail initStoreInfo={storeInfo} />;
 }
 
 export default Store;
