@@ -23,6 +23,8 @@ function MapView() {
 
   useEffect(() => {
     if (mapView && searchKeyword === '') {
+      controller.removeLayer('available');
+      controller.removeLayer('unavailable');
       controller.removeLayer('unregistered');
     }
   }, [searchKeyword]);
