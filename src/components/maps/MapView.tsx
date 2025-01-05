@@ -67,6 +67,7 @@ function MapView() {
 
         setSelectedStores(selectedStores);
         controller.setOverlayLocation(event.coordinate);
+        controller.setCenter(event.coordinate);
       });
     }
 

@@ -2,7 +2,7 @@ import { Feature, Overlay, View } from 'ol';
 import { defaults as defaultControls } from 'ol/control';
 import { altKeyOnly, pointerMove } from 'ol/events/condition';
 import { Point } from 'ol/geom';
-import { DragPan, DragRotate, Select, defaults as defaultInteraction } from 'ol/interaction';
+import { DragRotate, Select, defaults as defaultInteraction } from 'ol/interaction';
 import { SelectEvent } from 'ol/interaction/Select';
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
 import { fromLonLat } from 'ol/proj';
@@ -81,10 +81,9 @@ export const generateInteraction = () => {
   const { interaction } = generateMarkerInteraction();
 
   return defaultInteraction({
-    dragPan: false,
     altShiftDragRotate: false,
     doubleClickZoom: false,
-  }).extend([new DragPan({}), new DragRotate({ condition: altKeyOnly }), interaction]);
+  }).extend([new DragRotate({ condition: altKeyOnly }), interaction]);
 };
 
 export const generateOverlay = (domID: string) => {

@@ -76,6 +76,11 @@ export const useMapView = (domName: string) => {
 
       overlay.setPosition(coordinate);
     },
+    setCenter: (coordinate: Coordinate, duration = 500) => {
+      if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
+
+      mapView.getView().animate({ center: coordinate, duration });
+    },
   };
 
   return { mapView, controller };
