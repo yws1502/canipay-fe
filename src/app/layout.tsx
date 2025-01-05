@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import NavigationBar from '@/components/NavigationBar';
 import ReactQueryProvider from '@/components/ReactQueryProvider';
-import SearchedList from '@/components/SearchedList';
+import SearchedStoreList from '@/components/SearchedStoreList';
 import SearchInputField from '@/components/common/SearchInputField';
 import MapView from '@/components/maps/MapView';
 import './globals.css';
@@ -30,7 +30,7 @@ export default function RootLayout({
           <main className='flex h-svh flex-col'>
             <SearchInputField />
             <MapView />
-            <SearchedList />
+            <SearchedStoreList />
             <NavigationBar />
             {children}
           </main>
