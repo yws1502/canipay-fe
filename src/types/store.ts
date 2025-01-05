@@ -7,15 +7,12 @@ export interface StoreInfo {
   category: string;
   lat: string;
   lon: string;
-}
-
-export interface RegisteredStoreInfo extends StoreInfo {
   paymentStatus: PaymentStatus;
 }
 
 export type StoreProperties = Omit<StoreInfo, 'id' | 'lat' | 'lon'>;
 
-export type PaymentStatus = 'available' | 'unavailable';
+export type PaymentStatus = 'available' | 'unavailable' | 'unregistered';
 
 // 결과 정렬 순서 A = 정확도순, R = 거리순 (default A)
 type SearchStoreSortBy = 'A' | 'R';
@@ -29,14 +26,14 @@ export interface ErrorResponse {
   success: false;
 }
 
-export type RequestRegisterStore = RegisteredStoreInfo;
+export type RequestRegisterStore = StoreInfo;
 
-export interface ResponseRegisterStore extends RegisteredStoreInfo {
+export interface ResponseRegisterStore extends StoreInfo {
   createdAt: string;
   updatedAt: string;
 }
 
-export interface ResponseGetStore extends RegisteredStoreInfo {
+export interface ResponseGetStore extends StoreInfo {
   createdAt: string;
   updatedAt: string;
 }

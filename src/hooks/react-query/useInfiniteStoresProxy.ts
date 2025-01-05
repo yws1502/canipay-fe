@@ -23,14 +23,10 @@ const useInfiniteStoresProxy = (search: string) => {
     if (!result.data) return;
 
     const newStoreInfoList: StoreInfo[] = [];
-    const savedIds = new Set<string>();
 
     result.data.pages.forEach((page) => {
       page.data.forEach((store) => {
-        if (savedIds.has(store.id) === false) {
-          savedIds.add(store.id);
-          newStoreInfoList.push(store);
-        }
+        newStoreInfoList.push(store);
       });
     });
 
