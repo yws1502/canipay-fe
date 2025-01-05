@@ -64,7 +64,7 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
 
   return (
     <section
-      className={`${'paymentStatus' in storeInfo ? 'inset-y-[15%]' : 'top-[30%]'} fixed left-1/2 z-30 flex w-[90%] -translate-x-1/2 flex-col gap-5 overflow-auto rounded-sm bg-white p-4 shadow-500`}
+      className={`${storeInfo.paymentStatus === 'unregistered' ? 'top-[30%]' : 'inset-y-[15%]'} fixed left-1/2 z-30 flex w-[90%] -translate-x-1/2 flex-col gap-5 overflow-auto rounded-sm bg-white p-4 shadow-500`}
     >
       <div className='relative'>
         <div className='mb-3 flex items-start justify-between'>

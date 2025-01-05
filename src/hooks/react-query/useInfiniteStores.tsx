@@ -1,20 +1,19 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { getStoresProxy } from '@/apis/store';
+import { getStores } from '@/apis/store';
 import { QUERY_KEY } from '@/constants/tanstackQuery';
 import { StoreInfo } from '@/types/store';
 
-const useInfiniteStoresProxy = (search: string) => {
+const useInfiniteStores = () => {
   const result = useInfiniteQuery({
-    queryKey: [QUERY_KEY.infiniteSearchStores, search],
-    queryFn: ({ pageParam }) => getStoresProxy({ search, skip: pageParam, take: 10 }),
+    queryKey: [QUERY_KEY.infiniteSearchStores],
+    queryFn: ({ pageParam }) => getStores({ skip: pageParam, take: 10 }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.totalPage === allPages.length) return undefined;
 
       return allPages.length + 1;
     },
-    enabled: !!search,
   });
 
   const [storeInfoList, setStoreInfoList] = useState<StoreInfo[]>([]);
@@ -36,4 +35,4 @@ const useInfiniteStoresProxy = (search: string) => {
   return { ...result, data: storeInfoList };
 };
 
-export default useInfiniteStoresProxy;
+export default useInfiniteStores;

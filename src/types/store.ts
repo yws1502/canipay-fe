@@ -38,6 +38,17 @@ export interface ResponseGetStore extends StoreInfo {
   updatedAt: string;
 }
 
+export interface RequestGetStores {
+  take?: number; // default 10
+  skip?: number; // default 1
+}
+
+export interface ResponseGetStores {
+  data: ResponseGetStore[];
+  totalCount: number;
+  totalPage: number;
+}
+
 // path = /proxy/stores
 export type ResponseGetStoreProxy = StoreInfo;
 
@@ -45,7 +56,7 @@ export interface RequestGetStoresProxy {
   search: string;
   sortBy?: SearchStoreSortBy; // 결과 정렬 순서 A = 정확도순, R = 거리순 (default A)
   radius?: Range<34>; // 검색 반경 1 ~ 33km, 0인 경우 전국
-  limit?: number; // default 10
+  take?: number; // default 10
   skip?: number; // default 1
 }
 
