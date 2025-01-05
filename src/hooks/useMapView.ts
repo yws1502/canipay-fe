@@ -8,13 +8,11 @@ import {
   generateControls,
   generateInteraction,
   generateMarker,
-  generateMarkerInteraction,
   generateOSMLayer,
   generateView,
   generateXYZLayer,
 } from '@/libs/openlayers';
 import { MarkerData } from '@/types/openlayers';
-import { StoreProperties } from '@/types/store';
 
 export const useMapView = (domName: string) => {
   const [mapView, setMapView] = useState<Map | null>(null);
@@ -32,29 +30,27 @@ export const useMapView = (domName: string) => {
   }, []);
 
   const controller = {
-    addMarkerLayer: (
-      markerData: MarkerData<StoreProperties>,
-      onClickMarker?: (event: MapBrowserEvent<any>, features: FeatureLike[]) => void
-    ) => {
+    addMarkerLayer: (markerData: MarkerData) => {
       if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
       controller.removeLayer(markerData.name);
 
       const markerLayer = generateMarker(markerData);
       mapView.addLayer(markerLayer);
-
-      const { interaction, removeInteraction } = generateMarkerInteraction(markerData.theme);
-      mapView.addInteraction(interaction);
+    },
+    addMarkerClickEvent: (
+      onClickMarker: (event: MapBrowserEvent<any>, features: FeatureLike[]) => void
+    ) => {
+      if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
 
       const handleMarkerClick = (event: MapBrowserEvent<any>) => {
         const features = mapView.getFeaturesAtPixel(event.pixel);
-        if (onClickMarker === undefined || features.length === 0) return;
+        if (features.length === 0) return;
 
         onClickMarker(event, features);
       };
       mapView.on('click', handleMarkerClick);
 
       return () => {
-        removeInteraction();
         mapView.un('click', handleMarkerClick);
       };
     },

@@ -1,17 +1,15 @@
 import { Coordinate } from 'ol/coordinate';
 
-export type OlProperties = { [x: string]: any };
-
-export interface PointFeature<T extends OlProperties> {
+export interface PointFeature {
   id: string;
   coordinate: Coordinate;
-  properties?: T;
+  properties?: any;
 }
 
 export type MarkerTheme = 'blue' | 'red' | 'gray';
 
-export interface MarkerData<T extends OlProperties> {
+export interface MarkerData {
   name: string;
   theme: MarkerTheme;
-  pointFeatureList: PointFeature<T>[];
+  pointFeatureList: PointFeature[];
 }
