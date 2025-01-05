@@ -8,15 +8,16 @@ import NaverIcon from '@/assets/icons/naver.svg';
 import { NAVER_MAP_URL } from '@/constants/env';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
 import { PAGE_PATH } from '@/constants/page';
-import { StoreInfo } from '@/types/tMap';
+import { StoreInfo } from '@/types/store';
 import TextButton from './common/buttons/TextButton';
 
-interface SearchedItemProps {
-  store: StoreInfo;
+interface StoreItemProps {
+  storeInfo: StoreInfo;
 }
 
-function SearchedItem({ store }: SearchedItemProps) {
+function StoreItem({ storeInfo }: StoreItemProps) {
   const searchParams = useSearchParams();
+
   const [isCopied, setIsCopied] = useState(false);
 
   const handleOpenNaver = (item: string) => {
@@ -39,29 +40,36 @@ function SearchedItem({ store }: SearchedItemProps) {
 
   return (
     <li className='rounded-md p-3 shadow-300 hover:bg-gray-50'>
-      <div className='mb-2 flex items-start justify-between'>
+      <div className='mb-4 flex items-start justify-between'>
         <Link
           href={{
-            pathname: PAGE_PATH.storeDetail(store.id),
+            pathname: PAGE_PATH.storeDetail(storeInfo.id),
             query: searchParams.toString(),
           }}
           scroll={false}
           className='text-heading-3 text-gray-950 duration-300 ease-in-out hover:text-primary'
         >
-          {store.name}
+          {storeInfo.name}
         </Link>
-        <span className='text-caption-1 text-primary hover:opacity-80 active:opacity-60'>
-          리뷰 00
-        </span>
+        {(() => {
+          switch (storeInfo.paymentStatus) {
+            case 'available':
+              return <span className='text-caption-1 text-primary'>리뷰 00</span>;
+            case 'unavailable':
+              return <span className='text-caption-1 text-red'>결제 불가</span>;
+            default: // unregistered
+              return <TextButton>등록</TextButton>;
+          }
+        })()}
       </div>
       <div className='flex items-center justify-between'>
-        <span className='text-caption-1 text-gray-950'>{store.category}</span>
+        <span className='text-caption-1 text-gray-950'>{storeInfo.category}</span>
         <div className='relative flex items-center gap-2'>
-          <TextButton onClick={() => handleOpenNaver(`${store.address} ${store.name}`)}>
+          <TextButton onClick={() => handleOpenNaver(`${storeInfo.address} ${storeInfo.name}`)}>
             <NaverIcon className='mr-1' width={16} height={16} />
             <i className='hidden'>네이버로</i> 열기
           </TextButton>
-          <TextButton onClick={() => handleCopyAddress(store.address)}>
+          <TextButton onClick={() => handleCopyAddress(storeInfo.address)}>
             <CopyIcon className='fill-gray-500' width={16} height={16} />
             주소
           </TextButton>
@@ -76,4 +84,4 @@ function SearchedItem({ store }: SearchedItemProps) {
   );
 }
 
-export default SearchedItem;
+export default StoreItem;

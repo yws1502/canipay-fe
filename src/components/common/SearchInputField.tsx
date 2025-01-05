@@ -28,7 +28,7 @@ function SearchInputField() {
     event.preventDefault();
     if (search.length === 0) return;
 
-    router.push(`${PAGE_PATH.storeList}?${QUERY_STRING.search}=${search}`);
+    router.push(`${PAGE_PATH.root}?${QUERY_STRING.search}=${search}`, { scroll: false });
   };
 
   return (
