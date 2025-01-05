@@ -6,7 +6,7 @@ import { StoreInfo } from '@/types/store';
 
 const useInfiniteStoresProxy = (search: string) => {
   const result = useInfiniteQuery({
-    queryKey: [QUERY_KEY.infiniteSearchStores, search],
+    queryKey: [QUERY_KEY.infiniteStoresProxy, search],
     queryFn: ({ pageParam }) => getStoresProxy({ search, skip: pageParam, take: 10 }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {

@@ -1,5 +1,6 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import CloseIcon from '@/assets/icons/close.svg';
@@ -8,6 +9,7 @@ import MoreIcon from '@/assets/icons/more.svg';
 import NaverIcon from '@/assets/icons/naver.svg';
 import { NAVER_MAP_URL } from '@/constants/env';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
+import { QUERY_KEY } from '@/constants/tanstackQuery';
 import useRegisterStore from '@/hooks/react-query/useRegisterStore';
 import { useDelayLoading } from '@/hooks/useDelayLoading';
 import { PaymentStatus, RequestRegisterStore, StoreInfo } from '@/types/store';
@@ -20,11 +22,12 @@ interface StoreDetailProps {
 }
 
 function StoreDetail({ initStoreInfo }: StoreDetailProps) {
-  const [storeInfo, setStoreInfo] = useState(initStoreInfo);
-
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   const [isCopied, setIsCopied] = useState(false);
+
+  const [storeInfo, setStoreInfo] = useState(initStoreInfo);
 
   const { mutate: registerMutate, isPending: isPendingRegister } = useRegisterStore();
 
@@ -57,6 +60,10 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
     registerMutate(storeForm, {
       onSuccess: (updateStoreInfo) => {
         setStoreInfo(updateStoreInfo);
+
+        // refetch search result, assign store and map marker
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.infiniteStoresProxy] });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.infiniteStores] });
       },
       onError: console.error,
     });
