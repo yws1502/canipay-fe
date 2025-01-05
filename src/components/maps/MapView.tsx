@@ -1,9 +1,10 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import 'ol/ol.css';
 import { useEffect, useState } from 'react';
-import { QUERY_STRING } from '@/constants/page';
+import { PAGE_PATH, QUERY_STRING } from '@/constants/page';
+import useInfiniteStores from '@/hooks/react-query/useInfiniteStores';
 import useInfiniteStoresProxy from '@/hooks/react-query/useInfiniteStoresProxy';
 import { useMapView } from '@/hooks/useMapView';
 import { MarkerTheme, PointFeature } from '@/types/openlayers';
@@ -12,22 +13,29 @@ import MapContributors from './MapContributors';
 import StoreTooltip from './StoreTooltip';
 
 function MapView() {
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const searchKeyword = searchParams.get(QUERY_STRING.search) ?? '';
 
-  const { data: storeList } = useInfiniteStoresProxy(searchKeyword);
+  const { data: rootStoreList } = useInfiniteStoresProxy(searchKeyword);
+  const { data: listStoreList } = useInfiniteStores();
+
+  const [displayStoreList, setDisplayStoreList] = useState<StoreInfo[]>([]);
 
   const [selectedStores, setSelectedStores] = useState<{ id: string; name: string }[]>([]);
 
   const { mapView, controller } = useMapView('map');
 
   useEffect(() => {
-    if (mapView && searchKeyword === '') {
-      controller.removeLayer('available');
-      controller.removeLayer('unavailable');
-      controller.removeLayer('unregistered');
+    if (pathname === PAGE_PATH.root) {
+      // TODO: 검색값이 없는 경우 결제 가능 매장 지도 표시
+      setDisplayStoreList(searchKeyword === '' ? listStoreList : rootStoreList);
+    } else if (pathname === PAGE_PATH.storeList) {
+      setDisplayStoreList(listStoreList);
+    } else {
+      setDisplayStoreList([]);
     }
-  }, [searchKeyword]);
+  }, [pathname, rootStoreList, listStoreList, searchKeyword]);
 
   const paintStoreMarker = (stores: StoreInfo[], name: PaymentStatus, theme: MarkerTheme) => {
     const pointFeatureList: PointFeature[] = stores.map((store) => {
@@ -44,14 +52,22 @@ function MapView() {
   };
 
   useEffect(() => {
+    if (mapView) {
+      controller.removeLayer('available');
+      controller.removeLayer('unavailable');
+      controller.removeLayer('unregistered');
+    }
+
     let clearEvent: () => void;
 
-    if (storeList.length !== 0) {
-      const paymentEnabledStores = storeList.filter((store) => store.paymentStatus === 'available');
-      const paymentDisabledStores = storeList.filter(
+    if (displayStoreList.length !== 0) {
+      const paymentEnabledStores = displayStoreList.filter(
+        (store) => store.paymentStatus === 'available'
+      );
+      const paymentDisabledStores = displayStoreList.filter(
         (store) => store.paymentStatus === 'unavailable'
       );
-      const unregisteredStores = storeList.filter(
+      const unregisteredStores = displayStoreList.filter(
         (store) => store.paymentStatus === 'unregistered'
       );
 
@@ -76,10 +92,10 @@ function MapView() {
     return () => {
       if (clearEvent) clearEvent();
     };
-  }, [storeList]);
+  }, [displayStoreList]);
 
   const onSelectStoreAtTooltip = (storeId: string) => {
-    const targetStore = storeList.find((store) => store.id === storeId);
+    const targetStore = displayStoreList.find((store) => store.id === storeId);
 
     if (targetStore) {
       setSelectedStores([targetStore]);
