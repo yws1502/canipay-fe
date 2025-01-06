@@ -2,7 +2,7 @@
 
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import CloseIcon from '@/assets/icons/close.svg';
 import CopyIcon from '@/assets/icons/copy.svg';
 import MoreIcon from '@/assets/icons/more.svg';
@@ -16,6 +16,7 @@ import { PaymentStatus, RequestRegisterStore, StoreInfo } from '@/types/store';
 import Spinner from './common/Spinner';
 import Button from './common/buttons/Button';
 import TextButton from './common/buttons/TextButton';
+import { MapControllerContext } from './maps/MapControllerProvider';
 
 interface StoreDetailProps {
   initStoreInfo: StoreInfo;
@@ -29,9 +30,19 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
 
   const [storeInfo, setStoreInfo] = useState(initStoreInfo);
 
+  const mapController = useContext(MapControllerContext);
+
   const { mutate: registerMutate, isPending: isPendingRegister } = useRegisterStore();
 
   const isPending = useDelayLoading(1000, isPendingRegister);
+
+  useEffect(() => {
+    if (mapController) {
+      const { lon, lat } = initStoreInfo;
+      mapController.setCenter([Number(lon), Number(lat)], true);
+      mapController.setOverlayLocation([Number(lon), Number(lat)], true);
+    }
+  }, [mapController]);
 
   const handleOpenNaver = (item: string) => {
     if (NAVER_MAP_URL === '') throw new Error(EXCEPTION_MESSAGE.environmentNotSet('NAVER_MAP_URL'));

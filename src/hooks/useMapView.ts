@@ -1,6 +1,7 @@
 import { Map, MapBrowserEvent, Overlay } from 'ol';
 import { FeatureLike } from 'ol/Feature';
 import { Coordinate } from 'ol/coordinate';
+import { fromLonLat } from 'ol/proj';
 import { useEffect, useState } from 'react';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
 import { LOCATION } from '@/constants/location';
@@ -14,29 +15,13 @@ import {
   generateView,
   generateXYZLayer,
 } from '@/libs/openlayers';
-import { MarkerData } from '@/types/openlayers';
+import { MapController, MarkerData } from '@/types/openlayers';
 
 export const useMapView = (domName: string) => {
   const [mapView, setMapView] = useState<Map | null>(null);
   const [overlay, setOverlay] = useState<Overlay | null>(null);
 
-  useEffect(() => {
-    const overlay = generateOverlay('map-tooltip');
-
-    const mapView = new Map({
-      target: domName,
-      view: generateView(LOCATION),
-      controls: generateControls(),
-      interactions: generateInteraction(),
-      layers: [generateOSMLayer(), generateXYZLayer(URL.vworld)],
-      overlays: [overlay],
-    });
-
-    setMapView(mapView);
-    setOverlay(overlay);
-  }, []);
-
-  const controller = {
+  const controller: MapController = {
     addMarkerLayer: (markerData: MarkerData) => {
       if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
       controller.removeLayer(markerData.name);
@@ -71,11 +56,13 @@ export const useMapView = (domName: string) => {
           mapView.removeLayer(removeLayer);
         });
     },
-    setOverlayLocation: (coordinate: Coordinate) => {
+    setOverlayLocation: (coordinate: Coordinate, shouldTransformed = false) => {
       if (overlay === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('overlay'));
       if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
 
-      overlay.setPosition(coordinate);
+      const newCenter = shouldTransformed ? fromLonLat(coordinate) : coordinate;
+
+      overlay.setPosition(newCenter);
 
       const closeOverlay = () => {
         overlay.setPosition(undefined);
@@ -84,12 +71,33 @@ export const useMapView = (domName: string) => {
 
       mapView.on('pointerdrag', closeOverlay);
     },
-    setCenter: (coordinate: Coordinate, duration = 500) => {
+    setCenter: (coordinate: Coordinate, shouldTransformed = false, duration = 500) => {
       if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
 
-      mapView.getView().animate({ center: coordinate, duration });
+      const newCenter = shouldTransformed ? fromLonLat(coordinate) : coordinate;
+
+      mapView.getView().animate({
+        center: newCenter,
+        duration,
+      });
     },
   };
+
+  useEffect(() => {
+    const overlay = generateOverlay('map-tooltip');
+
+    const mapView = new Map({
+      target: domName,
+      view: generateView(LOCATION),
+      controls: generateControls(),
+      interactions: generateInteraction(),
+      layers: [generateOSMLayer(), generateXYZLayer(URL.vworld)],
+      overlays: [overlay],
+    });
+
+    setMapView(mapView);
+    setOverlay(overlay);
+  }, []);
 
   return { mapView, controller };
 };

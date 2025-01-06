@@ -1,8 +1,8 @@
 'use client';
 
-import { usePathname, useSearchParams } from 'next/navigation';
+import { useParams, usePathname, useSearchParams } from 'next/navigation';
 import 'ol/ol.css';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { PAGE_PATH, QUERY_STRING } from '@/constants/page';
 import useInfiniteStores from '@/hooks/react-query/useInfiniteStores';
 import useInfiniteStoresProxy from '@/hooks/react-query/useInfiniteStoresProxy';
@@ -10,9 +10,11 @@ import { useMapView } from '@/hooks/useMapView';
 import { MarkerTheme, PointFeature } from '@/types/openlayers';
 import { PaymentStatus, StoreInfo } from '@/types/store';
 import MapContributors from './MapContributors';
+import { SetMapControllerContext } from './MapControllerProvider';
 import StoreTooltip from './StoreTooltip';
 
 function MapView() {
+  const params = useParams<{ store?: string }>();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const searchKeyword = searchParams.get(QUERY_STRING.search) ?? '';
@@ -26,9 +28,25 @@ function MapView() {
 
   const { mapView, controller } = useMapView('map');
 
+  const setMapController = useContext(SetMapControllerContext);
+
+  useEffect(() => {
+    if (mapView) {
+      setMapController(controller);
+    }
+  }, [mapView]);
+
+  useEffect(() => {
+    // store id
+    if (params?.store) {
+      const { store } = params;
+      setSelectedStores([{ id: store, name: store }]);
+    }
+  }, [params]);
+
   useEffect(() => {
     if (pathname === PAGE_PATH.root) {
-      // TODO: 검색값이 없는 경우 결제 가능 매장 지도 표시
+      // 검색값이 없는 경우 결제 가능 매장 지도 표시
       setDisplayStoreList(searchKeyword === '' ? listStoreList : rootStoreList);
     } else if (pathname === PAGE_PATH.storeList) {
       setDisplayStoreList(listStoreList);
