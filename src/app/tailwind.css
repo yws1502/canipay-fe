@@ -15,7 +15,7 @@
 }
 
 .icon-text-toggle {
-  @apply flex items-center justify-center gap-1 rounded-full bg-white px-[10px] py-1 text-caption-1 shadow-500;
+  @apply flex select-none items-center justify-center gap-1 rounded-full bg-white px-[10px] py-1 text-caption-1 shadow-500 hover:opacity-80 active:opacity-60;
 }
 
 .slide-toggle {

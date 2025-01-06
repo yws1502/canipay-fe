@@ -10,8 +10,6 @@ export interface StoreInfo {
   paymentStatus: PaymentStatus;
 }
 
-export type StoreProperties = Omit<StoreInfo, 'id' | 'lat' | 'lon'>;
-
 export type PaymentStatus = 'available' | 'unavailable' | 'unregistered';
 
 // 결과 정렬 순서 A = 정확도순, R = 거리순 (default A)

@@ -20,7 +20,7 @@ function StoreList() {
   }, [intersecting]);
 
   return (
-    <ResizeBottomPanel title='결제 가능 목록' className='z-0'>
+    <ResizeBottomPanel title='결제 가능 목록' className='z-0 mb-[50px]'>
       <ul className='flex flex-1 flex-col gap-3 overflow-auto pr-1'>
         {storeInfoList.map((storeInfo) => {
           return <StoreItem key={storeInfo.id} storeInfo={storeInfo} />;

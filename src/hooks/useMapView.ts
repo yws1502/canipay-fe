@@ -1,5 +1,8 @@
-import { Map, MapBrowserEvent } from 'ol';
+import { Map, MapBrowserEvent, Overlay } from 'ol';
 import { FeatureLike } from 'ol/Feature';
+import { Coordinate } from 'ol/coordinate';
+import VectorLayer from 'ol/layer/Vector';
+import { fromLonLat } from 'ol/proj';
 import { useEffect, useState } from 'react';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
 import { LOCATION } from '@/constants/location';
@@ -8,55 +11,54 @@ import {
   generateControls,
   generateInteraction,
   generateMarker,
-  generateMarkerInteraction,
   generateOSMLayer,
+  generateOverlay,
   generateView,
   generateXYZLayer,
 } from '@/libs/openlayers';
-import { MarkerData } from '@/types/openlayers';
-import { StoreProperties } from '@/types/store';
+import { MapController, MarkerData } from '@/types/openlayers';
 
 export const useMapView = (domName: string) => {
   const [mapView, setMapView] = useState<Map | null>(null);
+  const [overlay, setOverlay] = useState<Overlay | null>(null);
 
-  useEffect(() => {
-    const mapView = new Map({
-      target: domName,
-      view: generateView(LOCATION),
-      controls: generateControls(),
-      interactions: generateInteraction(),
-      layers: [generateOSMLayer(), generateXYZLayer(URL.vworld)],
-    });
-
-    setMapView(mapView);
-  }, []);
-
-  const controller = {
-    addMarkerLayer: (
-      markerData: MarkerData<StoreProperties>,
-      onClickMarker?: (event: MapBrowserEvent<any>, features: FeatureLike[]) => void
-    ) => {
+  const controller: MapController = {
+    addMarkerLayer: (markerData: MarkerData) => {
       if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
       controller.removeLayer(markerData.name);
 
       const markerLayer = generateMarker(markerData);
       mapView.addLayer(markerLayer);
-
-      const { interaction, removeInteraction } = generateMarkerInteraction(markerData.theme);
-      mapView.addInteraction(interaction);
+    },
+    addMarkerClickEvent: (
+      onClickMarker: (event: MapBrowserEvent<any>, features: FeatureLike[]) => void
+    ) => {
+      if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
 
       const handleMarkerClick = (event: MapBrowserEvent<any>) => {
         const features = mapView.getFeaturesAtPixel(event.pixel);
-        if (onClickMarker === undefined || features.length === 0) return;
+        if (features.length === 0) return;
 
         onClickMarker(event, features);
       };
       mapView.on('click', handleMarkerClick);
 
       return () => {
-        removeInteraction();
         mapView.un('click', handleMarkerClick);
       };
+    },
+    toggleVisibleLayer: (isVisible: boolean, name?: string) => {
+      if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
+
+      const targetLayers = name
+        ? mapView.getAllLayers().filter((layer) => layer.get('name') === name)
+        : mapView.getAllLayers();
+
+      targetLayers.forEach((layer) => {
+        if (layer instanceof VectorLayer) {
+          layer.setVisible(isVisible);
+        }
+      });
     },
     removeLayer: (name: string) => {
       if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
@@ -68,7 +70,48 @@ export const useMapView = (domName: string) => {
           mapView.removeLayer(removeLayer);
         });
     },
+    setOverlayLocation: (coordinate: Coordinate, shouldTransformed = false) => {
+      if (overlay === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('overlay'));
+      if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
+
+      const newCenter = shouldTransformed ? fromLonLat(coordinate) : coordinate;
+
+      overlay.setPosition(newCenter);
+
+      const closeOverlay = () => {
+        overlay.setPosition(undefined);
+        mapView.un('pointerdrag', closeOverlay);
+      };
+
+      mapView.on('pointerdrag', closeOverlay);
+    },
+    setCenter: (coordinate: Coordinate, shouldTransformed = false, duration = 500) => {
+      if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
+
+      const newCenter = shouldTransformed ? fromLonLat(coordinate) : coordinate;
+
+      mapView.getView().animate({
+        center: newCenter,
+        duration,
+      });
+    },
   };
+
+  useEffect(() => {
+    const overlay = generateOverlay('map-tooltip');
+
+    const mapView = new Map({
+      target: domName,
+      view: generateView(LOCATION),
+      controls: generateControls(),
+      interactions: generateInteraction(),
+      layers: [generateOSMLayer(), generateXYZLayer(URL.vworld)],
+      overlays: [overlay],
+    });
+
+    setMapView(mapView);
+    setOverlay(overlay);
+  }, []);
 
   return { mapView, controller };
 };

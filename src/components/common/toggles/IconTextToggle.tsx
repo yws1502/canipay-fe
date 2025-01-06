@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, ReactNode, SVGProps, useState } from 'react';
+import React, { FC, ReactNode, SVGProps, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import CircleBlueOffIcon from '@/assets/icons/circle-blue-off.svg';
 import CircleBlueOnIcon from '@/assets/icons/circle-blue-on.svg';
@@ -27,6 +27,7 @@ interface IconTextToggleProps {
   id: string;
   children: ReactNode;
   theme: IconTheme;
+  onChange: (toggle: boolean) => void;
   defaultToggle?: boolean;
   className?: string;
 }
@@ -35,10 +36,15 @@ function IconTextToggle({
   id,
   children,
   theme,
+  onChange,
   defaultToggle = false,
   className,
 }: IconTextToggleProps) {
   const [toggle, setToggle] = useState(defaultToggle);
+
+  useEffect(() => {
+    onChange(toggle);
+  }, [toggle]);
 
   const handleChangeToggle = () => {
     setToggle(!toggle);

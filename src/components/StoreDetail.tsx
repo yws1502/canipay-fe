@@ -1,34 +1,48 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import CloseIcon from '@/assets/icons/close.svg';
 import CopyIcon from '@/assets/icons/copy.svg';
 import MoreIcon from '@/assets/icons/more.svg';
 import NaverIcon from '@/assets/icons/naver.svg';
 import { NAVER_MAP_URL } from '@/constants/env';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
+import { QUERY_KEY } from '@/constants/tanstackQuery';
 import useRegisterStore from '@/hooks/react-query/useRegisterStore';
 import { useDelayLoading } from '@/hooks/useDelayLoading';
 import { PaymentStatus, RequestRegisterStore, StoreInfo } from '@/types/store';
 import Spinner from './common/Spinner';
 import Button from './common/buttons/Button';
 import TextButton from './common/buttons/TextButton';
+import { MapControllerContext } from './maps/MapControllerProvider';
 
 interface StoreDetailProps {
   initStoreInfo: StoreInfo;
 }
 
 function StoreDetail({ initStoreInfo }: StoreDetailProps) {
-  const [storeInfo, setStoreInfo] = useState(initStoreInfo);
-
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   const [isCopied, setIsCopied] = useState(false);
 
+  const [storeInfo, setStoreInfo] = useState(initStoreInfo);
+
+  const mapController = useContext(MapControllerContext);
+
   const { mutate: registerMutate, isPending: isPendingRegister } = useRegisterStore();
 
   const isPending = useDelayLoading(1000, isPendingRegister);
+
+  useEffect(() => {
+    if (mapController) {
+      const { lon, lat } = initStoreInfo;
+      mapController.setCenter([Number(lon), Number(lat)], true);
+      mapController.setOverlayLocation([Number(lon), Number(lat)], true);
+    }
+  }, [mapController]);
 
   const handleOpenNaver = (item: string) => {
     if (NAVER_MAP_URL === '') throw new Error(EXCEPTION_MESSAGE.environmentNotSet('NAVER_MAP_URL'));
@@ -57,6 +71,10 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
     registerMutate(storeForm, {
       onSuccess: (updateStoreInfo) => {
         setStoreInfo(updateStoreInfo);
+
+        // refetch search result, assign store and map marker
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.infiniteStoresProxy] });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.infiniteStores] });
       },
       onError: console.error,
     });

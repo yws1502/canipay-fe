@@ -4,6 +4,7 @@ import NavigationBar from '@/components/NavigationBar';
 import ReactQueryProvider from '@/components/ReactQueryProvider';
 import SearchedStoreList from '@/components/SearchedStoreList';
 import SearchInputField from '@/components/common/SearchInputField';
+import MapControllerProvider from '@/components/maps/MapControllerProvider';
 import MapView from '@/components/maps/MapView';
 import './globals.css';
 import './tailwind.css';
@@ -27,13 +28,15 @@ export default function RootLayout({
     <html lang='en'>
       <body className={`${notoSansKr.className} antialiased`}>
         <ReactQueryProvider>
-          <main className='flex h-svh flex-col'>
-            <SearchInputField />
-            <MapView />
-            <SearchedStoreList />
-            <NavigationBar />
-            {children}
-          </main>
+          <MapControllerProvider>
+            <main className='flex h-svh flex-col'>
+              <SearchInputField />
+              <MapView />
+              <SearchedStoreList />
+              <NavigationBar />
+              {children}
+            </main>
+          </MapControllerProvider>
         </ReactQueryProvider>
       </body>
     </html>

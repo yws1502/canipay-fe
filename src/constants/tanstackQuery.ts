@@ -1,3 +1,5 @@
 export const QUERY_KEY = {
-  infiniteSearchStores: 'infiniteSearchStores',
+  infiniteStoresProxy: 'infiniteStoresProxy',
+  infiniteStores: 'infiniteStores',
+  store: 'store',
 };
