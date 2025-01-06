@@ -1,6 +1,7 @@
 import { Map, MapBrowserEvent, Overlay } from 'ol';
 import { FeatureLike } from 'ol/Feature';
 import { Coordinate } from 'ol/coordinate';
+import VectorLayer from 'ol/layer/Vector';
 import { fromLonLat } from 'ol/proj';
 import { useEffect, useState } from 'react';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
@@ -45,6 +46,19 @@ export const useMapView = (domName: string) => {
       return () => {
         mapView.un('click', handleMarkerClick);
       };
+    },
+    toggleVisibleLayer: (isVisible: boolean, name?: string) => {
+      if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
+
+      const targetLayers = name
+        ? mapView.getAllLayers().filter((layer) => layer.get('name') === name)
+        : mapView.getAllLayers();
+
+      targetLayers.forEach((layer) => {
+        if (layer instanceof VectorLayer) {
+          layer.setVisible(isVisible);
+        }
+      });
     },
     removeLayer: (name: string) => {
       if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));

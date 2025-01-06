@@ -11,6 +11,7 @@ import { MarkerTheme, PointFeature } from '@/types/openlayers';
 import { PaymentStatus, StoreInfo } from '@/types/store';
 import MapContributors from './MapContributors';
 import { SetMapControllerContext } from './MapControllerProvider';
+import MarkerToggleList from './MarkerToggleList';
 import StoreTooltip from './StoreTooltip';
 
 function MapView() {
@@ -122,6 +123,7 @@ function MapView() {
 
   return (
     <div id='map' className='relative h-full'>
+      <MarkerToggleList />
       <MapContributors />
       <div id='map-tooltip' className='absolute'>
         {selectedStores.length > 0 && (

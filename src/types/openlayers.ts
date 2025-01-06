@@ -21,6 +21,7 @@ export interface MapController {
   addMarkerClickEvent: (
     onClickMarker: (event: MapBrowserEvent<any>, features: FeatureLike[]) => void
   ) => () => void;
+  toggleVisibleLayer: (isVisible: boolean, name?: string) => void;
   removeLayer: (name: string) => void;
   setOverlayLocation: (coordinate: Coordinate, shouldTransformed?: boolean) => void;
   setCenter: (coordinate: Coordinate, shouldTransformed?: boolean, duration?: number) => void;
