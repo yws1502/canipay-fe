@@ -8,9 +8,9 @@ const useInfiniteStoresProxy = (search: string) => {
   const result = useInfiniteQuery({
     queryKey: [QUERY_KEY.infiniteStoresProxy, search],
     queryFn: ({ pageParam }) => getStoresProxy({ search, skip: pageParam, take: 10 }),
-    initialPageParam: 1,
+    initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.totalPage === allPages.length) return undefined;
+      if (lastPage.totalPage <= allPages.length) return undefined;
 
       return allPages.length + 1;
     },
