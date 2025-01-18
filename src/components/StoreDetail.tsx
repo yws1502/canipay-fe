@@ -9,6 +9,7 @@ import MoreIcon from '@/assets/icons/more.svg';
 import NaverIcon from '@/assets/icons/naver.svg';
 import { NAVER_MAP_URL } from '@/constants/env';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
+import { PAGE_PATH } from '@/constants/page';
 import { QUERY_KEY } from '@/constants/tanstackQuery';
 import useRegisterStore from '@/hooks/react-query/useRegisterStore';
 import { useDelayLoading } from '@/hooks/useDelayLoading';
@@ -106,7 +107,7 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
             </button>
           </div>
         </div>
-        <TextButton onClick={() => handleCopyAddress(storeInfo.address ?? '')}>
+        <TextButton onClick={() => handleCopyAddress(storeInfo.address)}>
           <CopyIcon className='fill-gray-500' width={16} height={16} />
           {storeInfo.address}
         </TextButton>
@@ -131,7 +132,9 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
                     <li>쾌적 3</li>
                   </ul>
                 </div>
-                <TextButton>리뷰 작성하기</TextButton>
+                <TextButton onClick={() => router.push(PAGE_PATH.reviewForm(storeInfo.id))}>
+                  리뷰 작성하기
+                </TextButton>
                 <ul className='flex h-full flex-col gap-5 overflow-auto pr-1'>
                   {Array.from({ length: 2 }).map((_, index) => {
                     const key = `test-${index}`;
