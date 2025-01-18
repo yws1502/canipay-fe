@@ -2,13 +2,17 @@ import React from 'react';
 import { twMerge } from 'tailwind-merge';
 import TagToggle from './TagToggle';
 
-interface TagToggleListProps {
-  tagList: { id: string; text: string }[];
-  onChangeCheckedTagList: (tagId: string) => void;
+interface TagToggleListProps<T> {
+  tagList: { id: T; text: string }[];
+  onChangeCheckedTagList: (tagId: T) => void;
   className?: string;
 }
 
-function TagToggleList({ tagList, onChangeCheckedTagList, className }: TagToggleListProps) {
+function TagToggleList<T extends string>({
+  tagList,
+  onChangeCheckedTagList,
+  className,
+}: TagToggleListProps<T>) {
   return (
     <div className={twMerge('inline-flex gap-1', className)}>
       {tagList.map((tag) => {
