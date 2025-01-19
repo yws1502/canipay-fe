@@ -1,14 +1,22 @@
 'use client';
 
+import { useParams, useRouter } from 'next/navigation';
 import React, { FormEvent, useState } from 'react';
 import CloseIcon from '@/assets/icons/close.svg';
+import { PAGE_PATH } from '@/constants/page';
+import useCreateReview from '@/hooks/react-query/useCreateReview';
 import { ReviewType } from '@/types/review';
 import Button from './common/buttons/Button';
 import TagToggleList from './common/toggles/TagToggleList';
 
 function ReviewForm() {
+  const params = useParams<{ store: string }>();
+  const router = useRouter();
+
   const [checkedReviewTypes, setCheckedReviewTypes] = useState<ReviewType[]>([]);
   const [content, setContent] = useState('');
+
+  const { mutate } = useCreateReview();
 
   const handleChangeReviewTypeOptions = (tag: ReviewType) => {
     const newCheckedReviewTypes = checkedReviewTypes.includes(tag)
@@ -21,7 +29,27 @@ function ReviewForm() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log(checkedReviewTypes, content);
+    mutate(
+      {
+        id: params.store,
+        payload: {
+          isTasty: checkedReviewTypes.includes('isTasty'),
+          isFriendly: checkedReviewTypes.includes('isFriendly'),
+          isValuable: checkedReviewTypes.includes('isValuable'),
+          isComfortable: checkedReviewTypes.includes('isComfortable'),
+          content,
+        },
+      },
+      {
+        onSuccess: () => {
+          router.replace(PAGE_PATH.storeDetail(params.store), { scroll: false });
+        },
+        onError: () => {
+          alert('의도하지 않은 에러가 발생하였습니다.');
+          router.replace(PAGE_PATH.root, { scroll: false });
+        },
+      }
+    );
   };
 
   const reviewTypeOptions: { id: ReviewType; text: string }[] = [
