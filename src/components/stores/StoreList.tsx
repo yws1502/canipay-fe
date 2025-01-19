@@ -3,9 +3,9 @@
 import React, { useEffect } from 'react';
 import useInfiniteStores from '@/hooks/react-query/useInfiniteStores';
 import { useIntersectionObserver } from '@/hooks/useObserver';
+import ResizeBottomPanel from '../common/ResizeBottomPanel';
+import Spinner from '../common/Spinner';
 import StoreItem from './StoreItem';
-import ResizeBottomPanel from './common/ResizeBottomPanel';
-import Spinner from './common/Spinner';
 
 function StoreList() {
   // TODO: 추후 결제 가능 목록만 필터할 수 있는 기능 필요

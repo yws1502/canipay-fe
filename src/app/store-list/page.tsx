@@ -1,5 +1,5 @@
 import React from 'react';
-import StoreList from '@/components/StoreList';
+import StoreList from '@/components/stores/StoreList';
 
 function Page() {
   return <StoreList />;

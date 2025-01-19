@@ -2,7 +2,7 @@
 
 import React from 'react';
 import useStore from '@/hooks/react-query/useStore';
-import StoreItem from '../StoreItem';
+import StoreItem from '../stores/StoreItem';
 
 interface StoreTooltipProps {
   stores: {

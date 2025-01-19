@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import NavigationBar from '@/components/NavigationBar';
-import ReactQueryProvider from '@/components/ReactQueryProvider';
-import SearchedStoreList from '@/components/SearchedStoreList';
+import ReactQueryProvider from '@/components/common/ReactQueryProvider';
 import SearchInputField from '@/components/common/SearchInputField';
 import MapControllerProvider from '@/components/maps/MapControllerProvider';
 import MapView from '@/components/maps/MapView';
+import SearchedStoreList from '@/components/stores/SearchedStoreList';
 import './globals.css';
 import './tailwind.css';
 

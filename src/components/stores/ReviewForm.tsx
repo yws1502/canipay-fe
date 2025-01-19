@@ -6,8 +6,8 @@ import CloseIcon from '@/assets/icons/close.svg';
 import { PAGE_PATH } from '@/constants/page';
 import useCreateReview from '@/hooks/react-query/useCreateReview';
 import { ReviewType } from '@/types/review';
-import Button from './common/buttons/Button';
-import TagToggleList from './common/toggles/TagToggleList';
+import Button from '../common/buttons/Button';
+import TagToggleList from '../common/toggles/TagToggleList';
 
 function ReviewForm() {
   const params = useParams<{ store: string }>();
