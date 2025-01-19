@@ -8,6 +8,10 @@ export interface StoreInfo {
   lat: string;
   lon: string;
   paymentStatus: PaymentStatus;
+  tastyCount: number;
+  friendlyCount: number;
+  valuableCount: number;
+  comfortableCount: number;
 }
 
 export type PaymentStatus = 'available' | 'unavailable' | 'unregistered';

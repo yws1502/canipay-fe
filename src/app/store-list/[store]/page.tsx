@@ -1,6 +1,6 @@
 import React from 'react';
 import { getStore, getStoreProxy } from '@/apis/store';
-import StoreDetail from '@/components/StoreDetail';
+import StoreDetail from '@/components/stores/StoreDetail';
 
 interface StoreProps {
   params: Promise<{ store: string }>;

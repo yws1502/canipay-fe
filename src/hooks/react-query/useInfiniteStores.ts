@@ -8,9 +8,9 @@ const useInfiniteStores = () => {
   const result = useInfiniteQuery({
     queryKey: [QUERY_KEY.infiniteStores],
     queryFn: ({ pageParam }) => getStores({ skip: pageParam, take: 10 }),
-    initialPageParam: 1,
+    initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.totalPage === allPages.length) return undefined;
+      if (lastPage.totalPage <= allPages.length) return undefined;
 
       return allPages.length + 1;
     },

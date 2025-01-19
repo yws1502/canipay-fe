@@ -10,7 +10,7 @@ import { NAVER_MAP_URL } from '@/constants/env';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
 import { PAGE_PATH } from '@/constants/page';
 import { StoreInfo } from '@/types/store';
-import TextButton from './common/buttons/TextButton';
+import TextButton from '../common/buttons/TextButton';
 
 interface StoreItemProps {
   storeInfo: StoreInfo;

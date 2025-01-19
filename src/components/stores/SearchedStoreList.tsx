@@ -5,9 +5,9 @@ import React, { useEffect } from 'react';
 import { PAGE_PATH, QUERY_STRING } from '@/constants/page';
 import useInfiniteStoresProxy from '@/hooks/react-query/useInfiniteStoresProxy';
 import { useIntersectionObserver } from '@/hooks/useObserver';
+import ResizeBottomPanel from '../common/ResizeBottomPanel';
+import Spinner from '../common/Spinner';
 import StoreItem from './StoreItem';
-import ResizeBottomPanel from './common/ResizeBottomPanel';
-import Spinner from './common/Spinner';
 
 function SearchedList() {
   const pathname = usePathname();
