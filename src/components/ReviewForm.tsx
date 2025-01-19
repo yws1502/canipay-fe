@@ -66,7 +66,10 @@ function ReviewForm() {
     >
       <header className='mb-5 flex justify-between'>
         <h3 className='text-heading-3 text-gray-950'>식당 이름</h3>
-        <button type='button'>
+        <button
+          type='button'
+          onClick={() => router.push(PAGE_PATH.storeDetail(params.store), { scroll: false })}
+        >
           <CloseIcon className='fill-gray-500' width={16} height={16} />
         </button>
       </header>
