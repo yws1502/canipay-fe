@@ -3,6 +3,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import React, { FormEvent, useState } from 'react';
 import CloseIcon from '@/assets/icons/close.svg';
+import { MESSAGE } from '@/constants/message';
 import { PAGE_PATH } from '@/constants/page';
 import useCreateReview from '@/hooks/react-query/useCreateReview';
 import { ReviewType } from '@/types/review';
@@ -45,7 +46,7 @@ function ReviewForm() {
           router.replace(PAGE_PATH.storeDetail(params.store), { scroll: false });
         },
         onError: () => {
-          alert('의도하지 않은 에러가 발생하였습니다.');
+          alert(MESSAGE.unexpectedError);
           router.replace(PAGE_PATH.root, { scroll: false });
         },
       }
