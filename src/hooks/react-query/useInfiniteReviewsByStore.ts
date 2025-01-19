@@ -25,6 +25,9 @@ const useInfiniteReviewsByStore = (storeId: string) => {
 
     result.data.pages.forEach((page) => {
       page.data.forEach((review) => {
+        // FIXME: 추후 백엔드에서 신고된 리뷰는 필터되도록 구현할 예정
+        if (review.isReported) return;
+
         newReviewList.push(review);
       });
     });

@@ -34,3 +34,5 @@ export interface ResponseGetReviews {
   totalCount: number;
   totalPage: number;
 }
+
+export type ResponseReportReview = Review;

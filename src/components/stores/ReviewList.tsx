@@ -1,18 +1,20 @@
+'useClient';
+
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
-import MoreIcon from '@/assets/icons/more.svg';
 import { PAGE_PATH } from '@/constants/page';
 import useInfiniteReviewsByStore from '@/hooks/react-query/useInfiniteReviewsByStore';
 import { useIntersectionObserver } from '@/hooks/useObserver';
 import { StoreInfo } from '@/types/store';
 import Spinner from '../common/Spinner';
 import TextButton from '../common/buttons/TextButton';
+import ReviewItem from './ReviewItem';
 
-interface StoreReviewListProps {
+interface ReviewListProps {
   storeInfo: StoreInfo;
 }
 
-function StoreReviewList({ storeInfo }: StoreReviewListProps) {
+function ReviewList({ storeInfo }: ReviewListProps) {
   const router = useRouter();
 
   const { data: reviewList, fetchNextPage, hasNextPage } = useInfiniteReviewsByStore(storeInfo.id);
@@ -48,22 +50,7 @@ function StoreReviewList({ storeInfo }: StoreReviewListProps) {
           </li>
         ) : (
           reviewList.map((review) => {
-            return (
-              <li key={review.id} className='p-2'>
-                <div className='mb-1.5 flex items-start justify-between'>
-                  <p className='flex-1 text-body-2'>{review.content}</p>
-                  <button type='button' className='hover:opacity-80 active:opacity-60'>
-                    <MoreIcon className='fill-gray-500' width={16} height={16} />
-                  </button>
-                </div>
-                <ul className='flex items-center gap-2 text-caption-2'>
-                  {review.isTasty && <li>맛</li>}
-                  {review.isFriendly && <li>친절</li>}
-                  {review.isValuable && <li>가성비</li>}
-                  {review.isComfortable && <li>쾌적</li>}
-                </ul>
-              </li>
-            );
+            return <ReviewItem key={review.id} review={review} />;
           })
         )}
         {hasNextPage && (
@@ -76,4 +63,4 @@ function StoreReviewList({ storeInfo }: StoreReviewListProps) {
   );
 }
 
-export default StoreReviewList;
+export default ReviewList;

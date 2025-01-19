@@ -11,7 +11,7 @@ import { StoreInfo } from '@/types/store';
 import TextButton from '../common/buttons/TextButton';
 import { MapControllerContext } from '../maps/MapControllerProvider';
 import RegisterStore from './RegisterStore';
-import StoreReviewList from './StoreReviewList';
+import ReviewList from './ReviewList';
 
 interface StoreDetailProps {
   initStoreInfo: StoreInfo;
@@ -92,7 +92,7 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
         switch (storeInfo.paymentStatus) {
           case 'available':
           case 'unavailable':
-            return <StoreReviewList storeInfo={storeInfo} />;
+            return <ReviewList storeInfo={storeInfo} />;
           default: // unregistered
             return <RegisterStore storeInfo={storeInfo} updateStoreInfo={setStoreInfo} />;
         }
