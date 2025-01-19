@@ -10,10 +10,10 @@ export interface RequestCreateReview extends Record<ReviewType, boolean> {
 
 export interface ResponseCreateReview {
   id: string;
-  isTasty: 'isTasty';
-  isFriendly: 'isFriendly';
-  isValuable: 'isValuable';
-  isComfortable: 'isComfortable';
+  isTasty: boolean;
+  isFriendly: boolean;
+  isValuable: boolean;
+  isComfortable: boolean;
   content: string;
   isReported: boolean;
   store: ResponseGetStore;
