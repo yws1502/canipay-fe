@@ -40,24 +40,32 @@ function StoreReviewList({ storeInfo }: StoreReviewListProps) {
         리뷰 작성하기
       </TextButton>
       <ul className='flex h-full flex-col gap-3 overflow-auto pr-1'>
-        {reviewList.map((review) => {
-          return (
-            <li key={review.id} className='p-2'>
-              <div className='mb-1.5 flex items-start justify-between'>
-                <p className='flex-1 text-body-2'>{review.content}</p>
-                <button type='button' className='hover:opacity-80 active:opacity-60'>
-                  <MoreIcon className='fill-gray-500' width={16} height={16} />
-                </button>
-              </div>
-              <ul className='flex items-center gap-2 text-caption-2'>
-                {review.isTasty && <li>맛</li>}
-                {review.isFriendly && <li>친절</li>}
-                {review.isValuable && <li>가성비</li>}
-                {review.isComfortable && <li>쾌적</li>}
-              </ul>
-            </li>
-          );
-        })}
+        {reviewList.length === 0 ? (
+          <li className='p-4'>
+            <p className='text-center text-body-2'>
+              현재 등록된 리뷰가 없습니다. 첫 리뷰의 주인공이 되어보세요!
+            </p>
+          </li>
+        ) : (
+          reviewList.map((review) => {
+            return (
+              <li key={review.id} className='p-2'>
+                <div className='mb-1.5 flex items-start justify-between'>
+                  <p className='flex-1 text-body-2'>{review.content}</p>
+                  <button type='button' className='hover:opacity-80 active:opacity-60'>
+                    <MoreIcon className='fill-gray-500' width={16} height={16} />
+                  </button>
+                </div>
+                <ul className='flex items-center gap-2 text-caption-2'>
+                  {review.isTasty && <li>맛</li>}
+                  {review.isFriendly && <li>친절</li>}
+                  {review.isValuable && <li>가성비</li>}
+                  {review.isComfortable && <li>쾌적</li>}
+                </ul>
+              </li>
+            );
+          })
+        )}
         {hasNextPage && (
           <li ref={registerObserver} className='p-3 text-center'>
             <Spinner />
