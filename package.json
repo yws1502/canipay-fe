@@ -13,7 +13,8 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
-      "prettier --cache --write"
+      "prettier --cache --write",
+      "yarn lint ."
     ]
   },
   "dependencies": {
@@ -36,7 +37,7 @@
     "eslint": "^8",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^18.0.0",
-    "eslint-config-next": "15.0.4",
+    "eslint-config-next": "^15.1.6",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-react": "^7.28.0",
