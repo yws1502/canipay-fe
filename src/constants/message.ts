@@ -5,4 +5,5 @@ export const MESSAGE = {
   reportReviewConfirm:
     '해당 리뷰를 신고하시겠습니까?\n신고 처리되면 해당 리뷰는 페이지에 표시되지 않습니다.',
   reportReviewSuccess: '신고처리가 완료되었습니다. 서비스 사용 개선에 도움을 주셔서 감사합니다 :)',
+  featureComingSoon: '해당 기능은 구현 예정입니다. 조금만 기다려주세요.',
 };
