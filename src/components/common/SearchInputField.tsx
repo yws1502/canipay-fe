@@ -5,10 +5,13 @@ import React, { FormEvent, useEffect, useState } from 'react';
 import CloseIcon from '@/assets/icons/close.svg';
 import SearchIcon from '@/assets/icons/search.svg';
 import { PAGE_PATH, QUERY_STRING } from '@/constants/page';
+import { useMapController } from '../contexts/MapControllerProvider';
 
 function SearchInputField() {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const { mapController } = useMapController();
 
   const [search, setSearch] = useState('');
 
@@ -26,9 +29,18 @@ function SearchInputField() {
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!mapController) return;
     if (search.length === 0) return;
 
-    router.push(`${PAGE_PATH.root}?${QUERY_STRING.search}=${search}`, { scroll: false });
+    const center = mapController.getCenter();
+
+    const searchParam = new URLSearchParams([
+      [QUERY_STRING.search, search],
+      [QUERY_STRING.lon, center.lon.toString()],
+      [QUERY_STRING.lat, center.lat.toString()],
+    ]);
+
+    router.push(`${PAGE_PATH.root}?${searchParam.toString()}`, { scroll: false });
   };
 
   return (

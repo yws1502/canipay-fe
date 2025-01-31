@@ -2,7 +2,7 @@ import { Map, MapBrowserEvent, Overlay } from 'ol';
 import { FeatureLike } from 'ol/Feature';
 import { Coordinate } from 'ol/coordinate';
 import VectorLayer from 'ol/layer/Vector';
-import { fromLonLat } from 'ol/proj';
+import { fromLonLat, toLonLat } from 'ol/proj';
 import { useEffect, useState } from 'react';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
 import { LOCATION } from '@/constants/location';
@@ -94,6 +94,16 @@ export const useMapView = (domName: string) => {
         center: newCenter,
         duration,
       });
+    },
+    getCenter: () => {
+      if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
+      const coordinate = mapView.getView().getCenter();
+      const lonLat = coordinate ? toLonLat(coordinate) : [LOCATION.lon, LOCATION.lat];
+
+      return {
+        lon: lonLat[0],
+        lat: lonLat[1],
+      };
     },
   };
 

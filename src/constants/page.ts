@@ -15,4 +15,6 @@ export const PAGE_TITLE_MAPPER: Record<string, string> = {
 
 export const QUERY_STRING = {
   search: 'search',
+  lon: 'lon',
+  lat: 'lat',
 };

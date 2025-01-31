@@ -3,6 +3,7 @@
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 import 'ol/ol.css';
 import { useEffect, useState } from 'react';
+import { LOCATION } from '@/constants/location';
 import { PAGE_PATH, QUERY_STRING } from '@/constants/page';
 import useInfiniteStores from '@/hooks/react-query/useInfiniteStores';
 import useInfiniteStoresProxy from '@/hooks/react-query/useInfiniteStoresProxy';
@@ -19,8 +20,10 @@ function MapView() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const searchKeyword = searchParams.get(QUERY_STRING.search) ?? '';
+  const lon = Number(searchParams.get(QUERY_STRING.lon)) ?? LOCATION.lon;
+  const lat = Number(searchParams.get(QUERY_STRING.lat)) ?? LOCATION.lat;
 
-  const { data: rootStoreList } = useInfiniteStoresProxy(searchKeyword);
+  const { data: rootStoreList } = useInfiniteStoresProxy(searchKeyword, lon, lat);
   const { data: listStoreList } = useInfiniteStores();
 
   const [displayStoreList, setDisplayStoreList] = useState<StoreInfo[]>([]);
