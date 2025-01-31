@@ -14,6 +14,10 @@ import { MESSAGE } from '@/constants/message';
 function Setting() {
   const [isCopied, setIsCopied] = useState(false);
 
+  const handleMoveReleaseNote = () => {
+    window.open('https://github.com/yws1502/canipay-fe');
+  };
+
   const handleCopyEmail = () => {
     navigator.clipboard
       .writeText('woosang0430@gmail.com')
@@ -72,6 +76,7 @@ function Setting() {
             <button
               type='button'
               className='flex w-full items-center justify-between hover:opacity-80 active:opacity-60'
+              onClick={handleMoveReleaseNote}
             >
               버전 정보 (v1.0.0)
               <OpenWindowIcon className='fill-gray-500' width={20} height={20} />
