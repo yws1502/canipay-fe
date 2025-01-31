@@ -1,5 +1,7 @@
+'use client';
+
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import ArrowRightIcon from '@/assets/icons/arrow-right.svg';
 import CloseIcon from '@/assets/icons/close.svg';
 import MinusIcon from '@/assets/icons/minus.svg';
@@ -10,6 +12,21 @@ import SlideToggle from '@/components/common/toggles/SlideToggle';
 import { MESSAGE } from '@/constants/message';
 
 function Setting() {
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard
+      .writeText('woosang0430@gmail.com')
+      .then(() => {
+        setIsCopied(true);
+
+        setTimeout(() => {
+          setIsCopied(false);
+        }, 1500);
+      })
+      .catch(console.error);
+  };
+
   return (
     <div className='fixed inset-0 z-30 bg-white'>
       <header className='flex items-center justify-between p-4'>
@@ -20,9 +37,14 @@ function Setting() {
       </header>
       <section className='p-4'>
         <ul className='flex flex-col gap-3 text-body-1 text-gray-950'>
-          <li className='flex items-center justify-between py-2'>
+          <li className='relative flex items-center justify-between py-2'>
             문의사항
-            <TextButton>woosang0430@gmail.com</TextButton>
+            <TextButton onClick={handleCopyEmail}>woosang0430@gmail.com</TextButton>
+            <p
+              className={`${isCopied ? 'opacity-100' : 'opacity-0'} absolute bottom-[-28px] right-0 z-30 rounded-md bg-white px-1.5 py-1 text-caption-1 shadow-500 duration-700 ease-in-out`}
+            >
+              복사 완료!
+            </p>
           </li>
           <li
             className='flex cursor-not-allowed items-center justify-between py-2 opacity-30'
