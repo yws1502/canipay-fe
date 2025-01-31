@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import ArrowRightIcon from '@/assets/icons/arrow-right.svg';
 import CloseIcon from '@/assets/icons/close.svg';
@@ -10,9 +11,16 @@ import PlusIcon from '@/assets/icons/plus.svg';
 import TextButton from '@/components/common/buttons/TextButton';
 import SlideToggle from '@/components/common/toggles/SlideToggle';
 import { MESSAGE } from '@/constants/message';
+import { PAGE_PATH } from '@/constants/page';
 
 function Setting() {
+  const router = useRouter();
+
   const [isCopied, setIsCopied] = useState(false);
+
+  const handleGoToLicensesPage = () => {
+    router.push(PAGE_PATH.licenses);
+  };
 
   const handleMoveReleaseNote = () => {
     window.open('https://github.com/yws1502/canipay-fe');
@@ -32,9 +40,9 @@ function Setting() {
   };
 
   return (
-    <div className='fixed inset-0 z-30 bg-white'>
+    <>
       <header className='flex items-center justify-between p-4'>
-        <h2 className='text-heading-2 text-gray-950'>설정</h2>
+        <h1 className='text-heading-2 text-gray-950'>설정</h1>
         <button type='button'>
           <CloseIcon className='fill-gray-500' width={24} height={24} />
         </button>
@@ -86,6 +94,7 @@ function Setting() {
             <button
               type='button'
               className='flex w-full items-center justify-between hover:opacity-80 active:opacity-60'
+              onClick={handleGoToLicensesPage}
             >
               오픈소스 라이선스 이용고지
               <ArrowRightIcon className='fill-gray-500' width={20} height={20} />
@@ -120,7 +129,7 @@ function Setting() {
         </table>
         <strong className='text-heading-3 text-gray-500'>Can I Pay</strong>
       </footer>
-    </div>
+    </>
   );
 }
 
