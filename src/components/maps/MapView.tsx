@@ -2,15 +2,15 @@
 
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 import 'ol/ol.css';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PAGE_PATH, QUERY_STRING } from '@/constants/page';
 import useInfiniteStores from '@/hooks/react-query/useInfiniteStores';
 import useInfiniteStoresProxy from '@/hooks/react-query/useInfiniteStoresProxy';
 import { useMapView } from '@/hooks/useMapView';
 import { MarkerTheme, PointFeature } from '@/types/openlayers';
 import { PaymentStatus, StoreInfo } from '@/types/store';
+import { useMapController } from '../contexts/MapControllerProvider';
 import MapContributors from './MapContributors';
-import { SetMapControllerContext } from './MapControllerProvider';
 import MarkerToggleList from './MarkerToggleList';
 import StoreTooltip from './StoreTooltip';
 
@@ -29,7 +29,7 @@ function MapView() {
 
   const { mapView, controller } = useMapView('map');
 
-  const setMapController = useContext(SetMapControllerContext);
+  const { setMapController } = useMapController();
 
   useEffect(() => {
     if (mapView) {

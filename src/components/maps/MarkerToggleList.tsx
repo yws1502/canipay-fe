@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useContext } from 'react';
+import React from 'react';
 import IconTextToggle from '../common/toggles/IconTextToggle';
-import { MapControllerContext } from './MapControllerProvider';
+import { useMapController } from '../contexts/MapControllerProvider';
 
 function MarkerToggleList() {
-  const mapController = useContext(MapControllerContext);
+  const { mapController } = useMapController();
 
   const handleToggle = (toggle: boolean, name?: string) => {
     if (!mapController) return;

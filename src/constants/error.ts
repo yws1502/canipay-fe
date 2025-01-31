@@ -6,4 +6,6 @@ export const EXCEPTION_MESSAGE = {
   setLocalStorage: 'local storage에 데이터 저장 중 오류가 발생했습니다.',
   usePreferencesHookException:
     'usePreferences hook은 PreferencesProvider 안에서만 사용할 수 있습니다.',
+  useMapControllerException:
+    'useMapController hook은 MapControllerProvider 안에서만 사용할 수 있습니다.',
 };

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CloseIcon from '@/assets/icons/close.svg';
 import CopyIcon from '@/assets/icons/copy.svg';
 import NaverIcon from '@/assets/icons/naver.svg';
@@ -9,7 +9,7 @@ import { NAVER_MAP_URL } from '@/constants/env';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
 import { StoreInfo } from '@/types/store';
 import TextButton from '../common/buttons/TextButton';
-import { MapControllerContext } from '../maps/MapControllerProvider';
+import { useMapController } from '../contexts/MapControllerProvider';
 import RegisterStore from './RegisterStore';
 import ReviewList from './ReviewList';
 
@@ -24,7 +24,7 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
 
   const [storeInfo, setStoreInfo] = useState(initStoreInfo);
 
-  const mapController = useContext(MapControllerContext);
+  const { mapController } = useMapController();
 
   useEffect(() => {
     if (mapController) {
