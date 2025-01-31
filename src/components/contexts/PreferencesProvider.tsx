@@ -1,6 +1,13 @@
 'use client';
 
-import React, { ReactNode, createContext, useContext, useLayoutEffect, useState } from 'react';
+import React, {
+  ReactNode,
+  createContext,
+  useContext,
+  useLayoutEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
 import { localStorageHelper } from '@/utils/localStorage';
 
@@ -20,20 +27,20 @@ const storageHelper = localStorageHelper();
 function PreferencesProvider({ children }: PreferencesProviderProps) {
   const [fontSize, setFontSize] = useState<string>(storageHelper.get('fontSize'));
 
+  const fortSizeMemoization = useMemo(() => {
+    return {
+      fontSize,
+      changeFontSize: (value: string) => setFontSize(value),
+    };
+  }, [fontSize]);
+
   useLayoutEffect(() => {
     storageHelper.set('fontSize', fontSize);
     document.documentElement.style.fontSize = `${fontSize}px`;
   }, [fontSize]);
 
   return (
-    <FontSizeContext.Provider
-      value={{
-        fontSize,
-        changeFontSize: (value) => setFontSize(value),
-      }}
-    >
-      {children}
-    </FontSizeContext.Provider>
+    <FontSizeContext.Provider value={fortSizeMemoization}>{children}</FontSizeContext.Provider>
   );
 }
 
