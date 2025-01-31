@@ -3,7 +3,8 @@ import { Noto_Sans_KR } from 'next/font/google';
 import NavigationBar from '@/components/NavigationBar';
 import ReactQueryProvider from '@/components/common/ReactQueryProvider';
 import SearchInputField from '@/components/common/SearchInputField';
-import MapControllerProvider from '@/components/maps/MapControllerProvider';
+import MapControllerProvider from '@/components/contexts/MapControllerProvider';
+import PreferencesProvider from '@/components/contexts/PreferencesProvider';
 import MapView from '@/components/maps/MapView';
 import SearchedStoreList from '@/components/stores/SearchedStoreList';
 import './globals.css';
@@ -29,13 +30,15 @@ export default function RootLayout({
       <body className={`${notoSansKr.className} antialiased`}>
         <ReactQueryProvider>
           <MapControllerProvider>
-            <main className='flex h-svh flex-col'>
-              <SearchInputField />
-              <MapView />
-              <SearchedStoreList />
-              <NavigationBar />
-              {children}
-            </main>
+            <PreferencesProvider>
+              <main className='flex h-svh flex-col'>
+                <SearchInputField />
+                <MapView />
+                <SearchedStoreList />
+                <NavigationBar />
+                {children}
+              </main>
+            </PreferencesProvider>
           </MapControllerProvider>
         </ReactQueryProvider>
       </body>

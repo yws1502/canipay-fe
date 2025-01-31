@@ -27,7 +27,7 @@ function ReviewItem({ review }: ReviewItemProps) {
   const { mutate: reportReview } = useReportReview();
 
   const handleClickReportReview = () => {
-    if (confirm(MESSAGE.reportReviewConfirm)) {
+    if (window.confirm(MESSAGE.reportReviewConfirm)) {
       reportReview(review.id, {
         onSuccess: () => {
           alert(MESSAGE.reportReviewSuccess);
