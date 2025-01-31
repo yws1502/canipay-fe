@@ -1,23 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import React from 'react';
-import CloseIcon from '@/assets/icons/close.svg';
 import { OSM_LINK, SOFTWARE_LICENSES, TMAP_LINK, VWORLD_LINK } from '@/constants/licenses';
 
 function License() {
-  const router = useRouter();
-
   return (
-    <section>
-      <header className='flex items-center justify-between p-4'>
-        <h1 className='text-heading-2 text-gray-950'>오픈소스 라이선스 이용고지</h1>
-        <button type='button' onClick={() => router.back()}>
-          <CloseIcon className='fill-gray-500' width={24} height={24} />
-        </button>
-      </header>
-      <article className='p-4'>
+    <>
+      <article className='mb-7'>
         <h2 className='mb-2 text-heading-3'>소프트웨어 패키지</h2>
         <ul className='flex flex-col gap-3 text-body-2 text-gray-950'>
           {SOFTWARE_LICENSES.map((software) => {
@@ -30,8 +20,7 @@ function License() {
           })}
         </ul>
       </article>
-
-      <article className='p-4'>
+      <article>
         <h2 className='mb-2 text-heading-3'>지도 및 API</h2>
         <ul className='flex flex-col gap-3 text-body-2 text-gray-950'>
           <li className='py-1.5'>
@@ -57,7 +46,7 @@ function License() {
           </li>
         </ul>
       </article>
-    </section>
+    </>
   );
 }
 
