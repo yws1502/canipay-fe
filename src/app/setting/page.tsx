@@ -43,7 +43,7 @@ function Setting() {
     <>
       <header className='flex items-center justify-between p-4'>
         <h1 className='text-heading-2 text-gray-950'>설정</h1>
-        <button type='button'>
+        <button type='button' onClick={() => router.back()}>
           <CloseIcon className='fill-gray-500' width={24} height={24} />
         </button>
       </header>

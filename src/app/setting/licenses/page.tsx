@@ -1,14 +1,19 @@
+'use client';
+
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import CloseIcon from '@/assets/icons/close.svg';
 import { OSM_LINK, SOFTWARE_LICENSES, TMAP_LINK, VWORLD_LINK } from '@/constants/licenses';
 
 function License() {
+  const router = useRouter();
+
   return (
     <section>
       <header className='flex items-center justify-between p-4'>
         <h1 className='text-heading-2 text-gray-950'>오픈소스 라이선스 이용고지</h1>
-        <button type='button'>
+        <button type='button' onClick={() => router.back()}>
           <CloseIcon className='fill-gray-500' width={24} height={24} />
         </button>
       </header>
