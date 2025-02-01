@@ -10,7 +10,7 @@ function StoreList() {
   const { data: storeInfoList, fetchNextPage, hasNextPage } = useInfiniteStores();
 
   return (
-    <ResizeBottomPanel title='결제 가능 목록' className='z-0 mb-[50px]'>
+    <ResizeBottomPanel title='결제 가능 목록' className='z-0 mb-[50px] sm:hidden'>
       <StoreListView
         storeInfoList={storeInfoList}
         fetchNextPage={fetchNextPage}
