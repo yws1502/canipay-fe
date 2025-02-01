@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import NavigationBar from '@/components/NavigationBar';
+import ResponsiveUi from '@/components/ResponsiveUi';
 import ReactQueryProvider from '@/components/common/ReactQueryProvider';
-import SearchInputField from '@/components/common/SearchInputField';
 import MapControllerProvider from '@/components/contexts/MapControllerProvider';
 import PreferencesProvider from '@/components/contexts/PreferencesProvider';
 import MapView from '@/components/maps/MapView';
-import SearchedStoreList from '@/components/stores/SearchedStoreList';
 import './globals.css';
 import './tailwind.css';
 
@@ -32,9 +31,8 @@ export default function RootLayout({
           <MapControllerProvider>
             <PreferencesProvider>
               <main className='flex h-svh flex-col sm:flex-row-reverse'>
-                <SearchInputField />
                 <MapView />
-                <SearchedStoreList />
+                <ResponsiveUi />
                 <NavigationBar />
                 {children}
               </main>
