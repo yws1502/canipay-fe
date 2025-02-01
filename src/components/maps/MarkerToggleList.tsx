@@ -19,7 +19,7 @@ function MarkerToggleList() {
   };
 
   return (
-    <ul className='fixed left-[15px] top-[60px] z-20 flex gap-2'>
+    <ul className='absolute left-[16px] top-[60px] z-20 flex gap-2 sm:left-[unset] sm:right-[16px] sm:top-[16px]'>
       <li>
         <IconTextToggle
           id='all-visible-toggle'
