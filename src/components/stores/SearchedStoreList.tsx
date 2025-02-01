@@ -2,6 +2,7 @@
 
 import { usePathname, useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react';
+import { LOCATION } from '@/constants/location';
 import { PAGE_PATH, QUERY_STRING } from '@/constants/page';
 import useInfiniteStoresProxy from '@/hooks/react-query/useInfiniteStoresProxy';
 import { useIntersectionObserver } from '@/hooks/useObserver';
@@ -13,8 +14,14 @@ function SearchedList() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const searchKeyword = searchParams.get(QUERY_STRING.search) ?? '';
+  const lon = Number(searchParams.get(QUERY_STRING.lon)) ?? LOCATION.lon;
+  const lat = Number(searchParams.get(QUERY_STRING.lat)) ?? LOCATION.lat;
 
-  const { data: storeInfoList, fetchNextPage, hasNextPage } = useInfiniteStoresProxy(searchKeyword);
+  const {
+    data: storeInfoList,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteStoresProxy(searchKeyword, lon, lat);
 
   const { intersecting, registerObserver } = useIntersectionObserver();
 

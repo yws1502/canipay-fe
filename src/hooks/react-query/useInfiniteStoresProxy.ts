@@ -4,10 +4,10 @@ import { getStoresProxy } from '@/apis/store';
 import { QUERY_KEY } from '@/constants/tanstackQuery';
 import { StoreInfo } from '@/types/store';
 
-const useInfiniteStoresProxy = (search: string) => {
+const useInfiniteStoresProxy = (search: string, lon: number, lat: number) => {
   const result = useInfiniteQuery({
-    queryKey: [QUERY_KEY.infiniteStoresProxy, search],
-    queryFn: ({ pageParam }) => getStoresProxy({ search, skip: pageParam, take: 10 }),
+    queryKey: [QUERY_KEY.infiniteStoresProxy, search, lon, lat],
+    queryFn: ({ pageParam }) => getStoresProxy({ search, lon, lat, skip: pageParam, take: 10 }),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.totalPage <= allPages.length) return undefined;

@@ -45,7 +45,7 @@ function NavigationBar() {
         {navigationList.map((item) => {
           const isTarget = currentPath === item.path;
           return (
-            <li key={item.id}>
+            <li key={item.id} className='select-none'>
               <Link
                 href={item.path}
                 className={`${isTarget ? 'text-primary' : 'text-gray-500'} flex h-[60px] w-[80px] cursor-pointer flex-col items-center justify-center gap-[2px] text-caption-1 hover:opacity-80 active:opacity-60`}
