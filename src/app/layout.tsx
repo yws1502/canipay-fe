@@ -31,7 +31,7 @@ export default function RootLayout({
         <ReactQueryProvider>
           <MapControllerProvider>
             <PreferencesProvider>
-              <main className='flex h-svh flex-col'>
+              <main className='flex h-svh flex-col sm:flex-row-reverse'>
                 <SearchInputField />
                 <MapView />
                 <SearchedStoreList />

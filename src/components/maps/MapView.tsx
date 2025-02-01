@@ -125,7 +125,7 @@ function MapView() {
   };
 
   return (
-    <div id='map' className='relative h-full'>
+    <div id='map' className='relative size-full'>
       <MarkerToggleList />
       <MapContributors />
       <div id='map-tooltip' className='absolute'>
