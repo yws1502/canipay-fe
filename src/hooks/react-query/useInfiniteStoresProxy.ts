@@ -12,7 +12,7 @@ const useInfiniteStoresProxy = (search: string, lon: number, lat: number) => {
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.totalPage <= allPages.length) return undefined;
 
-      return allPages.length + 1;
+      return allPages.length;
     },
     enabled: !!search,
   });
