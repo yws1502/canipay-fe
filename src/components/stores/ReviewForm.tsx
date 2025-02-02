@@ -52,6 +52,7 @@ function ReviewForm() {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: [QUERY_KEY.infiniteReviewsByStore] });
+          queryClient.invalidateQueries({ queryKey: [QUERY_KEY.infiniteStores] });
           router.replace(PAGE_PATH.storeDetail(params.store), { scroll: false });
         },
         onError: () => {

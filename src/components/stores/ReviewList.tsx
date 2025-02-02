@@ -7,7 +7,7 @@ import useInfiniteReviewsByStore from '@/hooks/react-query/useInfiniteReviewsByS
 import { useIntersectionObserver } from '@/hooks/useObserver';
 import { StoreInfo } from '@/types/store';
 import Spinner from '../common/Spinner';
-import TextButton from '../common/buttons/TextButton';
+import Button from '../common/buttons/Button';
 import ReviewItem from './ReviewItem';
 
 interface ReviewListProps {
@@ -31,21 +31,24 @@ function ReviewList({ storeInfo }: ReviewListProps) {
   return (
     <article className='flex flex-1 flex-col gap-3 overflow-auto'>
       <div className='flex justify-between'>
-        <span className='text-caption-1 text-primary'>리뷰 00</span>
-        <ul className='flex items-center gap-2 text-caption-2'>
+        <span className='text-caption-1 text-primary'>
+          리뷰 {reviewList.length.toString().padStart(2, '0')}
+        </span>
+        <ul className='flex items-center gap-2 text-caption-1'>
           <li>맛 {storeInfo.tastyCount}</li>
           <li>친절 {storeInfo.friendlyCount}</li>
           <li>가성비 {storeInfo.valuableCount}</li>
           <li>쾌적 {storeInfo.comfortableCount}</li>
         </ul>
       </div>
-      <TextButton
+      <Button
+        className='mb-2'
         onClick={() =>
           router.replace(`${PAGE_PATH.reviewForm(storeInfo.id)}?${searchParams.toString()}`)
         }
       >
-        리뷰 작성하기
-      </TextButton>
+        리뷰 작성 하러가기
+      </Button>
       <ul className='flex h-full flex-col gap-3 overflow-auto pr-1'>
         {reviewList.length === 0 ? (
           <li className='p-4'>

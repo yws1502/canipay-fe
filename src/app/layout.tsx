@@ -7,7 +7,6 @@ import AsideToggleProvider from '@/components/contexts/AsideToggleProvider';
 import MapControllerProvider from '@/components/contexts/MapControllerProvider';
 import PreferencesProvider from '@/components/contexts/PreferencesProvider';
 import MapView from '@/components/maps/MapView';
-import SearchHereButton from '@/components/maps/SearchHereButton';
 import './globals.css';
 import './tailwind.css';
 
@@ -35,7 +34,6 @@ export default function RootLayout({
               <AsideToggleProvider>
                 <main className='flex h-svh flex-col md:flex-row-reverse'>
                   <MapView />
-                  <SearchHereButton />
                   <ResponsiveUi />
                   <NavigationBar />
                   {children}

@@ -8,6 +8,7 @@ export interface StoreInfo {
   lat: string;
   lon: string;
   paymentStatus: PaymentStatus;
+  reviewCount: number;
   tastyCount: number;
   friendlyCount: number;
   valuableCount: number;
