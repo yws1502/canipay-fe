@@ -1,2 +1,2 @@
-// tailwind css sm: size
-export const MOBILE_WIDTH = 640;
+// tailwind css md: size
+export const MOBILE_WIDTH = 768;

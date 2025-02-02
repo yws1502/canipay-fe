@@ -30,7 +30,7 @@ export default function RootLayout({
         <ReactQueryProvider>
           <MapControllerProvider>
             <PreferencesProvider>
-              <main className='flex h-svh flex-col sm:flex-row-reverse'>
+              <main className='flex h-svh flex-col md:flex-row-reverse'>
                 <MapView />
                 <ResponsiveUi />
                 <NavigationBar />

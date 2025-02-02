@@ -1,12 +1,14 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 import CloseIcon from '@/assets/icons/close.svg';
 import CopyIcon from '@/assets/icons/copy.svg';
 import NaverIcon from '@/assets/icons/naver.svg';
 import { NAVER_MAP_URL } from '@/constants/env';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
+import { PAGE_PATH } from '@/constants/page';
 import { StoreInfo } from '@/types/store';
 import TextButton from '../common/buttons/TextButton';
 import { useMapController } from '../contexts/MapControllerProvider';
@@ -19,6 +21,7 @@ interface StoreDetailProps {
 
 function StoreDetail({ initStoreInfo }: StoreDetailProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [isCopied, setIsCopied] = useState(false);
 
@@ -54,7 +57,11 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
 
   return (
     <section
-      className={`${storeInfo.paymentStatus === 'unregistered' ? 'top-[30%]' : 'inset-y-[15%]'} fixed left-1/2 z-30 flex w-[90%] -translate-x-1/2 flex-col gap-5 overflow-auto rounded-sm bg-white p-4 shadow-500`}
+      className={twMerge(
+        'fixed left-1/2 z-30 flex w-[90%] -translate-x-1/2 flex-col gap-5 overflow-auto rounded-sm bg-white p-4 shadow-500',
+        storeInfo.paymentStatus === 'unregistered' ? 'top-[30%]' : 'inset-y-[15%]',
+        'md:left-[426px] md:top-[66px] md:w-[370px] md:translate-x-0'
+      )}
     >
       <div className='relative'>
         <div className='mb-3 flex items-start justify-between'>
@@ -72,7 +79,7 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
             <button
               type='button'
               className='hover:opacity-80 active:opacity-60'
-              onClick={() => router.back()}
+              onClick={() => router.push(`${PAGE_PATH.root}?${searchParams.toString()}`)}
             >
               <CloseIcon className='fill-gray-500' width={16} height={16} />
             </button>

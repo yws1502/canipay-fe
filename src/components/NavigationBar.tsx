@@ -42,11 +42,11 @@ function NavigationBar() {
 
   return (
     <nav className='z-10 bg-white shadow-300'>
-      <ul className='flex justify-center gap-[10px] sm:flex-col'>
-        <li className='hidden select-none border border-solid border-transparent border-b-gray-200 sm:block'>
+      <ul className='flex justify-center gap-[10px] md:flex-col'>
+        <li className='hidden select-none border border-solid border-transparent border-b-gray-200 md:block'>
           <Link
             href={PAGE_PATH.root}
-            className='flex h-[60px] w-[80px] cursor-pointer flex-col items-center justify-center gap-[2px] text-caption-1 hover:opacity-80 active:opacity-60 sm:w-[60px]'
+            className='flex h-[60px] w-[80px] cursor-pointer flex-col items-center justify-center gap-[2px] text-caption-1 hover:opacity-80 active:opacity-60 md:w-[60px]'
             scroll={false}
           >
             <LogoIcon />
@@ -55,10 +55,10 @@ function NavigationBar() {
         {navigationList.map((item, index) => {
           const isTarget = currentPath === item.path;
           return (
-            <li key={item.id} className={`${index === 0 ? 'sm:hidden' : ''} select-none`}>
+            <li key={item.id} className={`${index === 0 ? 'md:hidden' : ''} select-none`}>
               <Link
                 href={item.path}
-                className={`${isTarget ? 'text-primary' : 'text-gray-500'} flex h-[60px] w-[80px] cursor-pointer flex-col items-center justify-center gap-[2px] text-caption-1 hover:opacity-80 active:opacity-60 sm:w-[60px]`}
+                className={`${isTarget ? 'text-primary' : 'text-gray-500'} flex h-[60px] w-[80px] cursor-pointer flex-col items-center justify-center gap-[2px] text-caption-1 hover:opacity-80 active:opacity-60 md:w-[60px]`}
                 scroll={false}
               >
                 <item.icon

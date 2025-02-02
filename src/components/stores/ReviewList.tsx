@@ -1,6 +1,6 @@
 'useClient';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { PAGE_PATH } from '@/constants/page';
 import useInfiniteReviewsByStore from '@/hooks/react-query/useInfiniteReviewsByStore';
@@ -16,6 +16,7 @@ interface ReviewListProps {
 
 function ReviewList({ storeInfo }: ReviewListProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const { data: reviewList, fetchNextPage, hasNextPage } = useInfiniteReviewsByStore(storeInfo.id);
 
@@ -38,7 +39,11 @@ function ReviewList({ storeInfo }: ReviewListProps) {
           <li>쾌적 {storeInfo.comfortableCount}</li>
         </ul>
       </div>
-      <TextButton onClick={() => router.push(PAGE_PATH.reviewForm(storeInfo.id))}>
+      <TextButton
+        onClick={() =>
+          router.replace(`${PAGE_PATH.reviewForm(storeInfo.id)}?${searchParams.toString()}`)
+        }
+      >
         리뷰 작성하기
       </TextButton>
       <ul className='flex h-full flex-col gap-3 overflow-auto pr-1'>

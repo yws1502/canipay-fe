@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { FormEvent, useState } from 'react';
 import CloseIcon from '@/assets/icons/close.svg';
 import { MESSAGE } from '@/constants/message';
@@ -12,6 +12,7 @@ import TagToggleList from '../common/toggles/TagToggleList';
 
 function ReviewForm() {
   const params = useParams<{ store: string }>();
+  const searchParams = useSearchParams();
   const router = useRouter();
 
   const [checkedReviewTypes, setCheckedReviewTypes] = useState<ReviewType[]>([]);
@@ -62,14 +63,18 @@ function ReviewForm() {
 
   return (
     <form
-      className='fixed inset-x-2.5 top-1/2 -translate-y-1/2 bg-white p-4'
+      className='fixed inset-x-2.5 top-1/2 z-20 -translate-y-1/2 bg-white p-4 shadow-500 md:left-[426px] md:top-[66px] md:w-[370px] md:translate-y-0'
       onSubmit={handleSubmit}
     >
       <header className='mb-5 flex justify-between'>
         <h3 className='text-heading-3 text-gray-950'>식당 이름</h3>
         <button
           type='button'
-          onClick={() => router.push(PAGE_PATH.storeDetail(params.store), { scroll: false })}
+          onClick={() =>
+            router.replace(`${PAGE_PATH.storeDetail(params.store)}?${searchParams.toString()}`, {
+              scroll: false,
+            })
+          }
         >
           <CloseIcon className='fill-gray-500' width={16} height={16} />
         </button>

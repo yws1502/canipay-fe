@@ -27,8 +27,7 @@ function StoreListDesktopView() {
   } = useInfiniteStores();
 
   return (
-    // TODO: min width 300px, max width 500px 사이즈 조절 기능 추가 예정
-    <div className='fixed inset-y-0 left-[60px] flex w-[300px] flex-col gap-4 overflow-auto bg-white p-4'>
+    <div className='fixed inset-y-0 left-[60px] flex w-[350px] flex-col gap-4 overflow-auto bg-white p-4 shadow-300'>
       <SearchInputField />
       <p className='text-body-2'>{searchKeyword ? '결과 목록' : '결제 가능 목록'}</p>
       <StoreListView

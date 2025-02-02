@@ -54,7 +54,7 @@ function SearchInputField() {
 
   return (
     <form
-      className='fixed inset-x-[16px] top-[16px] z-30 flex items-center justify-between rounded-md bg-white px-4 py-1.5 shadow-500 outline-1 has-[:focus]:outline has-[:focus]:outline-primary sm:static'
+      className='fixed inset-x-[16px] top-[16px] z-30 flex items-center justify-between rounded-md bg-white px-4 py-1.5 shadow-500 outline-1 has-[:focus]:outline has-[:focus]:outline-primary md:static'
       onSubmit={onSubmit}
     >
       <input
@@ -84,7 +84,7 @@ function SearchInputField() {
       {searchParams.get(QUERY_STRING.search) && (
         <button
           type='button'
-          className='absolute bottom-[-80px] left-1/2 z-20 flex h-[30px] -translate-x-1/2 items-center justify-center gap-2 rounded-full bg-white px-3 py-2 text-body-2 text-primary shadow-500 hover:opacity-80 active:opacity-60 sm:fixed sm:bottom-[unset]'
+          className='absolute bottom-[-80px] left-1/2 z-20 flex h-[30px] -translate-x-1/2 items-center justify-center gap-2 rounded-full bg-white px-3 py-2 text-body-2 text-primary shadow-500 hover:opacity-80 active:opacity-60 md:fixed md:bottom-[unset] md:translate-x-0'
           onClick={handleChangeCenter}
         >
           <RefreshIcon width={18} height={18} className='fill-primary' />현 위치에서 검색
