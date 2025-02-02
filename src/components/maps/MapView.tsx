@@ -49,14 +49,7 @@ function MapView() {
   }, [params]);
 
   useEffect(() => {
-    if (pathname === PAGE_PATH.root) {
-      // 검색값이 없는 경우 결제 가능 매장 지도 표시
-      setDisplayStoreList(searchKeyword === '' ? listStoreList : rootStoreList);
-    } else if (pathname === PAGE_PATH.storeList) {
-      setDisplayStoreList(listStoreList);
-    } else {
-      setDisplayStoreList([]);
-    }
+    setDisplayStoreList(searchKeyword === '' ? listStoreList : rootStoreList);
   }, [pathname, rootStoreList, listStoreList, searchKeyword]);
 
   const paintStoreMarker = (stores: StoreInfo[], name: PaymentStatus, theme: MarkerTheme) => {
