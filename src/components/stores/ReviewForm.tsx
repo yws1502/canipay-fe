@@ -1,23 +1,30 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { FormEvent, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 import CloseIcon from '@/assets/icons/close.svg';
 import { MESSAGE } from '@/constants/message';
 import { PAGE_PATH } from '@/constants/page';
+import { QUERY_KEY } from '@/constants/tanstackQuery';
 import useCreateReview from '@/hooks/react-query/useCreateReview';
 import { ReviewType } from '@/types/review';
 import Button from '../common/buttons/Button';
 import TagToggleList from '../common/toggles/TagToggleList';
+import { useAsideToggle } from '../contexts/AsideToggleProvider';
 
 function ReviewForm() {
   const params = useParams<{ store: string }>();
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  const { asideToggle } = useAsideToggle();
+
   const [checkedReviewTypes, setCheckedReviewTypes] = useState<ReviewType[]>([]);
   const [content, setContent] = useState('');
 
+  const queryClient = useQueryClient();
   const { mutate } = useCreateReview();
 
   const handleChangeReviewTypeOptions = (tag: ReviewType) => {
@@ -44,6 +51,7 @@ function ReviewForm() {
       },
       {
         onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: [QUERY_KEY.infiniteReviewsByStore] });
           router.replace(PAGE_PATH.storeDetail(params.store), { scroll: false });
         },
         onError: () => {
@@ -63,7 +71,10 @@ function ReviewForm() {
 
   return (
     <form
-      className='fixed inset-x-2.5 top-1/2 z-20 -translate-y-1/2 bg-white p-4 shadow-500 md:left-[426px] md:top-[66px] md:w-[370px] md:translate-y-0'
+      className={twMerge(
+        'fixed inset-x-2.5 top-1/2 z-20 -translate-y-1/2 bg-white p-4 shadow-500 duration-500 md:left-[426px] md:top-[66px] md:w-[370px] md:translate-y-0',
+        !asideToggle && '-translate-x-[350px]'
+      )}
       onSubmit={handleSubmit}
     >
       <header className='mb-5 flex justify-between'>
