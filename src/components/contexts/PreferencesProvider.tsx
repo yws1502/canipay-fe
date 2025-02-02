@@ -46,7 +46,8 @@ function PreferencesProvider({ children }: PreferencesProviderProps) {
 
 export const usePreferences = () => {
   const fontSizeContext = useContext(FontSizeContext);
-  if (!fontSizeContext) throw new Error(EXCEPTION_MESSAGE.usePreferencesHookException);
+  if (!fontSizeContext)
+    throw new Error(EXCEPTION_MESSAGE.hookException('usePreferences', 'PreferencesProvider'));
 
   return { ...fontSizeContext };
 };

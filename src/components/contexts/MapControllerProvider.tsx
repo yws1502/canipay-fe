@@ -36,7 +36,8 @@ function MapControllerProvider({ children }: MapControllerProviderProps) {
 
 export const useMapController = () => {
   const mapControllerContext = useContext(MapControllerContext);
-  if (!mapControllerContext) throw new Error(EXCEPTION_MESSAGE.useMapControllerException);
+  if (!mapControllerContext)
+    throw new Error(EXCEPTION_MESSAGE.hookException('useMapController', 'MapControllerProvider'));
 
   return mapControllerContext;
 };
