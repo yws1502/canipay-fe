@@ -1,11 +1,14 @@
 'use client';
 
 import React from 'react';
+import { twMerge } from 'tailwind-merge';
 import IconTextToggle from '../common/toggles/IconTextToggle';
+import { useAsideToggle } from '../contexts/AsideToggleProvider';
 import { useMapController } from '../contexts/MapControllerProvider';
 
 function MarkerToggleList() {
   const { mapController } = useMapController();
+  const { asideToggle } = useAsideToggle();
 
   const handleToggle = (toggle: boolean, name?: string) => {
     if (!mapController) return;
@@ -19,7 +22,12 @@ function MarkerToggleList() {
   };
 
   return (
-    <ul className='absolute left-[16px] top-[60px] z-20 flex gap-2 md:left-[366px] md:top-[16px]'>
+    <ul
+      className={twMerge(
+        'absolute left-[16px] top-[60px] z-20 flex gap-2 duration-500 md:left-[366px] md:top-[16px]',
+        !asideToggle && 'md:-translate-x-[350px]'
+      )}
+    >
       <li>
         <IconTextToggle
           id='all-visible-toggle'

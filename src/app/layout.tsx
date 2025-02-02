@@ -3,9 +3,11 @@ import { Noto_Sans_KR } from 'next/font/google';
 import NavigationBar from '@/components/NavigationBar';
 import ResponsiveUi from '@/components/ResponsiveUi';
 import ReactQueryProvider from '@/components/common/ReactQueryProvider';
+import AsideToggleProvider from '@/components/contexts/AsideToggleProvider';
 import MapControllerProvider from '@/components/contexts/MapControllerProvider';
 import PreferencesProvider from '@/components/contexts/PreferencesProvider';
 import MapView from '@/components/maps/MapView';
+import SearchHereButton from '@/components/maps/SearchHereButton';
 import './globals.css';
 import './tailwind.css';
 
@@ -30,12 +32,15 @@ export default function RootLayout({
         <ReactQueryProvider>
           <MapControllerProvider>
             <PreferencesProvider>
-              <main className='flex h-svh flex-col md:flex-row-reverse'>
-                <MapView />
-                <ResponsiveUi />
-                <NavigationBar />
-                {children}
-              </main>
+              <AsideToggleProvider>
+                <main className='flex h-svh flex-col md:flex-row-reverse'>
+                  <MapView />
+                  <SearchHereButton />
+                  <ResponsiveUi />
+                  <NavigationBar />
+                  {children}
+                </main>
+              </AsideToggleProvider>
             </PreferencesProvider>
           </MapControllerProvider>
         </ReactQueryProvider>

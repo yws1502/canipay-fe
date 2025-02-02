@@ -3,7 +3,6 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { FormEvent, useEffect, useState } from 'react';
 import CloseIcon from '@/assets/icons/close.svg';
-import RefreshIcon from '@/assets/icons/refresh.svg';
 import SearchIcon from '@/assets/icons/search.svg';
 import { PAGE_PATH, QUERY_STRING } from '@/constants/page';
 import { useMapController } from '../contexts/MapControllerProvider';
@@ -23,7 +22,14 @@ function SearchInputField() {
     }
   }, []);
 
-  const changeSearchParams = () => {
+  const onGoToMap = () => {
+    setSearch('');
+    router.push(PAGE_PATH.root);
+  };
+
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     if (!mapController) return;
     if (search.length === 0) return;
 
@@ -36,20 +42,6 @@ function SearchInputField() {
     ]);
 
     router.push(`${PAGE_PATH.root}?${searchParam.toString()}`, { scroll: false });
-  };
-
-  const onGoToMap = () => {
-    setSearch('');
-    router.push(PAGE_PATH.root);
-  };
-
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    changeSearchParams();
-  };
-
-  const handleChangeCenter = () => {
-    changeSearchParams();
   };
 
   return (
@@ -79,15 +71,6 @@ function SearchInputField() {
             width={24}
             height={24}
           />
-        </button>
-      )}
-      {searchParams.get(QUERY_STRING.search) && (
-        <button
-          type='button'
-          className='absolute bottom-[-80px] left-1/2 z-20 flex h-[30px] -translate-x-1/2 items-center justify-center gap-2 rounded-full bg-white px-3 py-2 text-body-2 text-primary shadow-500 hover:opacity-80 active:opacity-60 md:fixed md:bottom-[unset] md:translate-x-0'
-          onClick={handleChangeCenter}
-        >
-          <RefreshIcon width={18} height={18} className='fill-primary' />현 위치에서 검색
         </button>
       )}
     </form>

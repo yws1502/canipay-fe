@@ -11,6 +11,7 @@ import { EXCEPTION_MESSAGE } from '@/constants/error';
 import { PAGE_PATH } from '@/constants/page';
 import { StoreInfo } from '@/types/store';
 import TextButton from '../common/buttons/TextButton';
+import { useAsideToggle } from '../contexts/AsideToggleProvider';
 import { useMapController } from '../contexts/MapControllerProvider';
 import RegisterStore from './RegisterStore';
 import ReviewList from './ReviewList';
@@ -22,6 +23,8 @@ interface StoreDetailProps {
 function StoreDetail({ initStoreInfo }: StoreDetailProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const { asideToggle } = useAsideToggle();
 
   const [isCopied, setIsCopied] = useState(false);
 
@@ -58,9 +61,10 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
   return (
     <section
       className={twMerge(
-        'fixed left-1/2 z-30 flex w-[90%] -translate-x-1/2 flex-col gap-5 overflow-auto rounded-sm bg-white p-4 shadow-500',
+        'fixed left-1/2 z-30 flex w-[90%] -translate-x-1/2 flex-col gap-5 overflow-auto rounded-sm bg-white p-4 shadow-500 duration-500',
         storeInfo.paymentStatus === 'unregistered' ? 'top-[30%]' : 'inset-y-[15%]',
-        'md:left-[426px] md:top-[66px] md:w-[370px] md:translate-x-0'
+        'md:left-[426px] md:top-[66px] md:w-[370px] md:translate-x-0',
+        !asideToggle && 'md:-translate-x-[350px]'
       )}
     >
       <div className='relative'>
