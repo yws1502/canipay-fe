@@ -4,7 +4,7 @@ import { useParams, usePathname, useSearchParams } from 'next/navigation';
 import 'ol/ol.css';
 import { useEffect, useState } from 'react';
 import { LOCATION } from '@/constants/location';
-import { PAGE_PATH, QUERY_STRING } from '@/constants/page';
+import { QUERY_STRING } from '@/constants/page';
 import useInfiniteStores from '@/hooks/react-query/useInfiniteStores';
 import useInfiniteStoresProxy from '@/hooks/react-query/useInfiniteStoresProxy';
 import { useMapView } from '@/hooks/useMapView';
@@ -49,14 +49,7 @@ function MapView() {
   }, [params]);
 
   useEffect(() => {
-    if (pathname === PAGE_PATH.root) {
-      // 검색값이 없는 경우 결제 가능 매장 지도 표시
-      setDisplayStoreList(searchKeyword === '' ? listStoreList : rootStoreList);
-    } else if (pathname === PAGE_PATH.storeList) {
-      setDisplayStoreList(listStoreList);
-    } else {
-      setDisplayStoreList([]);
-    }
+    setDisplayStoreList(searchKeyword === '' ? listStoreList : rootStoreList);
   }, [pathname, rootStoreList, listStoreList, searchKeyword]);
 
   const paintStoreMarker = (stores: StoreInfo[], name: PaymentStatus, theme: MarkerTheme) => {
@@ -125,7 +118,7 @@ function MapView() {
   };
 
   return (
-    <div id='map' className='relative h-full'>
+    <div id='map' className='relative size-full'>
       <MarkerToggleList />
       <MapContributors />
       <div id='map-tooltip' className='absolute'>

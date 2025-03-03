@@ -57,7 +57,11 @@ function StoreItem({ storeInfo, className }: StoreItemProps) {
         {(() => {
           switch (storeInfo.paymentStatus) {
             case 'available':
-              return <span className='shrink-0 text-caption-1 text-primary'>리뷰 00</span>;
+              return (
+                <span className='shrink-0 text-caption-1 text-primary'>
+                  리뷰 {storeInfo.reviewCount.toString().padStart(2, '0')}
+                </span>
+              );
             case 'unavailable':
               return <span className='shrink-0 text-caption-1 text-red'>결제 불가</span>;
             default: // unregistered

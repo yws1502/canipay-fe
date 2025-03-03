@@ -27,6 +27,8 @@ export const registerMouseDownDrag = <T extends Element>(
     if (stopPropagation) touchEvent.stopPropagation();
 
     const handleTouchMove = (moveEvent: TouchEvent) => {
+      moveEvent.preventDefault();
+
       const deltaX = moveEvent.touches[0].screenX - touchEvent.touches[0].screenX;
       const deltaY = moveEvent.touches[0].screenY - touchEvent.touches[0].screenY;
       onDragChange(deltaX, deltaY);
@@ -36,7 +38,7 @@ export const registerMouseDownDrag = <T extends Element>(
       document.removeEventListener('touchmove', handleTouchMove);
     };
 
-    document.addEventListener('touchmove', handleTouchMove);
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
     document.addEventListener('touchend', handleTouchEnd);
   };
 

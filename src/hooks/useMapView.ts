@@ -92,6 +92,7 @@ export const useMapView = (domName: string) => {
 
       mapView.getView().animate({
         center: newCenter,
+        zoom: LOCATION.zoom,
         duration,
       });
     },
