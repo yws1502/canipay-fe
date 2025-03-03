@@ -28,6 +28,7 @@ const nextConfig: NextConfig = {
 
     return config;
   },
+  output: 'standalone',
   experimental: {
     turbo: {
       rules: {
