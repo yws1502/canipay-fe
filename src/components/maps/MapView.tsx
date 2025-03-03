@@ -4,7 +4,7 @@ import { useParams, usePathname, useSearchParams } from 'next/navigation';
 import 'ol/ol.css';
 import { useEffect, useState } from 'react';
 import { LOCATION } from '@/constants/location';
-import { PAGE_PATH, QUERY_STRING } from '@/constants/page';
+import { QUERY_STRING } from '@/constants/page';
 import useInfiniteStores from '@/hooks/react-query/useInfiniteStores';
 import useInfiniteStoresProxy from '@/hooks/react-query/useInfiniteStoresProxy';
 import { useMapView } from '@/hooks/useMapView';

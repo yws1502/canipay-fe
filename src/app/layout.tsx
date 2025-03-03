@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
-import NavigationBar from '@/components/NavigationBar';
-import ResponsiveUi from '@/components/ResponsiveUi';
+import { Suspense } from 'react';
+import MapLayout from '@/components/MapLayout';
 import ReactQueryProvider from '@/components/common/ReactQueryProvider';
 import AsideToggleProvider from '@/components/contexts/AsideToggleProvider';
 import MapControllerProvider from '@/components/contexts/MapControllerProvider';
 import PreferencesProvider from '@/components/contexts/PreferencesProvider';
-import MapView from '@/components/maps/MapView';
 import './globals.css';
 import './tailwind.css';
 
@@ -33,10 +32,11 @@ export default function RootLayout({
             <PreferencesProvider>
               <AsideToggleProvider>
                 <main className='flex h-svh flex-col md:flex-row-reverse'>
-                  <MapView />
-                  <ResponsiveUi />
-                  <NavigationBar />
-                  {children}
+                  {/* FIXME: suspense fallback ui 추가 예정 */}
+                  <Suspense>
+                    <MapLayout />
+                    {children}
+                  </Suspense>
                 </main>
               </AsideToggleProvider>
             </PreferencesProvider>

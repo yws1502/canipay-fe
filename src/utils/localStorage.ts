@@ -4,6 +4,8 @@ import { DEFAULT_FONT_SIZE } from '@/constants/preferences';
 
 export const localStorageHelper = () => {
   const get = (key: keyof typeof LOCAL_STORAGE_KEYS) => {
+    if (typeof window === 'undefined') return '';
+
     switch (key) {
       case 'fontSize':
         // FIXME: [수정 필요] Server Side에서 해당 함수가 실행되어 에러 발생 -> 서비스 사용에는 문제 없음.
@@ -14,6 +16,8 @@ export const localStorageHelper = () => {
   };
 
   const set = (key: keyof typeof LOCAL_STORAGE_KEYS, value: string) => {
+    if (typeof window === 'undefined') return;
+
     switch (key) {
       case 'fontSize':
         try {
