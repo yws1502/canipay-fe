@@ -29,9 +29,7 @@ function SearchInputField() {
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     if (!mapController) return;
-    if (search.length === 0) return;
 
     const center = mapController.getCenter();
 
