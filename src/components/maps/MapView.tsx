@@ -1,7 +1,9 @@
 'use client';
 
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
+import { Point } from 'ol/geom';
 import 'ol/ol.css';
+import { fromLonLat } from 'ol/proj';
 import { useEffect, useState } from 'react';
 import { LOCATION } from '@/constants/location';
 import { QUERY_STRING } from '@/constants/page';
@@ -13,6 +15,7 @@ import { PaymentStatus, StoreInfo } from '@/types/store';
 import { useMapController } from '../contexts/MapControllerProvider';
 import MapContributors from './MapContributors';
 import MarkerToggleList from './MarkerToggleList';
+import StoreListTooltip from './StoreListTooltip';
 import StoreTooltip from './StoreTooltip';
 
 function MapView() {
@@ -90,7 +93,7 @@ function MapView() {
       paintStoreMarker(paymentDisabledStores, 'unavailable', 'red');
       paintStoreMarker(unregisteredStores, 'unregistered', 'gray');
 
-      clearEvent = controller.addMarkerClickEvent((event, features) => {
+      clearEvent = controller.addMarkerClickEvent((_, features) => {
         const selectedStores = features.map((feature) => {
           return {
             id: feature.get('id') as string,
@@ -99,8 +102,10 @@ function MapView() {
         });
 
         setSelectedStores(selectedStores);
-        controller.setOverlayLocation(event.coordinate);
-        controller.setCenter(event.coordinate);
+        const coordinate = (features[0].get('geometry') as Point).getCoordinates();
+
+        controller.setOverlayLocation(coordinate);
+        controller.setCenter(coordinate);
       });
     }
 
@@ -113,17 +118,22 @@ function MapView() {
     const targetStore = displayStoreList.find((store) => store.id === storeId);
 
     if (targetStore) {
+      // NOTE: 선택된 매장 위치로 이동
+      controller.setCenter(fromLonLat([+targetStore.lon, +targetStore.lat]));
       setSelectedStores([targetStore]);
     }
   };
 
+  const singleSelectedStore = selectedStores.length === 1 ? selectedStores[0] : null;
+  const multipleSelectedStores = selectedStores.length > 1;
   return (
     <div id='map' className='relative size-full'>
       <MarkerToggleList />
       <MapContributors />
       <div id='map-tooltip' className='absolute'>
-        {selectedStores.length > 0 && (
-          <StoreTooltip stores={selectedStores} onSelectStore={onSelectStoreAtTooltip} />
+        {singleSelectedStore && <StoreTooltip storeId={selectedStores[0].id} />}
+        {multipleSelectedStores && (
+          <StoreListTooltip stores={selectedStores} onSelectStore={onSelectStoreAtTooltip} />
         )}
       </div>
     </div>
