@@ -62,7 +62,8 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
     <section
       className={twMerge(
         'fixed left-1/2 z-30 flex w-[90%] -translate-x-1/2 flex-col gap-5 overflow-auto rounded-sm bg-white p-4 shadow-500 duration-500',
-        storeInfo.paymentStatus === 'unregistered' ? 'top-[30%]' : 'inset-y-[15%]',
+        // NOTE: 사용자 디바이스 크기에 따라 height를 설정하기 위하여 inset-y 활용 (등록된 컴포넌트만 리뷰 목록이 존재하여 Height의 크기가 가변적)
+        storeInfo.paymentStatus === 'available' ? 'inset-y-[15%]' : 'top-[30%]',
         'md:left-[426px] md:top-[66px] md:w-[370px] md:translate-x-0',
         !asideToggle && 'md:-translate-x-[350px]'
       )}
@@ -102,9 +103,15 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
       {(() => {
         switch (storeInfo.paymentStatus) {
           case 'available':
-          case 'unavailable':
             return <ReviewList storeInfo={storeInfo} />;
-          default: // unregistered
+          case 'unavailable':
+            return (
+              <article>
+                <p className='text-caption-1 text-red'>결제 불가 매장</p>
+              </article>
+            );
+          // unregistered
+          default:
             return <RegisterStore storeInfo={storeInfo} updateStoreInfo={setStoreInfo} />;
         }
       })()}
