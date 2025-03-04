@@ -49,7 +49,7 @@ function ReviewList({ storeInfo }: ReviewListProps) {
       >
         리뷰 작성 하러가기
       </Button>
-      <ul className='flex h-full flex-col gap-3 overflow-auto pr-1'>
+      <ul className='flex h-full flex-col gap-3 overflow-auto pb-2 pr-1'>
         {reviewList.length === 0 ? (
           <li className='p-4'>
             <p className='text-center text-body-2'>
