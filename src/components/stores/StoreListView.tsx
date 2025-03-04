@@ -30,9 +30,13 @@ function StoreListView({
 
   return (
     <ul className={twMerge('flex flex-1 flex-col gap-3 overflow-auto pr-1', className)}>
-      {storeInfoList.map((storeInfo) => {
-        return <StoreItem key={storeInfo.id} storeInfo={storeInfo} />;
-      })}
+      {storeInfoList.length === 0 ? (
+        <li className='text-center'>검색 결과가 없습니다.</li>
+      ) : (
+        storeInfoList.map((storeInfo) => {
+          return <StoreItem key={storeInfo.id} storeInfo={storeInfo} />;
+        })
+      )}
       {hasNextPage && (
         <li ref={registerObserver} className='p-3 text-center'>
           <Spinner />
