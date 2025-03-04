@@ -15,6 +15,7 @@ import { PaymentStatus, StoreInfo } from '@/types/store';
 import { useMapController } from '../contexts/MapControllerProvider';
 import MapContributors from './MapContributors';
 import MarkerToggleList from './MarkerToggleList';
+import StoreListTooltip from './StoreListTooltip';
 import StoreTooltip from './StoreTooltip';
 
 function MapView() {
@@ -123,13 +124,16 @@ function MapView() {
     }
   };
 
+  const singleSelectedStore = selectedStores.length === 1 ? selectedStores[0] : null;
+  const multipleSelectedStores = selectedStores.length > 1;
   return (
     <div id='map' className='relative size-full'>
       <MarkerToggleList />
       <MapContributors />
       <div id='map-tooltip' className='absolute'>
-        {selectedStores.length > 0 && (
-          <StoreTooltip stores={selectedStores} onSelectStore={onSelectStoreAtTooltip} />
+        {singleSelectedStore && <StoreTooltip storeId={selectedStores[0].id} />}
+        {multipleSelectedStores && (
+          <StoreListTooltip stores={selectedStores} onSelectStore={onSelectStoreAtTooltip} />
         )}
       </div>
     </div>

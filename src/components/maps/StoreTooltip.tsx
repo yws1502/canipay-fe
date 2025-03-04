@@ -5,17 +5,13 @@ import useStore from '@/hooks/react-query/useStore';
 import StoreItem from '../stores/StoreItem';
 
 interface StoreTooltipProps {
-  stores: {
-    id: string;
-    name: string;
-  }[];
-  onSelectStore: (storeId: string) => void;
+  storeId: string;
 }
 
-function StoreTooltip({ stores, onSelectStore }: StoreTooltipProps) {
-  const { data: storeInfo } = useStore(stores[0].id);
+function StoreTooltip({ storeId }: StoreTooltipProps) {
+  const { data: storeInfo } = useStore(storeId);
 
-  return stores.length === 1 ? (
+  return (
     <div className='absolute bottom-4 left-full w-[250px] -translate-x-1/2'>
       {storeInfo && (
         <>
@@ -24,26 +20,6 @@ function StoreTooltip({ stores, onSelectStore }: StoreTooltipProps) {
         </>
       )}
     </div>
-  ) : (
-    <ul
-      role='menu'
-      className='absolute top-1 flex w-[80px] flex-col gap-1 rounded-sm bg-white p-1 text-caption-1 duration-200 hover:w-[140px]'
-    >
-      {stores.map((store) => {
-        return (
-          <li key={store.id} className='w-full overflow-auto'>
-            <button
-              type='button'
-              className='w-full truncate rounded-sm p-1 text-left duration-200 hover:bg-gray-200'
-              title={store.name}
-              onClick={() => onSelectStore(store.id)}
-            >
-              {store.name}
-            </button>
-          </li>
-        );
-      })}
-    </ul>
   );
 }
 
