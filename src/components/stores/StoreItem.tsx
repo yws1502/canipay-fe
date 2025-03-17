@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation';
 import React, { MouseEvent, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import CopyIcon from '@/assets/icons/copy.svg';
-import LikeOutlinedIcon from '@/assets/icons/like-outlined.svg';
 import NaverIcon from '@/assets/icons/naver.svg';
 import { NAVER_MAP_URL } from '@/constants/env';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
@@ -13,6 +12,7 @@ import { PAGE_PATH } from '@/constants/page';
 import { useLike } from '@/hooks/react-query/useLike';
 import { StoreInfo } from '@/types/store';
 import TextButton from '../common/buttons/TextButton';
+import LikeButton from './LikeButton';
 
 interface StoreItemProps {
   storeInfo: StoreInfo;
@@ -44,7 +44,7 @@ function StoreItem({ storeInfo, className }: StoreItemProps) {
       .catch(console.error);
   };
 
-  const handleClickLike = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+  const onClickLike = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
     event.stopPropagation();
 
     likeMutate({
@@ -71,16 +71,9 @@ function StoreItem({ storeInfo, className }: StoreItemProps) {
           switch (storeInfo.paymentStatus) {
             case 'available':
               return (
-                <div className='flex gap-2 text-caption-1'>
-                  <button
-                    type='button'
-                    className='flex items-center gap-1 hover:opacity-80 active:opacity-60'
-                    onClick={handleClickLike}
-                  >
-                    <LikeOutlinedIcon width={14} height={14} className='fill-tertiary' />
-                    <span>{storeInfo.likeCount.toString().padStart(2, '0')}</span>
-                  </button>
-                  <span className='shrink-0 text-primary'>
+                <div className='flex shrink-0 gap-2 text-caption-1'>
+                  <LikeButton isLiked likeCount={storeInfo.likeCount} onClick={onClickLike} />
+                  <span className='text-primary'>
                     리뷰 {storeInfo.reviewCount.toString().padStart(2, '0')}
                   </span>
                 </div>
