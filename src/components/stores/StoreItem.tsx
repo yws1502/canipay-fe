@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { MouseEvent, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import CopyIcon from '@/assets/icons/copy.svg';
 import LikeOutlinedIcon from '@/assets/icons/like-outlined.svg';
@@ -10,6 +10,7 @@ import NaverIcon from '@/assets/icons/naver.svg';
 import { NAVER_MAP_URL } from '@/constants/env';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
 import { PAGE_PATH } from '@/constants/page';
+import { useLike } from '@/hooks/react-query/useLike';
 import { StoreInfo } from '@/types/store';
 import TextButton from '../common/buttons/TextButton';
 
@@ -22,6 +23,8 @@ function StoreItem({ storeInfo, className }: StoreItemProps) {
   const searchParams = useSearchParams();
 
   const [isCopied, setIsCopied] = useState(false);
+
+  const { mutate: likeMutate } = useLike();
 
   const handleOpenNaver = (item: string) => {
     if (NAVER_MAP_URL === '') throw new Error(EXCEPTION_MESSAGE.environmentNotSet('NAVER_MAP_URL'));
@@ -39,6 +42,15 @@ function StoreItem({ storeInfo, className }: StoreItemProps) {
         }, 1500);
       })
       .catch(console.error);
+  };
+
+  const handleClickLike = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    event.stopPropagation();
+
+    likeMutate({
+      id: storeInfo.id,
+      body: { action: 'like' },
+    });
   };
 
   return (
@@ -63,6 +75,7 @@ function StoreItem({ storeInfo, className }: StoreItemProps) {
                   <button
                     type='button'
                     className='flex items-center gap-1 hover:opacity-80 active:opacity-60'
+                    onClick={handleClickLike}
                   >
                     <LikeOutlinedIcon width={14} height={14} className='fill-tertiary' />
                     <span>{storeInfo.likeCount.toString().padStart(2, '0')}</span>

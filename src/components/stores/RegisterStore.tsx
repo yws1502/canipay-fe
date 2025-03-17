@@ -9,10 +9,9 @@ import Button from '../common/buttons/Button';
 
 interface RegisterStoreProps {
   storeInfo: StoreInfo;
-  updateStoreInfo: (storeInfo: StoreInfo) => void;
 }
 
-function RegisterStore({ storeInfo, updateStoreInfo }: RegisterStoreProps) {
+function RegisterStore({ storeInfo }: RegisterStoreProps) {
   const queryClient = useQueryClient();
 
   const { mutate: registerMutate, isPending: isPendingRegister } = useRegisterStore();
@@ -26,12 +25,11 @@ function RegisterStore({ storeInfo, updateStoreInfo }: RegisterStoreProps) {
     };
 
     registerMutate(storeForm, {
-      onSuccess: (updatedStoreInfo) => {
-        updateStoreInfo(updatedStoreInfo);
-
+      onSuccess: () => {
         // refetch search result, assign store and map marker
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.infiniteStoresProxy] });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.store] });
         queryClient.invalidateQueries({ queryKey: [QUERY_KEY.infiniteStores] });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.infiniteStoresProxy] });
       },
       onError: console.error,
     });

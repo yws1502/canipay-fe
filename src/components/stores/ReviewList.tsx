@@ -1,10 +1,11 @@
 'useClient';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { MouseEvent, useEffect } from 'react';
 import LikeOutlinedIcon from '@/assets/icons/like-outlined.svg';
 import { PAGE_PATH } from '@/constants/page';
 import useInfiniteReviewsByStore from '@/hooks/react-query/useInfiniteReviewsByStore';
+import { useLike } from '@/hooks/react-query/useLike';
 import { useIntersectionObserver } from '@/hooks/useObserver';
 import { StoreInfo } from '@/types/store';
 import Spinner from '../common/Spinner';
@@ -23,11 +24,22 @@ function ReviewList({ storeInfo }: ReviewListProps) {
 
   const { intersecting, registerObserver } = useIntersectionObserver();
 
+  const { mutate: likeMutate } = useLike();
+
   useEffect(() => {
     if (intersecting) {
       fetchNextPage();
     }
   }, [intersecting]);
+
+  const handleClickLike = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    event.stopPropagation();
+
+    likeMutate({
+      id: storeInfo.id,
+      body: { action: 'like' },
+    });
+  };
 
   return (
     <article className='flex flex-1 flex-col gap-3 overflow-auto'>
@@ -36,6 +48,7 @@ function ReviewList({ storeInfo }: ReviewListProps) {
           <button
             type='button'
             className='flex items-center gap-1 hover:opacity-80 active:opacity-60'
+            onClick={handleClickLike}
           >
             <LikeOutlinedIcon width={14} height={14} className='fill-tertiary' />
             <span>{storeInfo.likeCount.toString().padStart(2, '0')}</span>
