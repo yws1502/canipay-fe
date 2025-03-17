@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react';
+import LikeOutlinedIcon from '@/assets/icons/like-outlined.svg';
 import { PAGE_PATH } from '@/constants/page';
 import useInfiniteReviewsByStore from '@/hooks/react-query/useInfiniteReviewsByStore';
 import { useIntersectionObserver } from '@/hooks/useObserver';
@@ -31,9 +32,18 @@ function ReviewList({ storeInfo }: ReviewListProps) {
   return (
     <article className='flex flex-1 flex-col gap-3 overflow-auto'>
       <div className='flex justify-between'>
-        <span className='text-caption-1 text-primary'>
-          리뷰 {reviewList.length.toString().padStart(2, '0')}
-        </span>
+        <div className='flex gap-2 text-caption-1'>
+          <button
+            type='button'
+            className='flex items-center gap-1 hover:opacity-80 active:opacity-60'
+          >
+            <LikeOutlinedIcon width={14} height={14} className='fill-tertiary' />
+            <span>{storeInfo.likeCount.toString().padStart(2, '0')}</span>
+          </button>
+          <span className='shrink-0 text-primary'>
+            리뷰 {storeInfo.reviewCount.toString().padStart(2, '0')}
+          </span>
+        </div>
         <ul className='flex items-center gap-2 text-caption-1'>
           <li>맛 {storeInfo.tastyCount}</li>
           <li>친절 {storeInfo.friendlyCount}</li>
