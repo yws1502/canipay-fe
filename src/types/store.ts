@@ -13,6 +13,7 @@ export interface StoreInfo {
   friendlyCount: number;
   valuableCount: number;
   comfortableCount: number;
+  likeCount: number;
 }
 
 export type PaymentStatus = 'available' | 'unavailable' | 'unregistered';
