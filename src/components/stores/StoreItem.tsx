@@ -10,7 +10,8 @@ import { NAVER_MAP_URL } from '@/constants/env';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
 import { PAGE_PATH } from '@/constants/page';
 import { useLike } from '@/hooks/react-query/useLike';
-import { StoreInfo } from '@/types/store';
+import { useLikedStores } from '@/stores/useLikedStores';
+import { RequestLikeStore, StoreInfo } from '@/types/store';
 import TextButton from '../common/buttons/TextButton';
 import LikeButton from './LikeButton';
 
@@ -25,6 +26,7 @@ function StoreItem({ storeInfo, className }: StoreItemProps) {
   const [isCopied, setIsCopied] = useState(false);
 
   const { mutate: likeMutate } = useLike();
+  const { exists: existsStore, push: pushStore, remove: removeStore } = useLikedStores();
 
   const handleOpenNaver = (item: string) => {
     if (NAVER_MAP_URL === '') throw new Error(EXCEPTION_MESSAGE.environmentNotSet('NAVER_MAP_URL'));
@@ -46,11 +48,18 @@ function StoreItem({ storeInfo, className }: StoreItemProps) {
 
   const onClickLike = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
     event.stopPropagation();
+    const isLiked = existsStore(storeInfo.id);
 
-    likeMutate({
-      id: storeInfo.id,
-      body: { action: 'like' },
-    });
+    const action: RequestLikeStore['body']['action'] = isLiked ? 'unlike' : 'like';
+    likeMutate(
+      { id: storeInfo.id, body: { action } },
+      {
+        onSuccess: () => {
+          if (action === 'like') pushStore(storeInfo.id);
+          else removeStore(storeInfo.id);
+        },
+      }
+    );
   };
 
   return (
@@ -72,7 +81,11 @@ function StoreItem({ storeInfo, className }: StoreItemProps) {
             case 'available':
               return (
                 <div className='flex shrink-0 gap-2 text-caption-1'>
-                  <LikeButton isLiked likeCount={storeInfo.likeCount} onClick={onClickLike} />
+                  <LikeButton
+                    isLiked={existsStore(storeInfo.id)}
+                    likeCount={storeInfo.likeCount}
+                    onClick={onClickLike}
+                  />
                   <span className='text-primary'>
                     리뷰 {storeInfo.reviewCount.toString().padStart(2, '0')}
                   </span>
