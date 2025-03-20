@@ -20,10 +20,12 @@
   "dependencies": {
     "@tanstack/react-query": "^5.50.1",
     "axios": "^1.7.9",
+    "dayjs": "^1.11.13",
     "next": "15.0.4",
     "ol": "^10.3.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^15.0.4",

@@ -2,11 +2,13 @@ import { baseAxios } from '@/libs/axios';
 import {
   RequestGetStores,
   RequestGetStoresProxy,
+  RequestLikeStore,
   RequestRegisterStore,
   ResponseGetStore,
   ResponseGetStoreProxy,
   ResponseGetStores,
   ResponseGetStoresProxy,
+  ResponseLikeStore,
   ResponseRegisterStore,
 } from '@/types/store';
 
@@ -22,6 +24,11 @@ export const getStore = async (id: string) => {
 
 export const getStores = async (payload: RequestGetStores) => {
   const response = await baseAxios.get<ResponseGetStores>('stores', { params: payload });
+  return response.data;
+};
+
+export const likeStore = async ({ id, body }: RequestLikeStore) => {
+  const response = await baseAxios.patch<ResponseLikeStore>(`stores/${id}/like`, body);
   return response.data;
 };
 
