@@ -13,6 +13,7 @@ import { EXCEPTION_MESSAGE } from '@/constants/error';
 import { PAGE_PATH } from '@/constants/page';
 import { QUERY_KEY } from '@/constants/tanstackQuery';
 import { StoreInfo } from '@/types/store';
+import { copyClipboard } from '@/utils/clipboard';
 import TextButton from '../common/buttons/TextButton';
 import { useAsideToggle } from '../contexts/AsideToggleProvider';
 import { useMapController } from '../contexts/MapControllerProvider';
@@ -61,17 +62,15 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
     window.open(`${NAVER_MAP_URL}/${item}`, '_blank', 'noopener,noreferrer');
   };
 
-  const handleCopyAddress = (address: string) => {
-    navigator.clipboard
-      .writeText(address)
-      .then(() => {
-        setIsCopied(true);
+  const handleCopyAddress = async (address: string) => {
+    const result = await copyClipboard(address);
 
-        setTimeout(() => {
-          setIsCopied(false);
-        }, 1500);
-      })
-      .catch(console.error);
+    if (result) {
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 1500);
+    } else {
+      alert('주소 복사에 실패하였습니다. 개발자에게 문의주세요.');
+    }
   };
 
   return (
