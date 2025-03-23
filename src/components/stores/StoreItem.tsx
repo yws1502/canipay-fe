@@ -70,7 +70,7 @@ function StoreItem({ storeInfo, className }: StoreItemProps) {
             query: searchParams.toString(),
           }}
           scroll={false}
-          className='truncate text-heading-3 text-gray-950 duration-300 ease-in-out hover:text-primary'
+          className='flex-1 truncate text-heading-3 text-gray-950 duration-300 ease-in-out hover:text-primary'
           title={storeInfo.name}
         >
           {storeInfo.name}
