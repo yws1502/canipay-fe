@@ -2,15 +2,19 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { MouseEvent, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import CopyIcon from '@/assets/icons/copy.svg';
 import NaverIcon from '@/assets/icons/naver.svg';
 import { NAVER_MAP_URL } from '@/constants/env';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
 import { PAGE_PATH } from '@/constants/page';
-import { StoreInfo } from '@/types/store';
+import { useLike } from '@/hooks/react-query/useLike';
+import { useLikedStores } from '@/stores/useLikedStores';
+import { RequestLikeStore, StoreInfo } from '@/types/store';
+import { copyClipboard } from '@/utils/clipboard';
 import TextButton from '../common/buttons/TextButton';
+import LikeButton from './LikeButton';
 
 interface StoreItemProps {
   storeInfo: StoreInfo;
@@ -22,22 +26,39 @@ function StoreItem({ storeInfo, className }: StoreItemProps) {
 
   const [isCopied, setIsCopied] = useState(false);
 
+  const { mutate: likeMutate } = useLike();
+  const { exists: existsStore, push: pushStore, remove: removeStore } = useLikedStores();
+
   const handleOpenNaver = (item: string) => {
     if (NAVER_MAP_URL === '') throw new Error(EXCEPTION_MESSAGE.environmentNotSet('NAVER_MAP_URL'));
     window.open(`${NAVER_MAP_URL}/${item}`, '_blank', 'noopener,noreferrer');
   };
 
-  const handleCopyAddress = (address: string) => {
-    navigator.clipboard
-      .writeText(address)
-      .then(() => {
-        setIsCopied(true);
+  const handleCopyAddress = async (address: string) => {
+    const result = await copyClipboard(address);
 
-        setTimeout(() => {
-          setIsCopied(false);
-        }, 1500);
-      })
-      .catch(console.error);
+    if (result) {
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 1500);
+    } else {
+      alert('주소 복사에 실패하였습니다. 개발자에게 문의주세요.');
+    }
+  };
+
+  const onClickLike = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    event.stopPropagation();
+    const isLiked = existsStore(storeInfo.id);
+
+    const action: RequestLikeStore['body']['action'] = isLiked ? 'unlike' : 'like';
+    likeMutate(
+      { id: storeInfo.id, body: { action } },
+      {
+        onSuccess: () => {
+          if (action === 'like') pushStore(storeInfo.id);
+          else removeStore(storeInfo.id);
+        },
+      }
+    );
   };
 
   return (
@@ -49,7 +70,7 @@ function StoreItem({ storeInfo, className }: StoreItemProps) {
             query: searchParams.toString(),
           }}
           scroll={false}
-          className='truncate text-heading-3 text-gray-950 duration-300 ease-in-out hover:text-primary'
+          className='flex-1 truncate text-heading-3 text-gray-950 duration-300 ease-in-out hover:text-primary'
           title={storeInfo.name}
         >
           {storeInfo.name}
@@ -58,9 +79,17 @@ function StoreItem({ storeInfo, className }: StoreItemProps) {
           switch (storeInfo.paymentStatus) {
             case 'available':
               return (
-                <span className='shrink-0 text-caption-1 text-primary'>
-                  리뷰 {storeInfo.reviewCount.toString().padStart(2, '0')}
-                </span>
+                <div className='flex shrink-0 gap-2 text-caption-1'>
+                  <div>
+                    <span className='mr-1 text-primary'>리뷰</span>
+                    <span>{storeInfo.reviewCount.toString().padStart(2, '0')}</span>
+                  </div>
+                  <LikeButton
+                    isLiked={existsStore(storeInfo.id)}
+                    likeCount={storeInfo.likeCount}
+                    onClick={onClickLike}
+                  />
+                </div>
               );
             case 'unavailable':
               return <span className='shrink-0 text-caption-1 text-red'>결제 불가</span>;

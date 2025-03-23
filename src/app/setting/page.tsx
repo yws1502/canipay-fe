@@ -11,6 +11,7 @@ import SlideToggle from '@/components/common/toggles/SlideToggle';
 import { usePreferences } from '@/components/contexts/PreferencesProvider';
 import { MESSAGE } from '@/constants/message';
 import { PAGE_PATH } from '@/constants/page';
+import { copyClipboard } from '@/utils/clipboard';
 
 function Setting() {
   const router = useRouter();
@@ -32,17 +33,15 @@ function Setting() {
     window.open('https://github.com/yws1502/canipay-fe');
   };
 
-  const handleCopyEmail = () => {
-    navigator.clipboard
-      .writeText('woosang0430@gmail.com')
-      .then(() => {
-        setIsCopied(true);
+  const handleCopyEmail = async () => {
+    const result = await copyClipboard('woosang0430@gmail.com');
 
-        setTimeout(() => {
-          setIsCopied(false);
-        }, 1500);
-      })
-      .catch(console.error);
+    if (result) {
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 1500);
+    } else {
+      alert('주소 복사에 실패하였습니다. 개발자에게 문의주세요.');
+    }
   };
 
   return (

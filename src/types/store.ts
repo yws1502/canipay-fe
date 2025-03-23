@@ -13,12 +13,15 @@ export interface StoreInfo {
   friendlyCount: number;
   valuableCount: number;
   comfortableCount: number;
+  likeCount: number;
 }
 
 export type PaymentStatus = 'available' | 'unavailable' | 'unregistered';
 
 // 결과 정렬 순서 A = 정확도순, R = 거리순 (default A)
 type SearchStoreSortBy = 'A' | 'R';
+
+export type LikeAction = 'like' | 'unlike';
 
 // ==============  API  ==============
 // path = /stores
@@ -50,6 +53,18 @@ export interface ResponseGetStores {
   data: ResponseGetStore[];
   totalCount: number;
   totalPage: number;
+}
+
+export interface RequestLikeStore {
+  id: string;
+  body: {
+    action: LikeAction;
+  };
+}
+
+export interface ResponseLikeStore extends StoreInfo {
+  createdAt: string;
+  updatedAt: string;
 }
 
 // path = /proxy/stores

@@ -1,15 +1,19 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+import { getStore, getStoreProxy } from '@/apis/store';
 import CloseIcon from '@/assets/icons/close.svg';
 import CopyIcon from '@/assets/icons/copy.svg';
 import NaverIcon from '@/assets/icons/naver.svg';
 import { NAVER_MAP_URL } from '@/constants/env';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
 import { PAGE_PATH } from '@/constants/page';
+import { QUERY_KEY } from '@/constants/tanstackQuery';
 import { StoreInfo } from '@/types/store';
+import { copyClipboard } from '@/utils/clipboard';
 import TextButton from '../common/buttons/TextButton';
 import { useAsideToggle } from '../contexts/AsideToggleProvider';
 import { useMapController } from '../contexts/MapControllerProvider';
@@ -21,6 +25,8 @@ interface StoreDetailProps {
 }
 
 function StoreDetail({ initStoreInfo }: StoreDetailProps) {
+  const params = useParams<{ store: string }>();
+
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -28,16 +34,27 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
 
   const [isCopied, setIsCopied] = useState(false);
 
-  const [storeInfo, setStoreInfo] = useState(initStoreInfo);
+  const { data: storeInfo } = useQuery({
+    initialData: initStoreInfo,
+    queryKey: [QUERY_KEY.store, params.store],
+    queryFn: async () => {
+      // NOTE: 등록되지 않은 매장인 경우 Open API 조회
+      return getStore(params.store).catch(async () => {
+        const unregisteredStoreInfo = await getStoreProxy(params.store);
+        return unregisteredStoreInfo;
+      });
+    },
+    enabled: !!params.store,
+  });
 
   const { mapController } = useMapController();
 
   useEffect(() => {
-    if (mapController) {
-      const { lon, lat } = initStoreInfo;
-      mapController.setCenter([Number(lon), Number(lat)], true);
-      mapController.setOverlayLocation([Number(lon), Number(lat)], true);
-    }
+    if (!mapController) return;
+
+    const { lon, lat } = storeInfo;
+    mapController.setCenter([Number(lon), Number(lat)], true);
+    mapController.setOverlayLocation([Number(lon), Number(lat)], true);
   }, [mapController]);
 
   const handleOpenNaver = (item: string) => {
@@ -45,17 +62,15 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
     window.open(`${NAVER_MAP_URL}/${item}`, '_blank', 'noopener,noreferrer');
   };
 
-  const handleCopyAddress = (address: string) => {
-    navigator.clipboard
-      .writeText(address)
-      .then(() => {
-        setIsCopied(true);
+  const handleCopyAddress = async (address: string) => {
+    const result = await copyClipboard(address);
 
-        setTimeout(() => {
-          setIsCopied(false);
-        }, 1500);
-      })
-      .catch(console.error);
+    if (result) {
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 1500);
+    } else {
+      alert('주소 복사에 실패하였습니다. 개발자에게 문의주세요.');
+    }
   };
 
   return (
@@ -112,7 +127,7 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
             );
           // unregistered
           default:
-            return <RegisterStore storeInfo={storeInfo} updateStoreInfo={setStoreInfo} />;
+            return <RegisterStore storeInfo={storeInfo} />;
         }
       })()}
     </section>

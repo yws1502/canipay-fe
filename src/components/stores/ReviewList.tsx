@@ -1,13 +1,16 @@
 'useClient';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { MouseEvent, useEffect } from 'react';
 import { PAGE_PATH } from '@/constants/page';
 import useInfiniteReviewsByStore from '@/hooks/react-query/useInfiniteReviewsByStore';
+import { useLike } from '@/hooks/react-query/useLike';
 import { useIntersectionObserver } from '@/hooks/useObserver';
-import { StoreInfo } from '@/types/store';
+import { useLikedStores } from '@/stores/useLikedStores';
+import { RequestLikeStore, StoreInfo } from '@/types/store';
 import Spinner from '../common/Spinner';
 import Button from '../common/buttons/Button';
+import LikeButton from './LikeButton';
 import ReviewItem from './ReviewItem';
 
 interface ReviewListProps {
@@ -22,18 +25,44 @@ function ReviewList({ storeInfo }: ReviewListProps) {
 
   const { intersecting, registerObserver } = useIntersectionObserver();
 
+  const { mutate: likeMutate } = useLike();
+  const { exists: existsStore, push: pushStore, remove: removeStore } = useLikedStores();
+
   useEffect(() => {
     if (intersecting) {
       fetchNextPage();
     }
   }, [intersecting]);
 
+  const onClickLike = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    event.stopPropagation();
+    const isLiked = existsStore(storeInfo.id);
+
+    const action: RequestLikeStore['body']['action'] = isLiked ? 'unlike' : 'like';
+    likeMutate(
+      { id: storeInfo.id, body: { action } },
+      {
+        onSuccess: () => {
+          if (action === 'like') pushStore(storeInfo.id);
+          else removeStore(storeInfo.id);
+        },
+      }
+    );
+  };
+
   return (
     <article className='flex flex-1 flex-col gap-3 overflow-auto'>
       <div className='flex justify-between'>
-        <span className='text-caption-1 text-primary'>
-          리뷰 {reviewList.length.toString().padStart(2, '0')}
-        </span>
+        <div className='flex shrink-0 gap-2 text-caption-1'>
+          <LikeButton
+            isLiked={existsStore(storeInfo.id)}
+            likeCount={storeInfo.likeCount}
+            onClick={onClickLike}
+          />
+          <span className='shrink-0 text-primary'>
+            리뷰 {storeInfo.reviewCount.toString().padStart(2, '0')}
+          </span>
+        </div>
         <ul className='flex items-center gap-2 text-caption-1'>
           <li>맛 {storeInfo.tastyCount}</li>
           <li>친절 {storeInfo.friendlyCount}</li>
