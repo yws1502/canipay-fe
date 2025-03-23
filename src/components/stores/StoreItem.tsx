@@ -12,6 +12,7 @@ import { PAGE_PATH } from '@/constants/page';
 import { useLike } from '@/hooks/react-query/useLike';
 import { useLikedStores } from '@/stores/useLikedStores';
 import { RequestLikeStore, StoreInfo } from '@/types/store';
+import { copyClipboard } from '@/utils/clipboard';
 import TextButton from '../common/buttons/TextButton';
 import LikeButton from './LikeButton';
 
@@ -33,17 +34,15 @@ function StoreItem({ storeInfo, className }: StoreItemProps) {
     window.open(`${NAVER_MAP_URL}/${item}`, '_blank', 'noopener,noreferrer');
   };
 
-  const handleCopyAddress = (address: string) => {
-    navigator.clipboard
-      .writeText(address)
-      .then(() => {
-        setIsCopied(true);
+  const handleCopyAddress = async (address: string) => {
+    const result = await copyClipboard(address);
 
-        setTimeout(() => {
-          setIsCopied(false);
-        }, 1500);
-      })
-      .catch(console.error);
+    if (result) {
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 1500);
+    } else {
+      alert('주소 복사에 실패하였습니다. 개발자에게 문의주세요.');
+    }
   };
 
   const onClickLike = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
