@@ -4,11 +4,8 @@ services:
   canipay-fe:
     container_name: canipay-fe
     image: woosang0430/canipay-fe:latest
-    environment:
-      - CANIPAY_ENV_API_URL=${NEXT_PUBLIC_BASE_API_URL}
-      - CANIPAY_ENV_VWORLD_KEY=${NEXT_PUBLIC_VWORLD_KEY}
-      - CANIPAY_ENV_VWORLD_URL=${NEXT_PUBLIC_VWORLD_URL}
-      - CANIPAY_ENV_NAVER_MAP_URL=${NEXT_PUBLIC_NAVER_MAP_URL}
+    env_file:
+      - .env
     ports:
       - 3000:3000
     restart: always
