@@ -1,13 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface ErrorPageProps {
-  error: Error;
+  error: Error & { digest?: string };
+  reset: () => void;
 }
 
-function ErrorPage({ error }: ErrorPageProps) {
-  console.error('error', error);
+function ErrorPage({ error, reset }: ErrorPageProps) {
+  useEffect(() => {
+    console.error('error', error);
+  }, [error]);
+
   return (
     <section className='fixed inset-0 z-30 flex items-center justify-center bg-white'>
       <div className='flex flex-col items-center gap-5 text-center'>
@@ -18,6 +22,9 @@ function ErrorPage({ error }: ErrorPageProps) {
           문제가 계속된다면
           <strong className='text-primary'> 담당자에게 문의</strong>해주세요.
         </p>
+        <button type='button' onClick={reset}>
+          다시 시도
+        </button>
       </div>
     </section>
   );
