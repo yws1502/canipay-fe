@@ -95,6 +95,15 @@ export const useMapView = (domName: string) => {
         duration,
       });
     },
+    setViewPadding: (padding: number[]) => {
+      if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
+
+      const view = mapView.getView();
+      const current = view.padding ?? [0, 0, 0, 0];
+      if (current.length === 4 && current.every((v, i) => v === padding[i])) return;
+
+      view.padding = padding;
+    },
     getCenter: () => {
       if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
       const coordinate = mapView.getView().getCenter();

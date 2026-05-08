@@ -25,5 +25,6 @@ export interface MapController {
   removeLayer: (name: string) => void;
   setOverlayLocation: (coordinate: Coordinate, shouldTransformed?: boolean) => void;
   setCenter: (coordinate: Coordinate, shouldTransformed?: boolean, duration?: number) => void;
+  setViewPadding: (padding: number[]) => void;
   getCenter: () => { lon: number; lat: number };
 }

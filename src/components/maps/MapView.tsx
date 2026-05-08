@@ -7,11 +7,13 @@ import { fromLonLat } from 'ol/proj';
 import { useEffect, useState } from 'react';
 import { LOCATION } from '@/constants/location';
 import { QUERY_STRING } from '@/constants/page';
+import { MAP_LEFT_OCCLUSION, MOBILE_WIDTH } from '@/constants/responsive';
 import useInfiniteStores from '@/hooks/react-query/useInfiniteStores';
 import useInfiniteStoresProxy from '@/hooks/react-query/useInfiniteStoresProxy';
 import { useMapView } from '@/hooks/useMapView';
 import { MarkerTheme, PointFeature } from '@/types/openlayers';
 import { PaymentStatus, StoreInfo } from '@/types/store';
+import { useAsideToggle } from '../contexts/AsideToggleProvider';
 import { useMapController } from '../contexts/MapControllerProvider';
 import MapContributors from './MapContributors';
 import MarkerToggleList from './MarkerToggleList';
@@ -36,12 +38,31 @@ function MapView() {
   const { mapView, controller } = useMapView('map');
 
   const { setMapController } = useMapController();
+  const { asideToggle } = useAsideToggle();
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
     if (mapView) {
       setMapController(controller);
     }
   }, [mapView]);
+
+  useEffect(() => {
+    const mq = window.matchMedia(`(min-width: ${MOBILE_WIDTH}px)`);
+    const update = () => setIsDesktop(mq.matches);
+
+    update();
+    mq.addEventListener('change', update);
+
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  useEffect(() => {
+    if (!mapView) return;
+
+    const leftPad = isDesktop && asideToggle ? MAP_LEFT_OCCLUSION : 0;
+    controller.setViewPadding([0, 0, 0, leftPad]);
+  }, [mapView, isDesktop, asideToggle]);
 
   useEffect(() => {
     // store id
