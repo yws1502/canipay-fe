@@ -37,7 +37,8 @@ function RegisterStore({ storeInfo }: RegisterStoreProps) {
 
   return (
     <article>
-      <span className='text-body-2 text-gray-950'>등록하기</span>
+      <p className='text-body-2 font-medium text-gray-800'>등록하기</p>
+      <p className='mt-1 text-body-2 text-gray-500'>이 매장의 카드 결제 가능 여부를 알려주세요.</p>
       <div className='mt-4 flex justify-center gap-3'>
         <Button disabled={isPendingRegister} onClick={() => handleRegisterStore('available')}>
           {isPending ? (

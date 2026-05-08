@@ -52,22 +52,33 @@ function ReviewList({ storeInfo }: ReviewListProps) {
 
   return (
     <article className='flex flex-1 flex-col gap-3 overflow-auto'>
-      <div className='flex justify-between'>
-        <div className='flex shrink-0 gap-2 text-caption-1'>
+      <div className='flex flex-col gap-2'>
+        <div className='flex items-center gap-3 text-body-2'>
           <LikeButton
             isLiked={existsStore(storeInfo.id)}
             likeCount={storeInfo.likeCount}
             onClick={onClickLike}
           />
-          <span className='shrink-0 text-primary'>
+          <span className='shrink-0 font-medium text-primary'>
             리뷰 {storeInfo.reviewCount.toString().padStart(2, '0')}
           </span>
         </div>
-        <ul className='flex items-center gap-2 text-caption-1'>
-          <li>맛 {storeInfo.tastyCount}</li>
-          <li>친절 {storeInfo.friendlyCount}</li>
-          <li>가성비 {storeInfo.valuableCount}</li>
-          <li>쾌적 {storeInfo.comfortableCount}</li>
+        <ul className='flex flex-wrap items-center gap-x-3 gap-y-1 text-caption-1 text-gray-600'>
+          <li className='inline-flex items-center gap-1'>
+            <span className='size-1.5 rounded-full bg-quaternary' />맛 {storeInfo.tastyCount}
+          </li>
+          <li className='inline-flex items-center gap-1'>
+            <span className='size-1.5 rounded-full bg-secondary' />
+            친절 {storeInfo.friendlyCount}
+          </li>
+          <li className='inline-flex items-center gap-1'>
+            <span className='size-1.5 rounded-full bg-primary' />
+            가성비 {storeInfo.valuableCount}
+          </li>
+          <li className='inline-flex items-center gap-1'>
+            <span className='size-1.5 rounded-full bg-gray-400' />
+            쾌적 {storeInfo.comfortableCount}
+          </li>
         </ul>
       </div>
       <Button
@@ -78,10 +89,10 @@ function ReviewList({ storeInfo }: ReviewListProps) {
       >
         리뷰 작성 하러가기
       </Button>
-      <ul className='flex h-full flex-col gap-3 overflow-auto pb-2 pr-1'>
+      <ul className='flex h-full flex-col gap-2 overflow-auto pb-2 pr-1'>
         {reviewList.length === 0 ? (
           <li className='p-4'>
-            <p className='text-center text-body-2'>
+            <p className='text-center text-body-2 text-gray-500'>
               현재 등록된 리뷰가 없습니다. 첫 리뷰의 주인공이 되어보세요!
             </p>
           </li>

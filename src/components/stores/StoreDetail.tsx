@@ -84,21 +84,22 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
       )}
     >
       <div className='relative'>
-        <div className='mb-3 flex items-start justify-between'>
+        <div className='mb-3 flex items-start justify-between gap-2'>
           <header className='flex-1 overflow-auto'>
             <h3 className='truncate text-heading-3' title={storeInfo.name}>
               {storeInfo.name}
             </h3>
-            <span className='text-caption-1'>{storeInfo.category}</span>
+            <span className='text-body-2 text-gray-500'>{storeInfo.category}</span>
           </header>
-          <div className='flex gap-2'>
+          <div className='flex shrink-0 items-center gap-1'>
             <TextButton onClick={() => handleOpenNaver(`${storeInfo.address} ${storeInfo.name}`)}>
               <NaverIcon className='mr-1' width={16} height={16} />
               <i className='hidden'>네이버로</i> 열기
             </TextButton>
             <button
               type='button'
-              className='hover:opacity-80 active:opacity-60'
+              className='rounded-full p-1 hover:bg-gray-100 active:opacity-60'
+              aria-label='닫기'
               onClick={() => router.push(`${PAGE_PATH.root}?${searchParams.toString()}`)}
             >
               <CloseIcon className='fill-gray-500' width={16} height={16} />
@@ -106,11 +107,11 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
           </div>
         </div>
         <TextButton onClick={() => handleCopyAddress(storeInfo.address)}>
-          <CopyIcon className='fill-gray-500' width={16} height={16} />
+          <CopyIcon className='mr-1 fill-gray-500' width={16} height={16} />
           {storeInfo.address}
         </TextButton>
         <p
-          className={`${isCopied ? 'opacity-100' : 'opacity-0'} absolute bottom-[-28px] left-0 rounded-md bg-white px-1.5 py-1 text-caption-1 shadow-500 duration-700 ease-in-out`}
+          className={`${isCopied ? 'opacity-100' : 'opacity-0'} pointer-events-none absolute bottom-[-28px] left-0 rounded-md border border-gray-200 bg-white px-2 py-1 text-caption-1 text-gray-700 shadow-500 duration-700 ease-in-out`}
         >
           복사 완료!
         </p>
@@ -121,8 +122,8 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
             return <ReviewList storeInfo={storeInfo} />;
           case 'unavailable':
             return (
-              <article>
-                <p className='text-caption-1 text-red'>결제 불가 매장</p>
+              <article className='rounded-sm border border-red/20 bg-red/5 px-3 py-2'>
+                <p className='text-body-2 font-medium text-red'>결제 불가 매장</p>
               </article>
             );
           // unregistered
