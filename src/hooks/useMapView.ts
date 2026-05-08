@@ -13,10 +13,11 @@ import {
   generateMarker,
   generateOSMLayer,
   generateOverlay,
+  generateSelectedMarkerLayer,
   generateView,
   generateXYZLayer,
 } from '@/libs/openlayers';
-import { MapController, MarkerData } from '@/types/openlayers';
+import { MapController, MarkerData, PointFeature } from '@/types/openlayers';
 
 export const useMapView = (domName: string) => {
   const [mapView, setMapView] = useState<Map | null>(null);
@@ -29,6 +30,15 @@ export const useMapView = (domName: string) => {
 
       const markerLayer = generateMarker(markerData);
       mapView.addLayer(markerLayer);
+    },
+    setSelectedMarkerLayer: (pointFeatureList: PointFeature[]) => {
+      if (mapView === null) throw new Error(EXCEPTION_MESSAGE.variableNotSet('mapView'));
+      controller.removeLayer('selected');
+
+      if (pointFeatureList.length === 0) return;
+
+      const selectedLayer = generateSelectedMarkerLayer(pointFeatureList);
+      mapView.addLayer(selectedLayer);
     },
     addMarkerClickEvent: (
       onClickMarker: (event: MapBrowserEvent<any>, features: FeatureLike[]) => void

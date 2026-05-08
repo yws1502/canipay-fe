@@ -65,6 +65,20 @@ function MapView() {
   }, [mapView, isDesktop, asideToggle]);
 
   useEffect(() => {
+    if (!mapView) return;
+
+    const selectedFeatures: PointFeature[] = selectedStores
+      .map(({ id }) => displayStoreList.find((store) => store.id === id))
+      .filter((store): store is StoreInfo => Boolean(store))
+      .map((store) => ({
+        id: store.id,
+        coordinate: [Number(store.lon), Number(store.lat)],
+      }));
+
+    controller.setSelectedMarkerLayer(selectedFeatures);
+  }, [mapView, selectedStores, displayStoreList]);
+
+  useEffect(() => {
     // store id
     if (params?.store) {
       const { store } = params;

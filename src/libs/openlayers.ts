@@ -7,7 +7,7 @@ import { SelectEvent } from 'ol/interaction/Select';
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
 import { fromLonLat } from 'ol/proj';
 import { OSM, Vector as VectorSource, XYZ } from 'ol/source';
-import { Icon, Style } from 'ol/style';
+import { Circle as CircleStyle, Fill, Icon, Stroke, Style } from 'ol/style';
 import { EXCEPTION_MESSAGE } from '@/constants/error';
 import { MarkerData, PointFeature } from '@/types/openlayers';
 
@@ -54,6 +54,33 @@ export const generateMarker = ({ name, theme, pointFeatureList }: MarkerData) =>
         scale: 1,
       }),
     }),
+  };
+
+  return new VectorLayer(arg);
+};
+
+export const generateSelectedMarkerLayer = (pointFeatureList: PointFeature[]) => {
+  const arg = {
+    name: 'selected',
+    source: new VectorSource({
+      features: pointFeatureList.map(generatePointFeature),
+    }),
+    style: [
+      new Style({
+        image: new CircleStyle({
+          radius: 16,
+          stroke: new Stroke({ color: 'rgba(255, 255, 255, 0.95)', width: 5 }),
+          fill: new Fill({ color: 'rgba(2, 156, 253, 0.18)' }),
+        }),
+      }),
+      new Style({
+        image: new CircleStyle({
+          radius: 16,
+          stroke: new Stroke({ color: '#029CFD', width: 2 }),
+        }),
+      }),
+    ],
+    zIndex: 100,
   };
 
   return new VectorLayer(arg);

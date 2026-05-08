@@ -18,6 +18,7 @@ export interface MarkerData {
 
 export interface MapController {
   addMarkerLayer: (markerData: MarkerData) => void;
+  setSelectedMarkerLayer: (pointFeatureList: PointFeature[]) => void;
   addMarkerClickEvent: (
     onClickMarker: (event: MapBrowserEvent<any>, features: FeatureLike[]) => void
   ) => () => void;
