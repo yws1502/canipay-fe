@@ -1,6 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import { Locate } from 'lucide-react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -62,6 +63,13 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
     window.open(`${NAVER_MAP_URL}/${item}`, '_blank', 'noopener,noreferrer');
   };
 
+  const handleMoveToStore = () => {
+    if (!mapController) return;
+    const { lon, lat } = storeInfo;
+    mapController.setCenter([Number(lon), Number(lat)], true);
+    mapController.setOverlayLocation([Number(lon), Number(lat)], true);
+  };
+
   const handleCopyAddress = async (address: string) => {
     const result = await copyClipboard(address);
 
@@ -91,7 +99,11 @@ function StoreDetail({ initStoreInfo }: StoreDetailProps) {
             </h3>
             <span className='text-body-2 text-gray-500'>{storeInfo.category}</span>
           </header>
-          <div className='flex shrink-0 items-center gap-1'>
+          <div className='flex shrink-0 items-center gap-2.5'>
+            <TextButton onClick={handleMoveToStore} aria-label='매장 위치로 이동'>
+              <Locate className='mr-1' width={16} height={16} />
+              <i className='hidden'>매장</i> 위치
+            </TextButton>
             <TextButton onClick={() => handleOpenNaver(`${storeInfo.address} ${storeInfo.name}`)}>
               <NaverIcon className='mr-1' width={16} height={16} />
               <i className='hidden'>네이버로</i> 열기
